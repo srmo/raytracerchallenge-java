@@ -32,7 +32,17 @@ public class Canvas {
         return this.width;
     }
 
+    /***
+     * any point that would go outside the defined width/height will be smushed at 0 or widht/height.
+     * I.e. if you pass in a "x" value of 233 when width is only 200, the pixel will be painted at x=200
+     *
+     */
     public void write(int x, int y, Color val) {
+        x = Math.max(x, 0);
+        x = Math.min(x, this.width);
+
+        y = Math.max(y, 0);
+        y = Math.min(y, this.height);
         this.pixels[x][y] = val;
     }
 

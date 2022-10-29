@@ -23,9 +23,14 @@ public class PPMExporter {
         this.bw = new BufferedWriter(fw);
     }
 
-    public static void export(Canvas c, Path exportFileName, int numColors) throws IOException {
-        PPMExporter ppmExporter = new PPMExporter(c, exportFileName, numColors);
-        ppmExporter.export();
+    public static void export(Canvas c, String exportFileName, int numColors) {
+        try {
+            PPMExporter ppmExporter = new PPMExporter(c, Path.of(exportFileName), numColors);
+            ppmExporter.export();
+        } catch (Exception e) {
+            System.err.println("Failed to export PPM");
+            e.printStackTrace();
+        }
     }
 
     private void export() throws IOException {
