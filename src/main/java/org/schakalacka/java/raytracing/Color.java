@@ -1,32 +1,33 @@
 package org.schakalacka.java.raytracing;
 
-import java.util.Objects;
-
-public class Color {
+public record Color(double r, double g, double b) {
 
     public static final double EPSILON = 0.0000000000000001;
 
-    private final double r;
-    private final double g;
-    private final double b;
+    public static final Color BLACK = new Color(0, 0, 0);
 
-    public Color(double r, double g, double b) {
-        this.r = r;
-        this.g = g;
-        this.b = b;
+    public static int scaleValue(double value, int scale) {
+        if (value < 0) {
+            return 0;
+        }
+
+        if (value > 1) {
+            return scale;
+        }
+
+        return (int) Math.ceil(value * scale);
     }
 
-
-    public double r() {
-        return r;
+    public int rs(int scale) {
+        return Color.scaleValue(r, scale);
     }
 
-    public double g() {
-        return g;
+    public int gs(int scale) {
+        return Color.scaleValue(g, scale);
     }
 
-    public double b() {
-        return b;
+    public int bs(int scale) {
+        return Color.scaleValue(b, scale);
     }
 
 
@@ -55,11 +56,6 @@ public class Color {
         return new Color(this.r * that.r, this.g * that.g, this.b * that.b);
     }
 
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(r, g, b);
-    }
 
     @Override
     public boolean equals(Object obj) {

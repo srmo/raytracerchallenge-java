@@ -16,6 +16,19 @@ class ColorTest {
     }
 
     @Test
+    void scaleValue() {
+        assertEquals(128, Color.scaleValue(0.5, 255));
+        assertEquals(0, Color.scaleValue(-10.5, 255));
+        assertEquals(255, Color.scaleValue(120.5, 255));
+
+        var color = new Color(-1,0.5,10);
+
+        assertEquals(0, color.rs(255));
+        assertEquals(128, color.gs(255));
+        assertEquals(255, color.bs(255));
+    }
+
+    @Test
     void addColor() {
         var color1 = new Color(0.9, 0.6, 0.75);
         var color2 = new Color(0.7, 0.1, 0.25);
