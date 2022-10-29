@@ -98,26 +98,6 @@ public class Tuple {
     }
 
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(x, y, z, w);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj instanceof Tuple) {
-            return
-                    this.x - ((Tuple) obj).x < EPSILON &&
-                            this.y - ((Tuple) obj).y < EPSILON &&
-                            this.z - ((Tuple) obj).z < EPSILON &&
-                            this.w - ((Tuple) obj).w < EPSILON;
-        }
-
-        return false;
-
-    }
-
     /***
      * We define this only for our 3 dimensional vectors
      * @param that another vector. Not null
@@ -144,6 +124,26 @@ public class Tuple {
                 ", z=" + z +
                 ", w=" + w +
                 '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y, z, w);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj instanceof Tuple) {
+            return
+                    this.x - ((Tuple) obj).x < EPSILON &&
+                            this.y - ((Tuple) obj).y < EPSILON &&
+                            this.z - ((Tuple) obj).z < EPSILON &&
+                            this.w - ((Tuple) obj).w < EPSILON;
+        }
+
+        return false;
+
     }
 }
 
