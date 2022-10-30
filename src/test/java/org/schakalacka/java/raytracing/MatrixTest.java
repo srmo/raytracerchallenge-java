@@ -241,7 +241,6 @@ class MatrixTest {
         var result = matrix1.mulM(matrix2);
 
         assertEquals(expectedMatrix, result);
-
     }
 
     @Test
@@ -263,7 +262,6 @@ class MatrixTest {
         var result = matrix1.mulM(matrix2);
 
         assertEquals(expectedMatrix, result);
-
     }
 
     @Test
@@ -281,6 +279,122 @@ class MatrixTest {
         var result = matrix1.mulT(tuple);
 
         assertEquals(expectedTuple, result);
-
     }
+
+    @Test
+    void mulIdentity() {
+        var identity = new Matrix(4, true);
+        var matrix1 = new Matrix(new double[][]{
+                {1, 2, 3, 4},
+                {2, 4, 4, 2},
+                {8, 6, 4, 1},
+                {0, 0, 0, 1},
+        });
+
+        var result = matrix1.mulM(identity);
+
+        assertEquals(matrix1, result);
+    }
+
+    @Test
+    void transpose() {
+        var expected = new Matrix(new double[][]{
+                {0, 9, 1, 0},
+                {9, 8, 8, 0},
+                {3, 0, 5, 5},
+                {0, 8, 3, 8},
+        });
+        var matrix1 = new Matrix(new double[][]{
+                {0, 9, 3, 0},
+                {9, 8, 0, 8},
+                {1, 8, 5, 3},
+                {0, 0, 5, 8},
+        });
+
+        var result = matrix1.transpose();
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void transposeIdentity() {
+        var expected = new Matrix(new double[][]{
+                {1, 0, 0, 0},
+                {0, 1, 0, 0},
+                {0, 0, 1, 0},
+                {0, 0, 0, 1},
+        });
+        var matrix1 = new Matrix(new double[][]{
+                {1, 0, 0, 0},
+                {0, 1, 0, 0},
+                {0, 0, 1, 0},
+                {0, 0, 0, 1},
+        });
+
+        var result = matrix1.transpose();
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void determinant2() {
+        var matrix = new Matrix(new double[][]{
+                {1, 5},
+                {-3, 2}
+        });
+
+        var determinant = matrix.determinant();
+
+        assertEquals(17, determinant);
+    }
+
+    @Test
+    void submatrix3() {
+        var expected = new Matrix(new double[][]{
+                {-3, 2},
+                {0, 6},
+        });
+        var matrix = new Matrix(new double[][]{
+                {1, 5, 0},
+                {-3, 2, 7},
+                {0, 6, -3},
+        });
+
+        var result = matrix.subM(0, 2);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void submatrix4() {
+        var expected = new Matrix(new double[][]{
+                {-6, 1, 6},
+                {-8, 8, 6},
+                {-7, -1, 1},
+        });
+        var matrix = new Matrix(new double[][]{
+                {-6, 1, 1, 6},
+                {-8, 5, 8, 6},
+                {-1, 0, 8, 2},
+                {-7, 1, -1, 1},
+        });
+
+        var result = matrix.subM(2, 1);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void minor3() {
+        var matrix = new Matrix(new double[][]{
+                {3,5,0},
+                {2,-1,-7},
+                {6,-1,5},
+        });
+
+        var result = matrix.minor(1,0);
+
+        assertEquals(25, result);
+    }
+
 }

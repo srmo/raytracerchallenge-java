@@ -97,4 +97,44 @@ public class Matrix {
 
         return Tuple.tuple(x, y, z, w);
     }
+
+    public Matrix transpose() {
+        final Matrix m = new Matrix(matrix.length);
+
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix.length; j++) {
+                m.matrix[j][i] = this.matrix[i][j];
+            }
+        }
+
+        return m;
+    }
+
+    public double determinant() {
+        return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
+    }
+
+    public Matrix subM(int r, int c) {
+        final Matrix m = new Matrix(this.matrix.length - 1);
+
+        int targetRow = 0;
+        int targetCol = 0;
+        for (int row = 0; row < this.matrix.length; row++) {
+            if (row != r) {
+                for (int col = 0; col < this.matrix.length; col++) {
+                    if (col != c) {
+                        m.matrix[targetRow][targetCol] = this.matrix[row][col];
+                        targetCol++;
+                    }
+                }
+                targetRow++;
+                targetCol = 0;
+            }
+        }
+        return m;
+    }
+
+    public double minor(int r, int c) {
+        return this.subM(r, c).determinant();
+    }
 }
