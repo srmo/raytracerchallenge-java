@@ -20,7 +20,7 @@ class PPMExporterTest {
         canvas.write(4, 2, new Color(-0.5, 0, 1));
 
         Path exportFileName = Path.of("export.ppm");
-        PPMExporter.export(canvas, exportFileName, 255);
+        PPMExporter.export(canvas, exportFileName.getFileName().toString(), 255);
 
         try (FileReader fr = new FileReader(exportFileName.toFile()); BufferedReader br = new BufferedReader(fr)) {
             var line = br.readLine();
@@ -57,7 +57,7 @@ class PPMExporterTest {
         var canvas = new Canvas(10, 2, new Color(1, 0.8, 0.6));
 
         Path exportFileName = Path.of("export.ppm");
-        PPMExporter.export(canvas, exportFileName, 255);
+        PPMExporter.export(canvas, exportFileName.getFileName().toString(), 255);
 
         try (FileReader fr = new FileReader(exportFileName.toFile()); BufferedReader br = new BufferedReader(fr)) {
             var line = br.readLine();
@@ -84,7 +84,7 @@ class PPMExporterTest {
         var canvas = new Canvas(10, 2, new Color(1, 0.8, 0.6));
 
         Path exportFileName = Path.of("export.ppm");
-        PPMExporter.export(canvas, exportFileName, 255);
+        PPMExporter.export(canvas, exportFileName.getFileName().toString(), 255);
 
         RandomAccessFile fileHandler = new RandomAccessFile(exportFileName.toFile(), "r");
         long fileLength = fileHandler.length() - 1;
