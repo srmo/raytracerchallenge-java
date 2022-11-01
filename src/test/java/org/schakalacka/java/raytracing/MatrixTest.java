@@ -567,16 +567,16 @@ class MatrixTest {
     @Test
     void multiplyInverse() {
         var matrix1 = new Matrix(new double[][]{
-                {3,-9,7,3},
-                {3,-8,2,-9},
-                {-4,4,4,1},
-                {-6,5,-1,1},
+                {3, -9, 7, 3},
+                {3, -8, 2, -9},
+                {-4, 4, 4, 1},
+                {-6, 5, -1, 1},
         });
         var matrix2 = new Matrix(new double[][]{
-                {8,2,2,2},
-                {3,-1,7,0},
-                {7,0,5,4},
-                {6,-2,0,5},
+                {8, 2, 2, 2},
+                {3, -1, 7, 0},
+                {7, 0, 5, 4},
+                {6, -2, 0, 5},
         });
 
         var multiplied = matrix1.mulM(matrix2);
@@ -584,4 +584,235 @@ class MatrixTest {
         assertEquals(matrix1, multiplied.mulM(matrix2.inverse()));
     }
 
+    @Test
+    void translation() {
+        var translation = Matrix.translation(-1, 2, 3);
+
+        var expectedMatrix = new Matrix(new double[][]{
+                {1, 0, 0, -1},
+                {0, 1, 0, 2},
+                {0, 0, 1, 3},
+                {0, 0, 0, 1}
+        });
+
+        assertEquals(expectedMatrix, translation);
+    }
+
+    @Test
+    void translatePoint() {
+        var translation = Matrix.translation(5, -3, 2);
+        var point = Tuple.point(-3, 4, 5);
+
+        var translatedPoint = translation.mulT(point);
+
+        assertTrue(translatedPoint.isPoint());
+        assertEquals(2, translatedPoint.x());
+        assertEquals(1, translatedPoint.y());
+        assertEquals(7, translatedPoint.z());
+    }
+
+    @Test
+    void translatePointWithInverse() {
+        var translation = Matrix.translation(5, -3, 2);
+        var point = Tuple.point(-3, 4, 5);
+
+        var translatedPoint = translation.inverse().mulT(point);
+
+        assertTrue(translatedPoint.isPoint());
+        assertEquals(-8, translatedPoint.x());
+        assertEquals(7, translatedPoint.y());
+        assertEquals(3, translatedPoint.z());
+    }
+
+    @Test
+    void translateVector() {
+        // translating a vector doesn't change the vector
+        var translation = Matrix.translation(5, -3, 2);
+        var vector = Tuple.vector(-3, 4, 5);
+
+        var translatedVector = translation.mulT(vector);
+
+        assertTrue(translatedVector.isVector());
+        assertEquals(-3, translatedVector.x());
+        assertEquals(4, translatedVector.y());
+        assertEquals(5, translatedVector.z());
+    }
+
+    @Test
+    void scalePoint() {
+        var scaling = Matrix.scaling(2, 3, 4);
+        var point = Tuple.point(-4, 6, 8);
+
+        var scaledPoint = scaling.mulT(point);
+
+        assertTrue(scaledPoint.isPoint());
+        assertEquals(-8, scaledPoint.x());
+        assertEquals(18, scaledPoint.y());
+        assertEquals(32, scaledPoint.z());
+    }
+
+    @Test
+    void scaleVector() {
+        var scaling = Matrix.scaling(2, 3, 4);
+        var vector = Tuple.vector(-4, 6, 8);
+
+        var scaledVector = scaling.mulT(vector);
+
+        assertTrue(scaledVector.isVector());
+        assertEquals(-8, scaledVector.x());
+        assertEquals(18, scaledVector.y());
+        assertEquals(32, scaledVector.z());
+    }
+
+    @Test
+    void scaleVectorWithInverse() {
+        var scaling = Matrix.scaling(2, 3, 4);
+        var vector = Tuple.vector(-4, 6, 8);
+
+        var scaledVector = scaling.inverse().mulT(vector);
+
+        assertTrue(scaledVector.isVector());
+        assertEquals(-2, scaledVector.x());
+        assertEquals(2, scaledVector.y());
+        assertEquals(2, scaledVector.z());
+    }
+
+    @Test
+    void scalePointWithInverse() {
+        // this is essentially reflecting the point on the x-axis
+        var scaling = Matrix.scaling(-1, 1, 1);
+        var point = Tuple.point(2, 3, 4);
+
+        var scaledPoint = scaling.inverse().mulT(point);
+
+        assertTrue(scaledPoint.isPoint());
+        assertEquals(-2, scaledPoint.x());
+        assertEquals(3, scaledPoint.y());
+        assertEquals(4, scaledPoint.z());
+    }
+
+    @Test
+    void rotatePointX() {
+        var point = Tuple.point(0, 1, 0);
+        var rotationHalfQuarter = Matrix.rotationX(Math.toRadians(45)); // same as Math.PI / 4
+        var rotationFUllQuarter = Matrix.rotationX(Math.toRadians(90)); // same as Math.PI / 2
+
+        var pointHalfQuarter = rotationHalfQuarter.mulT(point);
+        var pointFullQuarter = rotationFUllQuarter.mulT(point);
+
+        assertTrue(pointHalfQuarter.isPoint());
+        assertEquals(Tuple.point((float) 0, (float) (Math.sqrt(2) / 2), (float) (Math.sqrt(2) / 2)), pointHalfQuarter);
+
+        assertTrue(pointFullQuarter.isPoint());
+        assertEquals(Tuple.point(0, 0, 1), pointFullQuarter);
+    }
+
+    @Test
+    void rotatePointXInverse() {
+        var point = Tuple.point(0, 1, 0);
+        var rotationHalfQuarter = Matrix.rotationX(Math.toRadians(45)); // same as Math.PI / 4
+
+        var pointHalfQuarter = rotationHalfQuarter.inverse().mulT(point);
+
+        assertTrue(pointHalfQuarter.isPoint());
+        assertEquals(Tuple.point((float) 0, (float) (Math.sqrt(2) / 2), (float) -(Math.sqrt(2) / 2)), pointHalfQuarter);
+
+    }
+
+    @Test
+    void rotatePointY() {
+        var point = Tuple.point(0, 0, 1);
+        var rotationHalfQuarter = Matrix.rotationY(Math.toRadians(45)); // same as Math.PI / 4
+        var rotationFUllQuarter = Matrix.rotationY(Math.toRadians(90)); // same as Math.PI / 2
+
+        var pointHalfQuarter = rotationHalfQuarter.mulT(point);
+        var pointFullQuarter = rotationFUllQuarter.mulT(point);
+
+        assertTrue(pointHalfQuarter.isPoint());
+        assertEquals(Tuple.point((float) (Math.sqrt(2) / 2), 0, (float) (Math.sqrt(2) / 2)), pointHalfQuarter);
+
+        assertTrue(pointFullQuarter.isPoint());
+        assertEquals(Tuple.point(1, 0, 0), pointFullQuarter);
+    }
+
+    @Test
+    void rotatePointYInverse() {
+        var point = Tuple.point(0, 0, 1);
+        var rotationHalfQuarter = Matrix.rotationY(Math.toRadians(45)); // same as Math.PI / 4
+
+        var pointHalfQuarter = rotationHalfQuarter.inverse().mulT(point);
+
+        assertTrue(pointHalfQuarter.isPoint());
+        assertEquals(Tuple.point((float) -(Math.sqrt(2) / 2), 0, (float) -(Math.sqrt(2) / 2)), pointHalfQuarter);
+    }
+
+    @Test
+    void rotatePointZ() {
+        var point = Tuple.point(0, 1, 0);
+        var rotationHalfQuarter = Matrix.rotationZ(Math.toRadians(45)); // same as Math.PI / 4
+        var rotationFUllQuarter = Matrix.rotationZ(Math.toRadians(90)); // same as Math.PI / 2
+
+        var pointHalfQuarter = rotationHalfQuarter.mulT(point);
+        var pointFullQuarter = rotationFUllQuarter.mulT(point);
+
+        assertTrue(pointHalfQuarter.isPoint());
+        assertEquals(Tuple.point((float) -(Math.sqrt(2) / 2), (float) (Math.sqrt(2) / 2), 0), pointHalfQuarter);
+
+        assertTrue(pointFullQuarter.isPoint());
+        assertEquals(Tuple.point(-1, 0, 0), pointFullQuarter);
+    }
+
+    @Test
+    void rotatePointZInverse() {
+        var point = Tuple.point(0, 1, 0);
+        var rotationHalfQuarter = Matrix.rotationZ(Math.toRadians(45)); // same as Math.PI / 4
+
+        var pointHalfQuarter = rotationHalfQuarter.inverse().mulT(point);
+
+        assertTrue(pointHalfQuarter.isPoint());
+        assertEquals(Tuple.point((float) (Math.sqrt(2) / 2), (float) -(Math.sqrt(2) / 2), 0), pointHalfQuarter);
+    }
+
+    @Test
+    void shearPoint() {
+        var point = Tuple.point(2, 3, 4);
+
+        var shearingXY = Matrix.shearing(1, 0, 0, 0, 0, 0);
+        var shearingXZ = Matrix.shearing(0, 1, 0, 0, 0, 0);
+        var shearingYX = Matrix.shearing(0, 0, 1, 0, 0, 0);
+        var shearingYZ = Matrix.shearing(0, 0, 0, 1, 0, 0);
+        var shearingZX = Matrix.shearing(0, 0, 0, 0, 1, 0);
+        var shearingZY = Matrix.shearing(0, 0, 0, 0, 0, 1);
+
+
+        assertEquals(Tuple.point(5, 3, 4), shearingXY.mulT(point));
+        assertEquals(Tuple.point(6, 3, 4), shearingXZ.mulT(point));
+        assertEquals(Tuple.point(2, 5, 4), shearingYX.mulT(point));
+        assertEquals(Tuple.point(2, 7, 4), shearingYZ.mulT(point));
+        assertEquals(Tuple.point(2, 3, 6), shearingZX.mulT(point));
+        assertEquals(Tuple.point(2, 3, 7), shearingZY.mulT(point));
+    }
+
+    @Test
+    void transformationSequenceAndChaining() {
+        var point = Tuple.point(1, 0, 1);
+        var rotationX = Matrix.rotationX(Math.PI / 2);
+        var scaling = Matrix.scaling(5, 5, 5);
+        var translation = Matrix.translation(10, 5, 7);
+
+        var p1 = rotationX.mulT(point);
+        assertEquals(Tuple.point(1,-1,0), p1);
+
+        var p2 = scaling.mulT(p1);
+        assertEquals(Tuple.point(5,-5,0), p2);
+
+        var p3 = translation.mulT(p2);
+        assertEquals(Tuple.point(15,0,7), p3);
+
+        // chaining works in reverse order
+        var chain = translation.mulM(scaling).mulM(rotationX);
+
+        var chainedPoint = chain.mulT(point);
+        assertEquals(Tuple.point(15,0,7), chainedPoint);
+    }
 }

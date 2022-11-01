@@ -13,7 +13,7 @@ import java.util.Arrays;
  */
 public class Matrix {
 
-//    public static final double EPSILON = 0.000000000001;
+    //    public static final double EPSILON = 0.000000000001;
     public static final double EPSILON = 0.00001;
 
 
@@ -36,8 +36,78 @@ public class Matrix {
         this.matrix = Arrays.stream(ref).map(double[]::clone).toArray(double[][]::new);
     }
 
+    /***
+     * create a translation matrix. It is an 4x4 identity matrix, where the last colum is populated with the 3 values.
+     */
+    public static Matrix translation(float x, float y, float z) {
+        return new Matrix(new double[][]{
+                {1, 0, 0, x},
+                {0, 1, 0, y},
+                {0, 0, 1, z},
+                {0, 0, 0, 1},
+        });
+    }
+
+    public static Matrix scaling(int x, int y, int z) {
+        return new Matrix(new double[][]{
+                {x, 0, 0, 0},
+                {0, y, 0, 0},
+                {0, 0, z, 0},
+                {0, 0, 0, 1},
+        });
+    }
+
+    /***
+     *
+     * @return a left-handed rotation matrix along the X axis
+     */
+    public static Matrix rotationX(double radians) {
+        return new Matrix(new double[][]{
+                {1, 0, 0, 0},
+                {0, Math.cos(radians), -Math.sin(radians), 0},
+                {0, Math.sin(radians), Math.cos(radians), 0},
+                {0, 0, 0, 1},
+        });
+    }
+
+    /***
+     *
+     * @return a left-handed rotation matrix along the Y axis
+     */
+    public static Matrix rotationY(double radians) {
+        return new Matrix(new double[][]{
+                {Math.cos(radians), 0, Math.sin(radians), 0},
+                {0, 1, 0, 0},
+                {-Math.sin(radians), 0, Math.cos(radians), 0},
+                {0, 0, 0, 1},
+        });
+    }
+
+    public static Matrix rotationZ(double radians) {
+        return new Matrix(new double[][]{
+                {Math.cos(radians), -Math.sin(radians), 0, 0},
+                {Math.sin(radians), Math.cos(radians), 0, 0},
+                {0, 0, 1, 0},
+                {0, 0, 0, 1},
+        });
+    }
+
+    public static Matrix shearing(int xy, int xz, int yx, int yz, int zx, int zy) {
+        return new Matrix(new double[][]{
+                {1, xy, xz, 0},
+                {yx, 1, yz, 0},
+                {zx, zy, 1, 0},
+                {0, 0, 0, 1},
+        });
+
+    }
+
     public double get(int r, int c) {
         return matrix[r][c];
+    }
+
+    private void set(int row, int col, double val) {
+        this.matrix[row][col] = val;
     }
 
     @Override
@@ -62,7 +132,7 @@ public class Matrix {
                 return false;
 
             // Figure out whether the two elements are equal
-            for (int j=0; j<e1.length;j++) {
+            for (int j = 0; j < e1.length; j++) {
                 double val1 = e1[j];
                 double val2 = e2[j];
                 if ((val1 - val2) >= EPSILON)
@@ -142,10 +212,10 @@ public class Matrix {
     public double determinant() {
         double determinant = 0;
         if (matrix.length == 2) {
-            determinant =  matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
+            determinant = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
         } else {
             for (int col = 0; col < matrix.length; col++) {
-                determinant += matrix[0][col]*cofactor(0,col);
+                determinant += matrix[0][col] * cofactor(0, col);
             }
         }
         return determinant;
@@ -173,10 +243,6 @@ public class Matrix {
 
     public double minor(int r, int c) {
         return this.subM(r, c).determinant();
-    }
-
-    public void set(int row, int col, double val) {
-        matrix[row][col] = val;
     }
 
     /***
@@ -207,4 +273,6 @@ public class Matrix {
 
         return newMatrix;
     }
+
+
 }

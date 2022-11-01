@@ -38,11 +38,14 @@ public class Canvas {
      *
      */
     public void write(int x, int y, Color val) {
+        System.out.println("write: " + x+ ":"+y);
         x = Math.max(x, 0);
-        x = Math.min(x, this.width);
+        x = Math.min(x, (this.width - 1));
 
+        y = this.height - y;
         y = Math.max(y, 0);
-        y = Math.min(y, this.height);
+        y = Math.min(y, (this.height -1));
+        System.out.println("Calculated pixel: " + x + ":" + y + " at width/height " + width + ":" + height);
         this.pixels[x][y] = val;
     }
 

@@ -34,7 +34,7 @@ public class Starter {
 
 
     public void tick() {
-        canvas.write((int) projectile.getPosition().x(), (int) (canvas.getHeight() - projectile.getPosition().y()), new Color(0.7,0.7,0.7));
+        canvas.write((int) projectile.getPosition().x(), (int) projectile.getPosition().y(), new Color(0.7,0.7,0.7));
         projectile.setPosition(projectile.getPosition().add(projectile.getVelocity()));
         projectile.setVelocity(projectile.getVelocity().add(environment.gravity()).add(environment.wind()));
     }

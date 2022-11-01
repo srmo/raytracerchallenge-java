@@ -5,6 +5,7 @@ public record Color(double r, double g, double b) {
     public static final double EPSILON = 0.0000000000000001;
 
     public static final Color BLACK = new Color(0, 0, 0);
+    public static final Color WHITE = new Color(1,1,1);
 
     public static int scaleValue(double value, int scale) {
         if (value < 0) {
