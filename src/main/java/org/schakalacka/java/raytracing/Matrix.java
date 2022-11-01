@@ -13,6 +13,10 @@ import java.util.Arrays;
  */
 public class Matrix {
 
+//    public static final double EPSILON = 0.000000000001;
+    public static final double EPSILON = 0.00001;
+
+
     private final double[][] matrix;
 
     public Matrix(int size) {
@@ -40,8 +44,33 @@ public class Matrix {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Matrix matrix1 = (Matrix) o;
-        return Arrays.deepEquals(matrix, matrix1.matrix);
+        Matrix that = (Matrix) o;
+
+        int length = this.matrix.length;
+        if (that.matrix.length != length)
+            return false;
+
+        for (int i = 0; i < length; i++) {
+            double[] e1 = this.matrix[i];
+            double[] e2 = that.matrix[i];
+
+            if (e1 == e2)
+                continue;
+            if (e1 == null)
+                return false;
+            if (e1.length != e2.length)
+                return false;
+
+            // Figure out whether the two elements are equal
+            for (int j=0; j<e1.length;j++) {
+                double val1 = e1[j];
+                double val2 = e2[j];
+                if ((val1 - val2) >= EPSILON)
+                    return false;
+            }
+        }
+        return true;
+
     }
 
     @Override
@@ -111,7 +140,15 @@ public class Matrix {
     }
 
     public double determinant() {
-        return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
+        double determinant = 0;
+        if (matrix.length == 2) {
+            determinant =  matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
+        } else {
+            for (int col = 0; col < matrix.length; col++) {
+                determinant += matrix[0][col]*cofactor(0,col);
+            }
+        }
+        return determinant;
     }
 
     public Matrix subM(int r, int c) {
@@ -136,5 +173,38 @@ public class Matrix {
 
     public double minor(int r, int c) {
         return this.subM(r, c).determinant();
+    }
+
+    public void set(int row, int col, double val) {
+        matrix[row][col] = val;
+    }
+
+    /***
+     * A cofactor is a minor, potentially negated. If the target sums up to an odd number, negate the minor.
+     */
+    public double cofactor(int r, int c) {
+        int factor = (r + c) % 2 == 0 ? 1 : -1;
+        return minor(r, c) * factor;
+    }
+
+    public boolean isInvertible() {
+        return determinant() != 0;
+    }
+
+    public Matrix inverse() {
+        if (!isInvertible()) {
+            throw new ArithmeticException("Matrix not invertible");
+        }
+
+        Matrix newMatrix = new Matrix(this.matrix.length);
+        double determinant = determinant();
+        for (int row = 0; row < matrix.length; row++) {
+            for (int col = 0; col < matrix.length; col++) {
+                double cofactor = cofactor(row, col);
+                newMatrix.set(col, row, cofactor / determinant);
+            }
+        }
+
+        return newMatrix;
     }
 }
