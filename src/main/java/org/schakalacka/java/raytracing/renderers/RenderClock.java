@@ -1,7 +1,11 @@
-package org.schakalacka.java.raytracing;
+package org.schakalacka.java.raytracing.renderers;
 
+import org.schakalacka.java.raytracing.Canvas;
+import org.schakalacka.java.raytracing.Color;
+import org.schakalacka.java.raytracing.PPMExporter;
 import org.schakalacka.java.raytracing.geometry.Matrix;
 import org.schakalacka.java.raytracing.geometry.Tuple;
+import org.tinylog.Logger;
 
 public class RenderClock {
 
@@ -32,7 +36,7 @@ public class RenderClock {
         long start = System.currentTimeMillis();
         PPMExporter.export(s.canvas, "clockrender.ppm", 255);
         long end = System.currentTimeMillis();
-        System.out.println("Export took " + (end - start) + " ms");
+        Logger.info("Export took " + (end - start) + " ms");
     }
 
 

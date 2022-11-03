@@ -36,7 +36,7 @@ Okay. I hit a brick wall when I encountered the section about intersections (pag
 It started pretty easy, like, hey! Have an intersection that calculates the intersect-points for a ray and a sphere!
 
 Implementing Ray and Sphere was too trivial (yeah, let's see when it bites me). And a simple class for an Intersection too.
-Have it calculate the intersection for a ray and sphere and store it. Return some array with the intersection points.
+Let it calculate the intersection for a ray and sphere and store it. Return some array with the intersection points.
 Right?
 
 No. The next steps in the book suddenly talked about tracking intersections. Having a function "intersect(ray, sphere)" (see above) 
@@ -46,9 +46,9 @@ And why do I now need a holder of intersections that I can ask all sorts of sill
 
 Sleep.
 
-### Day 5
+### Day 5.1
 Well, a good nights sleep is always helpful. I re-read the section about "keeping track of intersections".
-It would be wrong for me to say that I understand it but I figured, hey, trust the process! 
+It would be wrong for me to say that I understand it, but I figured, hey, trust the process! 
 
 That's when the refactoring kicks in.
 
@@ -62,3 +62,17 @@ This also allows us to refactor `Intersection` into something that just keeps tr
 I guess, at this point we just don't care about which ray was responsible for the intersection. "We'll cross this bridge when we get there".
 
 Last piece is the `IntersectionTracker`, which does it exactly what it says. It keeps track of all intersections per `GeometryObject`.
+
+### Day 5.2
+Just when I thought I had it. The next section starts. We are now at "transforming rays and spheres" and a little box in the book, titled *World Space vs. Object Space* - I don't get it, my head spins.
+I wonder if I can find intuitive access to this.
+
+I decided to increase `EPSILON` for my matrices. I just feel itchy when I see all those doubles, confined to the Epsilon of my meager floats.
+
+Yeah! Let's use a logging framework. Yes, the corporate is all SLF4J and stuff, but I just found [TinyLog](https://tinylog.org).
+Let's try this (found via german blog https://blog.doubleslash.de/welches-logging-framework-fuer-java-nutzen/). It talked about "for small projects", what a perfect fit!
+Begone SOUT!
+
+
+
+
