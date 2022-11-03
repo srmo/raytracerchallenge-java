@@ -14,7 +14,8 @@ import java.util.Arrays;
 public class Matrix {
 
     //    public static final double EPSILON = 0.000000000001;
-    public static final double EPSILON = 0.00001;
+    public static final double EPSILON = 0.00000001;
+    public static final Matrix IDENTITY_MATRIX_4 = new Matrix(4, true);
 
 
     private final double[][] matrix;
