@@ -27,7 +27,6 @@ class CanvasTest {
         var colorRed = new Color(1, 0, 0);
         var canvas = new Canvas(10, 20);
         canvas.write(2, 3, colorRed);
-
         assertEquals(colorRed, canvas.read(2, 3));
     }
 

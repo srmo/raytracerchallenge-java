@@ -1,4 +1,4 @@
-package org.schakalacka.java.raytracing;
+package org.schakalacka.java.raytracing.geometry;
 
 import org.junit.jupiter.api.Test;
 

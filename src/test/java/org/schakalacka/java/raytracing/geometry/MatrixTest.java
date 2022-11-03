@@ -1,4 +1,4 @@
-package org.schakalacka.java.raytracing;
+package org.schakalacka.java.raytracing.geometry;
 
 import org.junit.jupiter.api.Test;
 
@@ -801,18 +801,18 @@ class MatrixTest {
         var translation = Matrix.translation(10, 5, 7);
 
         var p1 = rotationX.mulT(point);
-        assertEquals(Tuple.point(1,-1,0), p1);
+        assertEquals(Tuple.point(1, -1, 0), p1);
 
         var p2 = scaling.mulT(p1);
-        assertEquals(Tuple.point(5,-5,0), p2);
+        assertEquals(Tuple.point(5, -5, 0), p2);
 
         var p3 = translation.mulT(p2);
-        assertEquals(Tuple.point(15,0,7), p3);
+        assertEquals(Tuple.point(15, 0, 7), p3);
 
         // chaining works in reverse order
         var chain = translation.mulM(scaling).mulM(rotationX);
 
         var chainedPoint = chain.mulT(point);
-        assertEquals(Tuple.point(15,0,7), chainedPoint);
+        assertEquals(Tuple.point(15, 0, 7), chainedPoint);
     }
 }

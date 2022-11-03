@@ -1,5 +1,7 @@
 package org.schakalacka.java.raytracing;
 
+import org.schakalacka.java.raytracing.geometry.Tuple;
+
 public class Projectile {
 
     private Tuple position;
