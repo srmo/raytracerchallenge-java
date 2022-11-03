@@ -40,7 +40,7 @@ public class Matrix {
     /***
      * create a translation matrix. It is an 4x4 identity matrix, where the last colum is populated with the 3 values.
      */
-    public static Matrix translation(float x, float y, float z) {
+    public static Matrix translation(double x, double y, double z) {
         return new Matrix(new double[][]{
                 {1, 0, 0, x},
                 {0, 1, 0, y},
@@ -49,7 +49,7 @@ public class Matrix {
         });
     }
 
-    public static Matrix scaling(int x, int y, int z) {
+    public static Matrix scaling(double x, double y, double z) {
         return new Matrix(new double[][]{
                 {x, 0, 0, 0},
                 {0, y, 0, 0},
@@ -93,7 +93,7 @@ public class Matrix {
         });
     }
 
-    public static Matrix shearing(int xy, int xz, int yx, int yz, int zx, int zy) {
+    public static Matrix shearing(double xy, double xz, double yx, double yz, double zx, double zy) {
         return new Matrix(new double[][]{
                 {1, xy, xz, 0},
                 {yx, 1, yz, 0},

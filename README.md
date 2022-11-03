@@ -73,6 +73,18 @@ Yeah! Let's use a logging framework. Yes, the corporate is all SLF4J and stuff, 
 Let's try this (found via german blog https://blog.doubleslash.de/welches-logging-framework-fuer-java-nutzen/). It talked about "for small projects", what a perfect fit!
 Begone SOUT!
 
+... ... Wow. It RENDERS THE SHADOW OF A SPHERE! YAY! Seriously, I'm grinning from ear to ear. This is amazing.
+Also the little ideas from the book at the end of the chapter, that says to play with a few transformations of the sphere and gives examples. Crazy! Magic! Wooohooo!
+
+On a more serious note: I still can't wrap my head around this rendering on a canvas with Y=0 at the top-left, world coordinates, something about rendering based on "half" of the scene etc.
+I guess it's important to play around with the `RenderSphereShadow`-Renderer, maybe debug it, to get a better grasp of the concepts.
+Or even trying to optimize it, like, why not start rendering from the origin outwards until there's no intersection? Then again, we would need to rotate the ray for every possible angle, so that's non-trivial too, at least for me.
+But it would definitely deepen my understanding and even reduce render time. a 500x500 rendering takes 5 seconds. He.
+
+Then again, I know myself and already hear me thinking: nah, let's move on! The next chapters will help with understanding!
+
+So long :)
+
 
 
 

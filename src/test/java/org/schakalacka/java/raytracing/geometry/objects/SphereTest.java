@@ -2,6 +2,7 @@ package org.schakalacka.java.raytracing.geometry.objects;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.schakalacka.java.raytracing.geometry.Matrix;
 import org.schakalacka.java.raytracing.geometry.Tuple;
 import org.schakalacka.java.raytracing.geometry.tracing.Ray;
 
@@ -24,9 +25,9 @@ public class SphereTest {
 
         var intersection = sphere.intersect(ray);
 
-        assertEquals(2, intersection.length);
-        assertEquals(4, intersection[0].getDistance());
-        assertEquals(6, intersection[1].getDistance());
+        assertEquals(2, intersection.size());
+        assertEquals(4, intersection.get(0).getDistance());
+        assertEquals(6, intersection.get(1).getDistance());
     }
 
     @Test
@@ -36,9 +37,9 @@ public class SphereTest {
 
         var intersection = sphere.intersect(ray);
 
-        assertEquals(2, intersection.length);
-        assertEquals(5, intersection[0].getDistance());
-        assertEquals(5, intersection[1].getDistance());
+        assertEquals(2, intersection.size());
+        assertEquals(5, intersection.get(0).getDistance());
+        assertEquals(5, intersection.get(1).getDistance());
     }
 
     @Test
@@ -48,7 +49,7 @@ public class SphereTest {
 
         var intersection = sphere.intersect(ray);
 
-        assertEquals(0, intersection.length);
+        assertEquals(0, intersection.size());
     }
 
     @Test
@@ -58,9 +59,9 @@ public class SphereTest {
 
         var intersection = sphere.intersect(ray);
 
-        assertEquals(2, intersection.length);
-        assertEquals(-1, intersection[0].getDistance());
-        assertEquals(1, intersection[1].getDistance());
+        assertEquals(2, intersection.size());
+        assertEquals(-1, intersection.get(0).getDistance());
+        assertEquals(1, intersection.get(1).getDistance());
     }
 
     @Test
@@ -70,9 +71,40 @@ public class SphereTest {
 
         var intersection = sphere.intersect(ray);
 
-        assertEquals(2, intersection.length);
-        assertEquals(-6, intersection[0].getDistance());
-        assertEquals(-4, intersection[1].getDistance());
+        assertEquals(2, intersection.size());
+        assertEquals(-6, intersection.get(0).getDistance());
+        assertEquals(-4, intersection.get(1).getDistance());
+    }
+
+    @Test
+    void defaultTransformation() {
+        var sphereMatrix = new Sphere().getTransformationMatrix();
+
+        assertEquals(Matrix.IDENTITY_MATRIX_4, sphereMatrix);
+    }
+
+    @Test
+    void setTransformation() {
+        var sphere = new Sphere();
+        var sphereMatrix = Matrix.translation(2, 3, 4);
+        sphere.setTransformationMatrix(sphereMatrix);
+
+        var expectedSphereMatrix = Matrix.translation(2, 3, 4);
+
+        assertEquals(expectedSphereMatrix, sphereMatrix);
+    }
+
+    @Test
+    void intersectUsesScaling() {
+        var ray = new Ray(Tuple.point(0, 0, -5), Tuple.vector(0, 0, 1));
+        var sphere = new Sphere();
+        sphere.setTransformationMatrix(Matrix.scaling(2, 2, 2));
+
+        var intersections = sphere.intersect(ray);
+
+        assertEquals(2, intersections.size());
+        assertEquals(3, intersections.get(0).getDistance());
+        assertEquals(7, intersections.get(1).getDistance());
     }
 
 }

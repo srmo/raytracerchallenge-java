@@ -1,15 +1,18 @@
 package org.schakalacka.java.raytracing.geometry.objects;
 
+import org.schakalacka.java.raytracing.geometry.Matrix;
 import org.schakalacka.java.raytracing.geometry.Tuple;
 import org.schakalacka.java.raytracing.geometry.tracing.Intersection;
 import org.schakalacka.java.raytracing.geometry.tracing.Ray;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 public class Sphere implements GeometryObject {
 
     private final Tuple position = Tuple.point(0, 0, 0);
+    private Matrix transformationMatrix = Matrix.IDENTITY_MATRIX_4;
 
 
     public Tuple position() {
@@ -20,9 +23,16 @@ public class Sphere implements GeometryObject {
         return 1;
     }
 
+
+
     @Override
-    public Intersection[] intersect(Ray ray) {
-        Intersection[] result = new Intersection[0];
+    public List<Intersection> intersect(Ray ray) {
+        // yes, magical. This seems to be about World Space vs Object Space conversion? Maybe not?
+        // at least I understand the following analogy:
+        //      transform sphere relative to ray ==== inverse-transform ray relative to sphere
+        ray = ray.transform(transformationMatrix.inverse());
+
+        List<Intersection> result = new ArrayList<>();
 
         var vectorSphereToRay = ray.origin().sub(Tuple.point(0, 0, 0));
         var a = ray.direction().dot(ray.direction());
@@ -32,12 +42,19 @@ public class Sphere implements GeometryObject {
         var discriminant = b * b - 4 * a * c;
 
         if (discriminant >= 0) {
-            result = new Intersection[2];
-            result[0] = new Intersection(this, (-b - Math.sqrt(discriminant)) / (2 * a));
-            result[1] = new Intersection(this, (-b + Math.sqrt(discriminant)) / (2 * a));
-            Arrays.sort(result, Comparator.comparingDouble(Intersection::getDistance));
+            result.add(new Intersection(this, (-b - Math.sqrt(discriminant)) / (2 * a)));
+            result.add(new Intersection(this, (-b + Math.sqrt(discriminant)) / (2 * a)));
+            result.sort(Comparator.comparingDouble(Intersection::getDistance));
         }
 
         return result;
+    }
+
+    public Matrix getTransformationMatrix() {
+        return transformationMatrix;
+    }
+
+    public void setTransformationMatrix(Matrix matrix) {
+        this.transformationMatrix = matrix;
     }
 }
