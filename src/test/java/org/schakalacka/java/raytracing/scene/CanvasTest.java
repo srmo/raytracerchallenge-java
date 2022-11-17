@@ -1,6 +1,8 @@
-package org.schakalacka.java.raytracing;
+package org.schakalacka.java.raytracing.scene;
 
 import org.junit.jupiter.api.Test;
+import org.schakalacka.java.raytracing.scene.Canvas;
+import org.schakalacka.java.raytracing.scene.Color;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

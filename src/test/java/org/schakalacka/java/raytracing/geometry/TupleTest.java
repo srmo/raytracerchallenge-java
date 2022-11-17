@@ -9,12 +9,12 @@ class TupleTest {
 
     @Test
     void tupleIsPoint() {
-        var tuple = Tuple.tuple(4.3f, -4.2f, 3.1f, 1.0f);
+        var tuple = Tuple.tuple(4.3, -4.2, 3.1, 1.0);
 
-        assertEquals(4.3f, tuple.x());
-        assertEquals(-4.2f, tuple.y());
-        assertEquals(3.1f, tuple.z());
-        assertEquals(1.0f, tuple.w());
+        assertEquals(4.3, tuple.x());
+        assertEquals(-4.2, tuple.y());
+        assertEquals(3.1, tuple.z());
+        assertEquals(1.0, tuple.w());
         assertFalse(tuple.isVector());
         assertTrue(tuple.isPoint());
 
@@ -22,12 +22,12 @@ class TupleTest {
 
     @Test
     void tupleIsVector() {
-        var tuple = Tuple.tuple(4.3f, -4.2f, 3.1f, 0.0f);
+        var tuple = Tuple.tuple(4.3, -4.2, 3.1, 0.0);
 
-        assertEquals(4.3f, tuple.x());
-        assertEquals(-4.2f, tuple.y());
-        assertEquals(3.1f, tuple.z());
-        assertEquals(0.0f, tuple.w());
+        assertEquals(4.3, tuple.x());
+        assertEquals(-4.2, tuple.y());
+        assertEquals(3.1, tuple.z());
+        assertEquals(0.0, tuple.w());
         assertTrue(tuple.isVector());
         assertFalse(tuple.isPoint());
 
@@ -35,22 +35,22 @@ class TupleTest {
 
     @Test
     void pointIsTuple() {
-        var point = Tuple.point(4f, -4f, 3);
+        var point = Tuple.point(4, -4, 3);
 
-        assertEquals(4f, point.x());
-        assertEquals(-4f, point.y());
-        assertEquals(3f, point.z());
+        assertEquals(4, point.x());
+        assertEquals(-4, point.y());
+        assertEquals(3, point.z());
         assertFalse(point.isVector());
         assertTrue(point.isPoint());
     }
 
     @Test
     void vectorIsTuple() {
-        var point = Tuple.vector(4f, -4f, 3);
+        var point = Tuple.vector(4, -4, 3);
 
-        assertEquals(4f, point.x());
-        assertEquals(-4f, point.y());
-        assertEquals(3f, point.z());
+        assertEquals(4, point.x());
+        assertEquals(-4, point.y());
+        assertEquals(3, point.z());
         assertTrue(point.isVector());
         assertFalse(point.isPoint());
     }
@@ -62,10 +62,10 @@ class TupleTest {
 
         var sum = t1.add(t2);
 
-        assertEquals(1f, sum.x());
-        assertEquals(1f, sum.y());
-        assertEquals(6f, sum.z());
-        assertEquals(1f, sum.w());
+        assertEquals(1, sum.x());
+        assertEquals(1, sum.y());
+        assertEquals(6, sum.z());
+        assertEquals(1, sum.w());
     }
 
     @Test
@@ -84,9 +84,9 @@ class TupleTest {
 
         var sum = t1.add(t2);
         System.out.println(sum.getClass());
-        assertEquals(1f, sum.x());
-        assertEquals(1f, sum.y());
-        assertEquals(6f, sum.z());
+        assertEquals(1, sum.x());
+        assertEquals(1, sum.y());
+        assertEquals(6, sum.z());
         assertTrue(sum.isVector());
     }
 
@@ -97,9 +97,9 @@ class TupleTest {
 
         var sum = t1.add(t2);
         System.out.println(sum.getClass());
-        assertEquals(1f, sum.x());
-        assertEquals(1f, sum.y());
-        assertEquals(6f, sum.z());
+        assertEquals(1, sum.x());
+        assertEquals(1, sum.y());
+        assertEquals(6, sum.z());
         assertTrue(sum.isPoint());
     }
 
@@ -110,9 +110,9 @@ class TupleTest {
 
         var sum = t1.add(t2);
 
-        assertEquals(1f, sum.x());
-        assertEquals(1f, sum.y());
-        assertEquals(6f, sum.z());
+        assertEquals(1, sum.x());
+        assertEquals(1, sum.y());
+        assertEquals(6, sum.z());
         assertTrue(sum.isPoint());
     }
 
@@ -123,9 +123,9 @@ class TupleTest {
 
         var result = t1.sub(t2);
 
-        assertEquals(5f, result.x());
-        assertEquals(-5f, result.y());
-        assertEquals(4f, result.z());
+        assertEquals(5, result.x());
+        assertEquals(-5, result.y());
+        assertEquals(4, result.z());
         assertTrue(result.isVector());
     }
 
@@ -194,7 +194,7 @@ class TupleTest {
     void multiplyTuple() {
         var tuple = Tuple.tuple(1, -2, 3, -4);
 
-        var result = tuple.mul(3.5f);
+        var result = tuple.mul(3.5);
 
         assertEquals(3.5, result.x());
         assertEquals(-7, result.y());
@@ -252,7 +252,7 @@ class TupleTest {
         result = vector.normalize();
 
         // this is an approximation
-        var reference = Tuple.vector((float) (1 / Math.sqrt(14)), (float) (2 / Math.sqrt(14)), (float) (3 / Math.sqrt(14)));
+        var reference = Tuple.vector(1 / Math.sqrt(14), 2 / Math.sqrt(14), 3 / Math.sqrt(14));
 
         assertEquals(reference, result);
 
@@ -293,6 +293,26 @@ class TupleTest {
 
         e = assertThrows(ArithmeticException.class, () -> Tuple.point(1,1,1).cross(Tuple.point(1,1,1)));
         assertEquals("Cross product only defined for Vectors", e.getMessage());
-
     }
+
+    @Test
+    void reflectAt45Degrees() {
+        var vector = Tuple.vector(1,-1,0);
+        var normal = Tuple.vector(0,1,0);
+
+        var reflectedVector = vector.reflect(normal);
+
+        assertEquals(Tuple.vector(1,1,0), reflectedVector);
+    }
+
+    @Test
+    void reflectAtSlantedSurface() {
+        var vector = Tuple.vector(0,-1,0);
+        var normal = Tuple.vector(Math.sqrt(2)/2, Math.sqrt(2)/2, 0);
+
+        var reflectedVector = vector.reflect(normal);
+
+        assertEquals(Tuple.vector(1,0,0), reflectedVector);
+    }
+
 }

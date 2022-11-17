@@ -2,60 +2,76 @@ package org.schakalacka.java.raytracing.geometry;
 
 import java.util.Arrays;
 
-/**
- * <p>&copy; 2022 <a href="http://www.ponton.de" target="_blank">PONTON GmbH</a></p>
- * <p>
- * [description of the class]
- *
- * @author <a href="mueller@ponton.de">Stephan Müller</a>
- * @since 2022-10-30
- * [potential @see links]
- */
 public class Matrix {
 
     //    public static final double EPSILON = 0.000000000001;
     public static final double EPSILON = 0.00000001;
-    public static final Matrix IDENTITY_MATRIX_4 = new Matrix(4, true);
+    private final int size;
 
+    /***
+     * row-column. mapped 2d-array to 1d
+     */
+    private final double[] matrix;
 
-    private final double[][] matrix;
-
-    public Matrix(int size) {
-        this.matrix = new double[size][size];
+    private Matrix(int size) {
+        this.size = size;
+        this.matrix = new double[size*size];
     }
 
-    public Matrix(int size, boolean isIdentity) {
-        this(size);
-        if (isIdentity) {
-            for (int i = 0; i < size; i++) {
-                matrix[i][i] = 1;
+    public static Matrix get(double[][] ref) {
+        Matrix result = Matrix.get(ref.length);
+
+        for (int row=0;row< ref.length;row++) {
+            for (int col=0;col<ref.length;col++) {
+                result.set(row, col, ref[row][col]);
             }
         }
+        return result;
     }
 
-    public Matrix(double[][] ref) {
-        this.matrix = Arrays.stream(ref).map(double[]::clone).toArray(double[][]::new);
+    public static Matrix get(int size) {
+        return Matrix.get(size, false);
+    }
+
+    public static Matrix get(int size, boolean isIdentity) {
+        Matrix result = new Matrix(size);
+
+        if (isIdentity) {
+            for (int i = 0; i < size; i++) {
+                result.matrix[i * size + i] = 1;
+            }
+        }
+        return result;
     }
 
     /***
-     * create a translation matrix. It is an 4x4 identity matrix, where the last colum is populated with the 3 values.
+     * create a translation matrix. It is a 4x4 identity matrix, where the last colum is populated with the 3 values.
      */
     public static Matrix translation(double x, double y, double z) {
-        return new Matrix(new double[][]{
-                {1, 0, 0, x},
-                {0, 1, 0, y},
-                {0, 0, 1, z},
-                {0, 0, 0, 1},
-        });
+        Matrix result = Matrix.get(4, true);
+        result.set(0, 3, x);
+        result.set(1, 3, y);
+        result.set(2, 3, z);
+
+        return result;
+//                {1, 0, 0, x},
+//                {0, 1, 0, y},
+//                {0, 0, 1, z},
+//                {0, 0, 0, 1},
     }
 
     public static Matrix scaling(double x, double y, double z) {
-        return new Matrix(new double[][]{
-                {x, 0, 0, 0},
-                {0, y, 0, 0},
-                {0, 0, z, 0},
-                {0, 0, 0, 1},
-        });
+        Matrix result = Matrix.get(4, false);
+        result.set(0, 0, x);
+        result.set(1, 1, y);
+        result.set(2, 2, z);
+        result.set(3, 3, 1);
+
+        return result;
+//                {x, 0, 0, 0},
+//                {0, y, 0, 0},
+//                {0, 0, z, 0},
+//                {0, 0, 0, 1},
     }
 
     /***
@@ -63,12 +79,18 @@ public class Matrix {
      * @return a left-handed rotation matrix along the X axis
      */
     public static Matrix rotationX(double radians) {
-        return new Matrix(new double[][]{
-                {1, 0, 0, 0},
-                {0, Math.cos(radians), -Math.sin(radians), 0},
-                {0, Math.sin(radians), Math.cos(radians), 0},
-                {0, 0, 0, 1},
-        });
+        Matrix result = Matrix.get(4, true);
+        result.set(1, 1, Math.cos(radians));
+        result.set(1, 2, -Math.sin(radians));
+        result.set(2, 1, Math.sin(radians));
+        result.set(2, 2, Math.cos(radians));
+
+        return result;
+
+//                {1, 0, 0, 0},
+//                {0, Math.cos(radians), -Math.sin(radians), 0},
+//                {0, Math.sin(radians), Math.cos(radians), 0},
+//                {0, 0, 0, 1},
     }
 
     /***
@@ -76,39 +98,59 @@ public class Matrix {
      * @return a left-handed rotation matrix along the Y axis
      */
     public static Matrix rotationY(double radians) {
-        return new Matrix(new double[][]{
-                {Math.cos(radians), 0, Math.sin(radians), 0},
-                {0, 1, 0, 0},
-                {-Math.sin(radians), 0, Math.cos(radians), 0},
-                {0, 0, 0, 1},
-        });
+        Matrix result = Matrix.get(4, true);
+        result.set(0, 0, Math.cos(radians));
+        result.set(0, 2, Math.sin(radians));
+        result.set(2, 0, -Math.sin(radians));
+        result.set(2, 1, Math.cos(radians));
+
+        return result;
+
+//                {Math.cos(radians), 0, Math.sin(radians), 0},
+//                {0, 1, 0, 0},
+//                {-Math.sin(radians), 0, Math.cos(radians), 0},
+//                {0, 0, 0, 1},
     }
 
     public static Matrix rotationZ(double radians) {
-        return new Matrix(new double[][]{
-                {Math.cos(radians), -Math.sin(radians), 0, 0},
-                {Math.sin(radians), Math.cos(radians), 0, 0},
-                {0, 0, 1, 0},
-                {0, 0, 0, 1},
-        });
+        Matrix result = Matrix.get(4, true);
+        result.set(0, 0, Math.cos(radians));
+        result.set(0, 1, -Math.sin(radians));
+        result.set(1, 0, Math.sin(radians));
+        result.set(1, 1, Math.cos(radians));
+
+        return result;
+
+
+//                {Math.cos(radians), -Math.sin(radians), 0, 0},
+//                {Math.sin(radians), Math.cos(radians), 0, 0},
+//                {0, 0, 1, 0},
+//                {0, 0, 0, 1},
     }
 
     public static Matrix shearing(double xy, double xz, double yx, double yz, double zx, double zy) {
-        return new Matrix(new double[][]{
-                {1, xy, xz, 0},
-                {yx, 1, yz, 0},
-                {zx, zy, 1, 0},
-                {0, 0, 0, 1},
-        });
+        Matrix result = Matrix.get(4, true);
+        result.set(0, 1, xy);
+        result.set(0, 2, xz);
+        result.set(1, 0, yx);
+        result.set(1, 2, yz);
+        result.set(2, 0, zx);
+        result.set(2, 1, zy);
 
+        return result;
+
+//                {1, xy, xz, 0},
+//                {yx, 1, yz, 0},
+//                {zx, zy, 1, 0},
+//                {0, 0, 0, 1},
     }
 
-    public double get(int r, int c) {
-        return matrix[r][c];
+    public double get(int row, int col) {
+        return matrix[row * size + col];
     }
 
     private void set(int row, int col, double val) {
-        this.matrix[row][col] = val;
+        this.matrix[row * size + col] = val;
     }
 
     @Override
@@ -122,37 +164,27 @@ public class Matrix {
             return false;
 
         for (int i = 0; i < length; i++) {
-            double[] e1 = this.matrix[i];
-            double[] e2 = that.matrix[i];
+            double e1 = this.matrix[i];
+            double e2 = that.matrix[i];
 
             if (e1 == e2)
                 continue;
-            if (e1 == null)
-                return false;
-            if (e1.length != e2.length)
-                return false;
 
-            // Figure out whether the two elements are equal
-            for (int j = 0; j < e1.length; j++) {
-                double val1 = e1[j];
-                double val2 = e2[j];
-                if ((val1 - val2) >= EPSILON)
-                    return false;
-            }
+            if (e1 - e2 >= EPSILON)
+                return false;
         }
         return true;
-
     }
 
     @Override
     public int hashCode() {
-        return Arrays.deepHashCode(matrix);
+        return Arrays.hashCode(matrix);
     }
 
     @Override
     public String toString() {
         return "Matrix{" +
-                "matrix=" + Arrays.deepToString(matrix) +
+                "matrix=" + Arrays.toString(matrix) +
                 '}';
     }
 
@@ -161,49 +193,54 @@ public class Matrix {
      * i.e. for a 4-Matrix, result[2][3] is the sum of the products over this[2][0-3] and that[0-3][3]
      */
     public Matrix mulM(Matrix that) {
-        double[][] result = new double[this.matrix.length][this.matrix.length];
+        Matrix result = new Matrix(this.size);
 
-        for (int r = 0; r < matrix.length; r++) {
-            for (int c = 0; c < matrix.length; c++) {
+        for (int r = 0; r < this.size; r++) {
+            for (int c = 0; c < this.size; c++) {
                 double newVal = 0;
-                for (int i = 0; i < matrix.length; i++) {
-                    newVal += this.matrix[r][i] * that.matrix[i][c];
-                    result[r][c] = newVal;
+
+                for (int i = 0; i < this.size; i++) {
+                    newVal += this.get(r, i) * that.get(i, c);
+                    result.set(r, c, newVal);
                 }
             }
         }
 
-        return new Matrix(result);
+        return result;
     }
 
     public Tuple mulT(Tuple that) {
 
-        float x = 0;
-        for (int i = 0; i < matrix.length; i++) {
-            x += this.matrix[0][i] * that.get(i);
+        double x = 0;
+        for (int i = 0; i < this.size; i++) {
+            x += this.get(0, i) * that.get(i);
         }
-        float y = 0;
-        for (int i = 0; i < matrix.length; i++) {
-            y += this.matrix[1][i] * that.get(i);
+        double y = 0;
+        for (int i = 0; i < this.size; i++) {
+            y += this.get(1, i) * that.get(i);
         }
-        float z = 0;
-        for (int i = 0; i < matrix.length; i++) {
-            z += this.matrix[2][i] * that.get(i);
+        double z = 0;
+        for (int i = 0; i < this.size; i++) {
+            z += this.get(2, i) * that.get(i);
         }
-        float w = 0;
-        for (int i = 0; i < matrix.length; i++) {
-            w += this.matrix[3][i] * that.get(i);
+        double w = 0;
+        if (this.size <= 3) {
+            w = that.w();
+        } else {
+            for (int i = 0; i < this.size; i++) {
+                w += this.get(3, i) * that.get(i);
+            }
         }
 
         return Tuple.tuple(x, y, z, w);
     }
 
     public Matrix transpose() {
-        final Matrix m = new Matrix(matrix.length);
+        final Matrix m = new Matrix(this.size);
 
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix.length; j++) {
-                m.matrix[j][i] = this.matrix[i][j];
+        for (int i = 0; i < this.size; i++) {
+            for (int j = 0; j < this.size; j++) {
+                m.set(j, i, this.get(i, j));
             }
         }
 
@@ -212,26 +249,26 @@ public class Matrix {
 
     public double determinant() {
         double determinant = 0;
-        if (matrix.length == 2) {
-            determinant = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
+        if (this.size == 2) {
+            determinant = this.get(0, 0) * this.get(1, 1) - this.get(0, 1) * this.get(1, 0);
         } else {
-            for (int col = 0; col < matrix.length; col++) {
-                determinant += matrix[0][col] * cofactor(0, col);
+            for (int col = 0; col < this.size; col++) {
+                determinant += this.get(0, col) * cofactor(0, col);
             }
         }
         return determinant;
     }
 
     public Matrix subM(int r, int c) {
-        final Matrix m = new Matrix(this.matrix.length - 1);
+        final Matrix m = new Matrix(this.size - 1);
 
         int targetRow = 0;
         int targetCol = 0;
-        for (int row = 0; row < this.matrix.length; row++) {
+        for (int row = 0; row < this.size; row++) {
             if (row != r) {
-                for (int col = 0; col < this.matrix.length; col++) {
+                for (int col = 0; col < this.size; col++) {
                     if (col != c) {
-                        m.matrix[targetRow][targetCol] = this.matrix[row][col];
+                        m.set(targetRow, targetCol, this.get(row, col));
                         targetCol++;
                     }
                 }
@@ -263,10 +300,10 @@ public class Matrix {
             throw new ArithmeticException("Matrix not invertible");
         }
 
-        Matrix newMatrix = new Matrix(this.matrix.length);
+        Matrix newMatrix = Matrix.get(this.size);
         double determinant = determinant();
-        for (int row = 0; row < matrix.length; row++) {
-            for (int col = 0; col < matrix.length; col++) {
+        for (int row = 0; row < this.size; row++) {
+            for (int col = 0; col < this.size; col++) {
                 double cofactor = cofactor(row, col);
                 newMatrix.set(col, row, cofactor / determinant);
             }

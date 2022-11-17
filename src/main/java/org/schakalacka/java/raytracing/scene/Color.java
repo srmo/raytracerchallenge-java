@@ -1,8 +1,8 @@
-package org.schakalacka.java.raytracing;
+package org.schakalacka.java.raytracing.scene;
 
 public record Color(double r, double g, double b) {
 
-    public static final double EPSILON = 0.0000000000000001;
+    public static final double EPSILON = 0.00000001;
 
     public static final Color BLACK = new Color(0, 0, 0);
     public static final Color WHITE = new Color(1,1,1);

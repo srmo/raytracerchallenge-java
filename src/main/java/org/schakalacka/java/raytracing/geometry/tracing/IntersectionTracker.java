@@ -26,6 +26,7 @@ public class IntersectionTracker {
 
     public static Intersection getHit(List<Intersection> intersections) {
         Optional<Intersection> firstPositive = intersections.stream().filter(intersection -> intersection.getDistance() > 0).findFirst();
+
         return firstPositive.orElse(null);
     }
 }

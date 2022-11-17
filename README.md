@@ -67,9 +67,9 @@ Last piece is the `IntersectionTracker`, which does it exactly what it says. It 
 Just when I thought I had it. The next section starts. We are now at "transforming rays and spheres" and a little box in the book, titled *World Space vs. Object Space* - I don't get it, my head spins.
 I wonder if I can find intuitive access to this.
 
-I decided to increase `EPSILON` for my matrices. I just feel itchy when I see all those doubles, confined to the Epsilon of my meager floats.
+I decided to increase `EPSILON` for my matrices. I just feel itchy when I see all those doubles, confined to the Epsilon of my meager doubles.
 
-Yeah! Let's use a logging framework. Yes, the corporate is all SLF4J and stuff, but I just found [TinyLog](https://tinylog.org).
+Yeah! Let's use a logging framework. Yes, the corporate is all SLF4J and stuf, but I just found [TinyLog](https://tinylog.org).
 Let's try this (found via german blog https://blog.doubleslash.de/welches-logging-framework-fuer-java-nutzen/). It talked about "for small projects", what a perfect fit!
 Begone SOUT!
 

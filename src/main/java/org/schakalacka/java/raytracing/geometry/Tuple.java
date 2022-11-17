@@ -4,46 +4,46 @@ import java.util.Objects;
 
 public class Tuple {
 
-    public static final double EPSILON = 0.0000001;
+    public static final double EPSILON = 0.00000001;
 
-    private final float[] values = new float[4];
-    public float x() {
+    private final double[] values = new double[4];
+    public double x() {
         return values[0];
     }
 
-    public float y() {
+    public double y() {
         return values[1];
     }
 
-    public float z() {
+    public double z() {
         return values[2];
     }
 
-    public float w() {
+    public double w() {
         return values[3];
     }
 
-    private Tuple(final float x, final float y, final float z, final float w) {
+    private Tuple(final double x, final double y, final double z, final double w) {
         values[0] = x;
         values[1] = y;
         values[2] = z;
         values[3] = w;
     }
 
-    public static Tuple tuple(float x, float y, float z, float w) {
+    public static Tuple tuple(double x, double y, double z, double w) {
         return new Tuple(x, y, z, w);
     }
 
-    public static Tuple point(float x, float y, float z) {
-        return new Tuple(x, y, z, 1.0f);
+    public static Tuple point(double x, double y, double z) {
+        return new Tuple(x, y, z, 1.0);
     }
 
-    public static Tuple vector(float x, float y, float z) {
-        return new Tuple(x, y, z, 0.0f);
+    public static Tuple vector(double x, double y, double z) {
+        return new Tuple(x, y, z, 0.0);
     }
 
     public final boolean isVector() {
-        return w() == 0.0f;
+        return w() == 0.0;
     }
 
     public final boolean isPoint() {
@@ -66,14 +66,14 @@ public class Tuple {
     }
 
     public Tuple negate() {
-        return new Tuple(this.x() * -1f, this.y() * -1f, this.z() * -1f, this.w() * -1f);
+        return new Tuple(this.x() * -1, this.y() * -1, this.z() * -1, this.w() * -1);
     }
 
-    public Tuple mul(float scalar) {
+    public Tuple mul(double scalar) {
         return new Tuple(this.x() * scalar, this.y() * scalar, this.z() * scalar, this.w() * scalar);
     }
 
-    public Tuple div(float scalar) {
+    public Tuple div(double scalar) {
         return new Tuple(this.x() / scalar, this.y() / scalar, this.z() / scalar, this.w() / scalar);
     }
 
@@ -82,11 +82,11 @@ public class Tuple {
     }
 
     public Tuple normalize() {
-        final float magnitude = (float) magnitude();
+        final double magnitude = magnitude();
         return new Tuple(this.x() / magnitude, this.y() / magnitude, this.z() / magnitude, this.w() / magnitude);
     }
 
-    public float dot(Tuple that) {
+    public double dot(Tuple that) {
         return this.x() * that.x()
                 + this.y() * that.y()
                 + this.z() * that.z()
@@ -142,8 +142,12 @@ public class Tuple {
 
     }
 
-    public float get(int i) {
+    public double get(int i) {
         return values[i];
+    }
+
+    public Tuple reflect(Tuple that) {
+        return this.sub(that.mul(2).mul(this.dot(that)));
     }
 }
 

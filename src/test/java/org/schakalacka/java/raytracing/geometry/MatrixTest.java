@@ -4,20 +4,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * <p>&copy; 2022 <a href="http://www.ponton.de" target="_blank">PONTON GmbH</a></p>
- * <p>
- * [description of the class]
- *
- * @author <a href="mueller@ponton.de">Stephan Müller</a>
- * @since 2022-10-30
- * [potential @see links]
- */
 class MatrixTest {
 
     @Test
     void identity2() {
-        Matrix m = new Matrix(2, true);
+        Matrix m = Matrix.get(2, true);
 
         assertEquals(1, m.get(0, 0));
         assertEquals(0, m.get(0, 1));
@@ -27,7 +18,7 @@ class MatrixTest {
 
     @Test
     void identity3() {
-        Matrix m = new Matrix(3, true);
+        Matrix m = Matrix.get(3, true);
 
         assertEquals(1, m.get(0, 0));
         assertEquals(0, m.get(0, 1));
@@ -43,7 +34,7 @@ class MatrixTest {
 
     @Test
     void identity4() {
-        Matrix m = new Matrix(4, true);
+        Matrix m = Matrix.get(4, true);
 
         assertEquals(1, m.get(0, 0));
         assertEquals(0, m.get(0, 1));
@@ -72,7 +63,7 @@ class MatrixTest {
                 {13.5, 14.5, 15.5, 16.5}
         };
 
-        var matrix = new Matrix(ref);
+        var matrix = Matrix.get(ref);
 
         assertEquals(1, matrix.get(0, 0));
         assertEquals(2, matrix.get(0, 1));
@@ -105,7 +96,7 @@ class MatrixTest {
                 {1, -2},
         };
 
-        var matrix = new Matrix(ref);
+        var matrix = Matrix.get(ref);
 
         assertEquals(-3, matrix.get(0, 0));
         assertEquals(5, matrix.get(0, 1));
@@ -127,7 +118,7 @@ class MatrixTest {
                 {0, 1, 1}
         };
 
-        var matrix = new Matrix(ref);
+        var matrix = Matrix.get(ref);
 
         assertEquals(-3, matrix.get(0, 0));
         assertEquals(5, matrix.get(0, 1));
@@ -161,8 +152,8 @@ class MatrixTest {
                 {5, 4, 3, 2},
         };
 
-        var matrix1 = new Matrix(ref);
-        var matrix2 = new Matrix(ref2);
+        var matrix1 = Matrix.get(ref);
+        var matrix2 = Matrix.get(ref2);
 
         assertEquals(matrix1, matrix2);
     }
@@ -183,8 +174,8 @@ class MatrixTest {
                 {4, 3, 2, 1},
         };
 
-        var matrix1 = new Matrix(ref);
-        var matrix2 = new Matrix(ref2);
+        var matrix1 = Matrix.get(ref);
+        var matrix2 = Matrix.get(ref2);
 
         assertNotEquals(matrix1, matrix2);
     }
@@ -192,20 +183,20 @@ class MatrixTest {
 
     @Test
     void mul4() {
-        var expectedMatrix = new Matrix(new double[][]{
+        var expectedMatrix = Matrix.get(new double[][]{
                 {20, 22, 50, 48},
                 {44, 54, 114, 108},
                 {40, 58, 110, 102},
                 {16, 26, 46, 42},
         });
-        var matrix1 = new Matrix(new double[][]{
+        var matrix1 = Matrix.get(new double[][]{
                 {1, 2, 3, 4},
                 {5, 6, 7, 8},
                 {9, 8, 7, 6},
                 {5, 4, 3, 2},
         });
 
-        var matrix2 = new Matrix(new double[][]{
+        var matrix2 = Matrix.get(new double[][]{
                 {-2, 1, 2, 3},
                 {3, 2, 1, -1},
                 {4, 3, 6, 5},
@@ -220,18 +211,18 @@ class MatrixTest {
 
     @Test
     void mul3() {
-        var expectedMatrix = new Matrix(new double[][]{
+        var expectedMatrix = Matrix.get(new double[][]{
                 {16, 14, 22},
                 {36, 38, 58},
                 {34, 46, 68},
         });
-        var matrix1 = new Matrix(new double[][]{
+        var matrix1 = Matrix.get(new double[][]{
                 {1, 2, 3},
                 {5, 6, 7},
                 {9, 8, 7},
         });
 
-        var matrix2 = new Matrix(new double[][]{
+        var matrix2 = Matrix.get(new double[][]{
                 {-2, 1, 2},
                 {3, 2, 1},
                 {4, 3, 6},
@@ -244,16 +235,16 @@ class MatrixTest {
 
     @Test
     void mul2() {
-        var expectedMatrix = new Matrix(new double[][]{
+        var expectedMatrix = Matrix.get(new double[][]{
                 {4, 5},
                 {8, 17},
         });
-        var matrix1 = new Matrix(new double[][]{
+        var matrix1 = Matrix.get(new double[][]{
                 {1, 2},
                 {5, 6},
         });
 
-        var matrix2 = new Matrix(new double[][]{
+        var matrix2 = Matrix.get(new double[][]{
                 {-2, 1},
                 {3, 2},
         });
@@ -266,7 +257,7 @@ class MatrixTest {
     @Test
     void mulTuple() {
         var expectedTuple = Tuple.tuple(18, 24, 33, 1);
-        var matrix1 = new Matrix(new double[][]{
+        var matrix1 = Matrix.get(new double[][]{
                 {1, 2, 3, 4},
                 {2, 4, 4, 2},
                 {8, 6, 4, 1},
@@ -282,8 +273,8 @@ class MatrixTest {
 
     @Test
     void mulIdentity() {
-        var identity = new Matrix(4, true);
-        var matrix1 = new Matrix(new double[][]{
+        var identity = Matrix.get(4, true);
+        var matrix1 = Matrix.get(new double[][]{
                 {1, 2, 3, 4},
                 {2, 4, 4, 2},
                 {8, 6, 4, 1},
@@ -297,13 +288,13 @@ class MatrixTest {
 
     @Test
     void transpose() {
-        var expected = new Matrix(new double[][]{
+        var expected = Matrix.get(new double[][]{
                 {0, 9, 1, 0},
                 {9, 8, 8, 0},
                 {3, 0, 5, 5},
                 {0, 8, 3, 8},
         });
-        var matrix1 = new Matrix(new double[][]{
+        var matrix1 = Matrix.get(new double[][]{
                 {0, 9, 3, 0},
                 {9, 8, 0, 8},
                 {1, 8, 5, 3},
@@ -317,13 +308,13 @@ class MatrixTest {
 
     @Test
     void transposeIdentity() {
-        var expected = new Matrix(new double[][]{
+        var expected = Matrix.get(new double[][]{
                 {1, 0, 0, 0},
                 {0, 1, 0, 0},
                 {0, 0, 1, 0},
                 {0, 0, 0, 1},
         });
-        var matrix1 = new Matrix(new double[][]{
+        var matrix1 = Matrix.get(new double[][]{
                 {1, 0, 0, 0},
                 {0, 1, 0, 0},
                 {0, 0, 1, 0},
@@ -337,7 +328,7 @@ class MatrixTest {
 
     @Test
     void determinant2() {
-        var matrix = new Matrix(new double[][]{
+        var matrix = Matrix.get(new double[][]{
                 {1, 5},
                 {-3, 2}
         });
@@ -349,11 +340,11 @@ class MatrixTest {
 
     @Test
     void submatrix3() {
-        var expected = new Matrix(new double[][]{
+        var expected = Matrix.get(new double[][]{
                 {-3, 2},
                 {0, 6},
         });
-        var matrix = new Matrix(new double[][]{
+        var matrix = Matrix.get(new double[][]{
                 {1, 5, 0},
                 {-3, 2, 7},
                 {0, 6, -3},
@@ -366,12 +357,12 @@ class MatrixTest {
 
     @Test
     void submatrix4() {
-        var expected = new Matrix(new double[][]{
+        var expected = Matrix.get(new double[][]{
                 {-6, 1, 6},
                 {-8, 8, 6},
                 {-7, -1, 1},
         });
-        var matrix = new Matrix(new double[][]{
+        var matrix = Matrix.get(new double[][]{
                 {-6, 1, 1, 6},
                 {-8, 5, 8, 6},
                 {-1, 0, 8, 2},
@@ -385,7 +376,7 @@ class MatrixTest {
 
     @Test
     void minor3() {
-        var matrix = new Matrix(new double[][]{
+        var matrix = Matrix.get(new double[][]{
                 {3, 5, 0},
                 {2, -1, -7},
                 {6, -1, 5},
@@ -400,7 +391,7 @@ class MatrixTest {
 
     @Test
     void cofactor3() {
-        var matrix = new Matrix(new double[][]{
+        var matrix = Matrix.get(new double[][]{
                 {3, 5, 0},
                 {2, -1, -7},
                 {6, -1, 5},
@@ -419,7 +410,7 @@ class MatrixTest {
 
     @Test
     void determinant3() {
-        var matrix = new Matrix(new double[][]{
+        var matrix = Matrix.get(new double[][]{
                 {1, 2, 6},
                 {-5, 8, -4},
                 {2, 6, 4},
@@ -439,7 +430,7 @@ class MatrixTest {
 
     @Test
     void determinant4() {
-        var matrix = new Matrix(new double[][]{
+        var matrix = Matrix.get(new double[][]{
                 {-2, -8, 3, 5},
                 {-3, 1, 7, 3},
                 {1, 2, -9, 6},
@@ -461,7 +452,7 @@ class MatrixTest {
 
     @Test
     void isInvertible() {
-        var matrix = new Matrix(new double[][]{
+        var matrix = Matrix.get(new double[][]{
                 {6, 4, 4, 4},
                 {5, 5, 7, 6},
                 {4, -9, 3, -7},
@@ -476,7 +467,7 @@ class MatrixTest {
 
     @Test
     void isNotInvertible() {
-        var matrix = new Matrix(new double[][]{
+        var matrix = Matrix.get(new double[][]{
                 {-4, 2, -2, -3},
                 {9, 6, 2, 6},
                 {0, -5, 1, -5},
@@ -491,7 +482,7 @@ class MatrixTest {
 
     @Test
     void invert4() {
-        var matrix = new Matrix(new double[][]{
+        var matrix = Matrix.get(new double[][]{
                 {-5, 2, 6, -8},
                 {1, -5, 1, 8},
                 {7, 7, -6, -7},
@@ -506,7 +497,7 @@ class MatrixTest {
         var inverse23 = inverse.get(2, 3);
 
 
-        var expectedInverse = new Matrix(new double[][]{
+        var expectedInverse = Matrix.get(new double[][]{
                 {0.21804511278195488, 0.45112781954887216, 0.24060150375939848, -0.045112781954887216},
                 {-0.8082706766917294, -1.4567669172932332, -0.44360902255639095, 0.5206766917293233},
                 {-0.07894736842105263, -0.2236842105263158, -0.05263157894736842, 0.19736842105263158},
@@ -523,25 +514,25 @@ class MatrixTest {
 
     @Test
     void invertAnother() {
-        var matrix1 = new Matrix(new double[][]{
+        var matrix1 = Matrix.get(new double[][]{
                 {8, -5, 9, 2},
                 {7, 5, 6, 1},
                 {-6, 0, 9, 6},
                 {-3, 0, -9, -4},
         });
-        var matrix1ExpectedInvert = new Matrix(new double[][]{
+        var matrix1ExpectedInvert = Matrix.get(new double[][]{
                 {-0.15384615, -0.15384615, -0.28205128, -0.53846153},
                 {-0.07692307, 0.12307692, 0.02564102, 0.03076923},
                 {0.35897435, 0.35897435, 0.43589743, 0.92307692},
                 {-0.69230769, -0.69230769, -0.76923076, -1.92307692}
         });
-        var matrix2 = new Matrix(new double[][]{
+        var matrix2 = Matrix.get(new double[][]{
                 {9, 3, 0, 9},
                 {-5, -2, -6, -3},
                 {-4, 9, 6, 4},
                 {-7, 6, 6, 2},
         });
-        var matrix2ExpectedInvert = new Matrix(new double[][]{
+        var matrix2ExpectedInvert = Matrix.get(new double[][]{
                 {-0.04074074, -0.07777777, 0.14444444, -0.22222222},
                 {-0.07777777, 0.03333333, 0.36666666, -0.33333333},
                 {-0.02901234, -0.14629629, -0.10925925, 0.12962962},
@@ -557,13 +548,13 @@ class MatrixTest {
 
     @Test
     void multiplyInverse() {
-        var matrix1 = new Matrix(new double[][]{
+        var matrix1 = Matrix.get(new double[][]{
                 {3, -9, 7, 3},
                 {3, -8, 2, -9},
                 {-4, 4, 4, 1},
                 {-6, 5, -1, 1},
         });
-        var matrix2 = new Matrix(new double[][]{
+        var matrix2 = Matrix.get(new double[][]{
                 {8, 2, 2, 2},
                 {3, -1, 7, 0},
                 {7, 0, 5, 4},
@@ -579,7 +570,7 @@ class MatrixTest {
     void translation() {
         var translation = Matrix.translation(-1, 2, 3);
 
-        var expectedMatrix = new Matrix(new double[][]{
+        var expectedMatrix = Matrix.get(new double[][]{
                 {1, 0, 0, -1},
                 {0, 1, 0, 2},
                 {0, 0, 1, 3},
@@ -692,7 +683,7 @@ class MatrixTest {
         var pointFullQuarter = rotationFUllQuarter.mulT(point);
 
         assertTrue(pointHalfQuarter.isPoint());
-        assertEquals(Tuple.point((float) 0, (float) (Math.sqrt(2) / 2), (float) (Math.sqrt(2) / 2)), pointHalfQuarter);
+        assertEquals(Tuple.point(0, Math.sqrt(2) / 2, Math.sqrt(2) / 2), pointHalfQuarter);
 
         assertTrue(pointFullQuarter.isPoint());
         assertEquals(Tuple.point(0, 0, 1), pointFullQuarter);
@@ -706,7 +697,7 @@ class MatrixTest {
         var pointHalfQuarter = rotationHalfQuarter.inverse().mulT(point);
 
         assertTrue(pointHalfQuarter.isPoint());
-        assertEquals(Tuple.point((float) 0, (float) (Math.sqrt(2) / 2), (float) -(Math.sqrt(2) / 2)), pointHalfQuarter);
+        assertEquals(Tuple.point(0, Math.sqrt(2) / 2, -(Math.sqrt(2) / 2)), pointHalfQuarter);
 
     }
 
@@ -720,7 +711,7 @@ class MatrixTest {
         var pointFullQuarter = rotationFUllQuarter.mulT(point);
 
         assertTrue(pointHalfQuarter.isPoint());
-        assertEquals(Tuple.point((float) (Math.sqrt(2) / 2), 0, (float) (Math.sqrt(2) / 2)), pointHalfQuarter);
+        assertEquals(Tuple.point(Math.sqrt(2) / 2, 0, Math.sqrt(2) / 2), pointHalfQuarter);
 
         assertTrue(pointFullQuarter.isPoint());
         assertEquals(Tuple.point(1, 0, 0), pointFullQuarter);
@@ -734,7 +725,7 @@ class MatrixTest {
         var pointHalfQuarter = rotationHalfQuarter.inverse().mulT(point);
 
         assertTrue(pointHalfQuarter.isPoint());
-        assertEquals(Tuple.point((float) -(Math.sqrt(2) / 2), 0, (float) -(Math.sqrt(2) / 2)), pointHalfQuarter);
+        assertEquals(Tuple.point(-(Math.sqrt(2) / 2), 0, -(Math.sqrt(2) / 2)), pointHalfQuarter);
     }
 
     @Test
@@ -747,7 +738,7 @@ class MatrixTest {
         var pointFullQuarter = rotationFUllQuarter.mulT(point);
 
         assertTrue(pointHalfQuarter.isPoint());
-        assertEquals(Tuple.point((float) -(Math.sqrt(2) / 2), (float) (Math.sqrt(2) / 2), 0), pointHalfQuarter);
+        assertEquals(Tuple.point(-(Math.sqrt(2) / 2), Math.sqrt(2) / 2, 0), pointHalfQuarter);
 
         assertTrue(pointFullQuarter.isPoint());
         assertEquals(Tuple.point(-1, 0, 0), pointFullQuarter);
@@ -761,7 +752,7 @@ class MatrixTest {
         var pointHalfQuarter = rotationHalfQuarter.inverse().mulT(point);
 
         assertTrue(pointHalfQuarter.isPoint());
-        assertEquals(Tuple.point((float) (Math.sqrt(2) / 2), (float) -(Math.sqrt(2) / 2), 0), pointHalfQuarter);
+        assertEquals(Tuple.point(Math.sqrt(2) / 2, -(Math.sqrt(2) / 2), 0), pointHalfQuarter);
     }
 
     @Test

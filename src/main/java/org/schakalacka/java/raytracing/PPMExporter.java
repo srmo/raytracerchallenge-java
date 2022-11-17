@@ -1,5 +1,8 @@
 package org.schakalacka.java.raytracing;
 
+import org.schakalacka.java.raytracing.scene.Canvas;
+import org.schakalacka.java.raytracing.scene.Color;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;

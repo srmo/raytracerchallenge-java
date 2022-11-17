@@ -1,4 +1,4 @@
-package org.schakalacka.java.raytracing;
+package org.schakalacka.java.raytracing.scene;
 
 public class Canvas {
 

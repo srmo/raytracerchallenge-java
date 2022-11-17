@@ -4,6 +4,7 @@ import org.schakalacka.java.raytracing.geometry.Matrix;
 import org.schakalacka.java.raytracing.geometry.Tuple;
 import org.schakalacka.java.raytracing.geometry.tracing.Intersection;
 import org.schakalacka.java.raytracing.geometry.tracing.Ray;
+import org.schakalacka.java.raytracing.scene.Material;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -12,7 +13,8 @@ import java.util.List;
 public class Sphere implements GeometryObject {
 
     private final Tuple position = Tuple.point(0, 0, 0);
-    private Matrix transformationMatrix = Matrix.IDENTITY_MATRIX_4;
+    private Matrix transformationMatrix = Matrix.get(4, true);
+    private Material material = Material.newMaterial().create();
 
 
     public Tuple position() {
@@ -24,6 +26,19 @@ public class Sphere implements GeometryObject {
     }
 
 
+    @Override
+    public Tuple normal(Tuple point) {
+        // convert worldpoint to objectpoint
+        var objectPoint = transformationMatrix.inverse().mulT(point);
+
+        // TODO do we need normalisation here? We'll do it on the result again
+        Tuple objectNormal = objectPoint.sub(position).normalize();
+
+        // we come from world-space, we need to leave as world space. Convert the new normal into world-space
+        Matrix subMatrix3 = transformationMatrix.subM(3, 3);
+
+        return subMatrix3.inverse().transpose().mulT(objectNormal).normalize();
+    }
 
     @Override
     public List<Intersection> intersect(Ray ray) {
@@ -56,5 +71,15 @@ public class Sphere implements GeometryObject {
 
     public void setTransformationMatrix(Matrix matrix) {
         this.transformationMatrix = matrix;
+    }
+
+    @Override
+    public void setMaterial(Material material) {
+        this.material = material;
+    }
+
+    @Override
+    public Material material() {
+        return this.material;
     }
 }

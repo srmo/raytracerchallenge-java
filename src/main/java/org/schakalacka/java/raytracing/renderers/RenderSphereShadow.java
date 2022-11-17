@@ -1,7 +1,7 @@
 package org.schakalacka.java.raytracing.renderers;
 
-import org.schakalacka.java.raytracing.Canvas;
-import org.schakalacka.java.raytracing.Color;
+import org.schakalacka.java.raytracing.scene.Canvas;
+import org.schakalacka.java.raytracing.scene.Color;
 import org.schakalacka.java.raytracing.PPMExporter;
 import org.schakalacka.java.raytracing.geometry.Matrix;
 import org.schakalacka.java.raytracing.geometry.Tuple;
