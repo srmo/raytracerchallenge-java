@@ -40,7 +40,7 @@ class RayTest {
     @Test
     void scaleRay() {
         var ray = new Ray(Tuple.point(1,2,3), Tuple.vector(0,1,0));
-        var translation = Matrix.scaling(3,4,5);
+        var translation = Matrix.scaling(2,3,4);
 
         var translatedRay = ray.transform(translation);
 

@@ -111,7 +111,7 @@ public class SphereTest {
     @Test
     void normalOnX() {
         var sphere = new Sphere();
-        var normal = sphere.normal(Tuple.point(1, 0, 0));
+        var normal = sphere.normalVectorAt(Tuple.point(1, 0, 0));
 
         assertEquals(Tuple.vector(1, 0, 0), normal);
     }
@@ -119,7 +119,7 @@ public class SphereTest {
     @Test
     void normalOnY() {
         var sphere = new Sphere();
-        var normal = sphere.normal(Tuple.point(0, 1, 0));
+        var normal = sphere.normalVectorAt(Tuple.point(0, 1, 0));
 
         assertEquals(Tuple.vector(0, 1, 0), normal);
     }
@@ -127,7 +127,7 @@ public class SphereTest {
     @Test
     void normalOnZ() {
         var sphere = new Sphere();
-        var normal = sphere.normal(Tuple.point(0, 0, 1));
+        var normal = sphere.normalVectorAt(Tuple.point(0, 0, 1));
 
         assertEquals(Tuple.vector(0, 0, 1), normal);
     }
@@ -135,15 +135,15 @@ public class SphereTest {
     @Test
     void normalNotOnAxis() {
         var sphere = new Sphere();
-        var normal = sphere.normal(Tuple.point(Math.cbrt(3) / 3, Math.cbrt(3) / 3, Math.cbrt(3) / 3));
+        var normal = sphere.normalVectorAt(Tuple.point(Math.sqrt(3) / 3, Math.sqrt(3) / 3, Math.sqrt(3) / 3));
 
-        assertEquals(Tuple.vector(Math.cbrt(3) / 3, Math.cbrt(3) / 3, Math.cbrt(3) / 3), normal);
+        assertEquals(Tuple.vector(Math.sqrt(3) / 3, Math.sqrt(3) / 3, Math.sqrt(3) / 3), normal);
     }
 
     @Test
     void normalIsAlreadyNormalized() {
         var sphere = new Sphere();
-        var normal = sphere.normal(Tuple.point(Math.cbrt(3) / 3, Math.cbrt(3) / 3, Math.cbrt(3) / 3));
+        var normal = sphere.normalVectorAt(Tuple.point(Math.sqrt(3) / 3, Math.sqrt(3) / 3, Math.sqrt(3) / 3));
 
         var normalized = normal.normalize();
         assertNotSame(normal, normalized);
@@ -155,7 +155,7 @@ public class SphereTest {
         var sphere = new Sphere();
         sphere.setTransformationMatrix(Matrix.translation(0,1,0));
 
-        var normal = sphere.normal(Tuple.point(0,1.70711,-0.70711));
+        var normal = sphere.normalVectorAt(Tuple.point(0,1.70711,-0.70711));
 
         assertEquals(Tuple.vector(0,0.7071067,-0.7071678), normal);
     }
@@ -167,7 +167,7 @@ public class SphereTest {
         Matrix transformationMatrix = Matrix.scaling(1,0.5,1).mulM(Matrix.rotationZ(Math.PI/5));
         sphere.setTransformationMatrix(transformationMatrix);
 
-        var normal = sphere.normal(Tuple.point(0, Math.sqrt(2)/2, -Math.sqrt(2)/2));
+        var normal = sphere.normalVectorAt(Tuple.point(0, Math.sqrt(2)/2, -Math.sqrt(2)/2));
 
         assertEquals(Tuple.vector(0,0.97014,-0.24254), normal);
     }

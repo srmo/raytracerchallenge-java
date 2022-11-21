@@ -2,26 +2,12 @@ package org.schakalacka.java.raytracing.geometry;
 
 import java.util.Objects;
 
+import static org.schakalacka.java.raytracing.Constants.EPSILON;
+
+// TODO refactor this into an interface and make point and vector first class citizens
 public class Tuple {
 
-    public static final double EPSILON = 0.00000001;
-
     private final double[] values = new double[4];
-    public double x() {
-        return values[0];
-    }
-
-    public double y() {
-        return values[1];
-    }
-
-    public double z() {
-        return values[2];
-    }
-
-    public double w() {
-        return values[3];
-    }
 
     private Tuple(final double x, final double y, final double z, final double w) {
         values[0] = x;
@@ -40,6 +26,22 @@ public class Tuple {
 
     public static Tuple vector(double x, double y, double z) {
         return new Tuple(x, y, z, 0.0);
+    }
+
+    public double x() {
+        return values[0];
+    }
+
+    public double y() {
+        return values[1];
+    }
+
+    public double z() {
+        return values[2];
+    }
+
+    public double w() {
+        return values[3];
     }
 
     public final boolean isVector() {
@@ -78,7 +80,7 @@ public class Tuple {
     }
 
     public double magnitude() {
-        return Math.sqrt(x() * x() + y() * y() + z() * z());
+        return Math.sqrt(Math.pow(x(), 2) + Math.pow(y(), 2) + Math.pow(z(), 2) + Math.pow(w(), 2));
     }
 
     public Tuple normalize() {
@@ -130,12 +132,11 @@ public class Tuple {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj instanceof Tuple) {
-            return
-                    this.x() - ((Tuple) obj).x() < EPSILON &&
-                            this.y() - ((Tuple) obj).y() < EPSILON &&
-                            this.z() - ((Tuple) obj).z() < EPSILON &&
-                            this.w() - ((Tuple) obj).w() < EPSILON;
+        if (obj instanceof Tuple that) {
+            return Math.abs(this.x() - that.x()) < EPSILON &&
+                    Math.abs(this.y() - that.y()) < EPSILON &&
+                    Math.abs(this.z() - that.z()) < EPSILON &&
+                    Math.abs(this.w() - that.w()) < EPSILON;
         }
 
         return false;
@@ -149,6 +150,7 @@ public class Tuple {
     public Tuple reflect(Tuple that) {
         return this.sub(that.mul(2).mul(this.dot(that)));
     }
+
 }
 
 

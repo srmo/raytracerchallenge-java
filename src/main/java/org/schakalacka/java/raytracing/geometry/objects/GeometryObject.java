@@ -11,7 +11,7 @@ public interface GeometryObject {
 
     List<Intersection> intersect(Ray ray);
 
-    Tuple normal(Tuple point);
+    Tuple normalVectorAt(Tuple point);
 
     void setMaterial(Material material);
 

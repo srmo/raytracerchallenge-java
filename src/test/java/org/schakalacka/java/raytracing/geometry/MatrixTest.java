@@ -725,7 +725,7 @@ class MatrixTest {
         var pointHalfQuarter = rotationHalfQuarter.inverse().mulT(point);
 
         assertTrue(pointHalfQuarter.isPoint());
-        assertEquals(Tuple.point(-(Math.sqrt(2) / 2), 0, -(Math.sqrt(2) / 2)), pointHalfQuarter);
+        assertEquals(Tuple.point(-(Math.sqrt(2)) / 2, 0, (Math.sqrt(2)) / 2), pointHalfQuarter);
     }
 
     @Test
@@ -752,7 +752,7 @@ class MatrixTest {
         var pointHalfQuarter = rotationHalfQuarter.inverse().mulT(point);
 
         assertTrue(pointHalfQuarter.isPoint());
-        assertEquals(Tuple.point(Math.sqrt(2) / 2, -(Math.sqrt(2) / 2), 0), pointHalfQuarter);
+        assertEquals(Tuple.point(Math.sqrt(2) / 2, Math.sqrt(2) / 2, 0), pointHalfQuarter);
     }
 
     @Test

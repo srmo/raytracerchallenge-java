@@ -2,22 +2,14 @@ package org.schakalacka.java.raytracing.scene;
 
 import org.schakalacka.java.raytracing.geometry.Tuple;
 
-public class PointLight {
+public record PointLight(Tuple position, Color intensity) {
 
-    private Tuple position;
-    private Color intensity;
-
-    public PointLight(Tuple position, Color intensity) {
-
-        this.position = position;
-        this.intensity = intensity;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PointLight that = (PointLight) o;
+        return position.equals(that.position) && intensity.equals(that.intensity);
     }
 
-    public Color intensity() {
-        return intensity;
-    }
-
-    public Tuple position() {
-        return position;
-    }
 }

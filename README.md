@@ -85,6 +85,51 @@ Then again, I know myself and already hear me thinking: nah, let's move on! The 
 
 So long :)
 
+### Day X
+Okay, I lost track of the days. Let's start with a new age, as we had many sweeping changes.
+The amazing news first: we can now render full spheres! With lighting/shading and stuff! Wooohoooo! 
+
+I'm still amazed by the matrix magic. Just use this transformation-matrix and your sphere becomes a deformed blob, still shaded beautifully.
+
+First, the rendering took 4-6 seconds. Well, that's slow, it's only 500x500 pixels. What the heck? Pulled out the profiling tools,
+in this instance YourKit (I'm not sure if I will buy a license, it's so expensive!), and figured that much of the time was spent in matrix creation. 
+More specific, in the handling of the multi-dimensional arrays!
+
+Enter: jagged-arrays
+
+While searching the interwebz for ideas, I learned that Java uses something called jagged-arrays. I.e. the language doesn't support "true" multidimensional arrays.
+That means, depending on how most of the access on such an array is done, the performance becomes abysmal, at least in my oppinion (see [this stackoverflow](https://stackoverflow.com/questions/2512082/java-multi-dimensional-array-vs-one-dimensional) for a first glimpse). So here we are,
+with a fresh implementation of 2D-Arrays as offset-based-1D implementation.
+
+Additionally, I added parallel rendering, i.e. each parallel job gets a bunch of pixels to render. I see a bright future for more optimisations in the rendering :)
+
+Then I hoped on to implement some of the new elements for cameras and what not.
+
+During this, I decided to use `double` for all my floating point values. This also led me to extract `EPSILON` into a dedicated constants class.
+Yes, I'm aware that it looks ugly to have a single class with just one constant, but that's what I'm going with at the moment.
+I want every implementation to use the same precision for comparisons and when the time comes, the constants-class will get an appropriate name and home.
+
+While doing that, I figured that I didn't use `Math.abs()` in the some of the `equals` implementations. Hey, better late then never, so I fixed that ...
+That's when the tests went red.
+
+Great, I ran around, all these iterations, with bogus tests, returning green when they should have been fiery red! 
+Let that be a lesson, details matter and here, there's also me not really understanding what's going on. But fear not! 
+The red tests helped me gain a better understanding of the geometry and what is happening. Still superficial, but more than the last time.
+
+One last red test remained. My `SphereTest.normalNotOnAxis()` didn't want to go green. What was going on? For an hour or so I reverted, debugged, re-implemented, re-read the book,
+back and forth but without success. I started looking up the raw formulas for "point on a sphere", understood that I'm working with a unit sphere here and the default transformation matrix is just the identity matrix,
+and none of the calculated vectors in `Sphere.normalVectorAt(Tuple.point)` should be influenced by each other or by `normalize()`. But normalize changed the calculated vector.
+Whaaaaaaat is going on?
+
+Well, as I've said, after an hour I figured that I made an error while transcribing the test from the book. It's actually just a square-root. Not a cube-root.
+Yes, that's all that was to it.
+A standard bug, with the standard procedure and time spent on those kind of bugs :)
+In the end, I got a better feeling about normals, unit-vectors and spheres and so this littly typo helped me a lot.
+
+Looking forward to the next iteration, when we have a moving camera and more objects to render.
+This is still fun!
+
+Cheers!
 
 
 

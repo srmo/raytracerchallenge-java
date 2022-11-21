@@ -9,11 +9,13 @@ import org.schakalacka.java.raytracing.scene.Material;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 public class Sphere implements GeometryObject {
 
     private final Tuple position = Tuple.point(0, 0, 0);
     private Matrix transformationMatrix = Matrix.get(4, true);
+    private Matrix subMatrix3 = transformationMatrix.subM(3, 3);
     private Material material = Material.newMaterial().create();
 
 
@@ -27,17 +29,16 @@ public class Sphere implements GeometryObject {
 
 
     @Override
-    public Tuple normal(Tuple point) {
-        // convert worldpoint to objectpoint
+    public Tuple normalVectorAt(Tuple point) {
+        // convert world-point to object-point
         var objectPoint = transformationMatrix.inverse().mulT(point);
 
-        // TODO do we need normalisation here? We'll do it on the result again
-        Tuple objectNormal = objectPoint.sub(position).normalize();
+        Tuple objectNormal = objectPoint.sub(position);
+        Tuple worldNormal = subMatrix3.inverse().transpose().mulT(objectNormal);
 
-        // we come from world-space, we need to leave as world space. Convert the new normal into world-space
-        Matrix subMatrix3 = transformationMatrix.subM(3, 3);
+        return worldNormal.normalize();
 
-        return subMatrix3.inverse().transpose().mulT(objectNormal).normalize();
+//        return point.sub(position).normalize();
     }
 
     @Override
@@ -71,6 +72,7 @@ public class Sphere implements GeometryObject {
 
     public void setTransformationMatrix(Matrix matrix) {
         this.transformationMatrix = matrix;
+        this.subMatrix3 = transformationMatrix.subM(3, 3);
     }
 
     @Override
@@ -81,5 +83,18 @@ public class Sphere implements GeometryObject {
     @Override
     public Material material() {
         return this.material;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        org.schakalacka.java.raytracing.geometry.objects.Sphere sphere = (org.schakalacka.java.raytracing.geometry.objects.Sphere) o;
+        return Objects.equals(position, sphere.position) && Objects.equals(transformationMatrix, sphere.transformationMatrix) && Objects.equals(material, sphere.material);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(position, transformationMatrix, material);
     }
 }

@@ -21,7 +21,6 @@ public class Intersection {
         return this.distance;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

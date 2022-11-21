@@ -12,7 +12,6 @@ import org.schakalacka.java.raytracing.scene.Material;
 import org.schakalacka.java.raytracing.scene.PointLight;
 import org.tinylog.Logger;
 
-import java.util.Arrays;
 import java.util.stream.IntStream;
 
 public class RenderSphere {
@@ -34,7 +33,7 @@ public class RenderSphere {
         double half = wallSize / 2;
 
         var canvas = new Canvas((int) canvasPixels, (int) canvasPixels);
-        var red = new Color(1, 0, 0);
+
         var sphere = new Sphere();
         sphere.setTransformationMatrix(Matrix.shearing(1, 0, 0, 0, 0, 0).mulM(Matrix.scaling(0.5, 1, 1)));
 
@@ -68,7 +67,7 @@ public class RenderSphere {
                             var hit = IntersectionTracker.getHit(intersections);
                             if (hit != null) {
                                 Tuple position = ray.position(hit.getDistance()); // the point where the ray hit the sphere
-                                Tuple normalAtHit = hit.getIntersectedObject().normal(position); // the normal at the point where the ray hit the sphere
+                                Tuple normalAtHit = hit.getIntersectedObject().normalVectorAt(position); // the normal at the point where the ray hit the sphere
                                 var eyeVector = ray.direction().normalize().negate();
                                 var colorToPaint = sphereMaterial.lighting(lightSource, position, eyeVector, normalAtHit);
                                 canvas.write(x, currentY, colorToPaint);
@@ -96,7 +95,7 @@ public class RenderSphere {
                     var hit = IntersectionTracker.getHit(intersections);
                     if (hit != null) {
                         Tuple position = ray.position(hit.getDistance()); // the point where the ray hit the sphere
-                        Tuple normalAtHit = hit.getIntersectedObject().normal(position); // the normal at the point where the ray hit the sphere
+                        Tuple normalAtHit = hit.getIntersectedObject().normalVectorAt(position); // the normal at the point where the ray hit the sphere
                         var eyeVector = ray.direction().normalize().negate();
                         var colorToPaint = sphereMaterial.lighting(lightSource, position, eyeVector, normalAtHit);
                         canvas.write(x, y, colorToPaint);

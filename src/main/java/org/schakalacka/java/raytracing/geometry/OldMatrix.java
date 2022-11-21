@@ -2,12 +2,11 @@ package org.schakalacka.java.raytracing.geometry;
 
 import java.util.Arrays;
 
+import static org.schakalacka.java.raytracing.Constants.EPSILON;
+
 @Deprecated
 @SuppressWarnings("unused")
 public class OldMatrix {
-
-    //    public static final double EPSILON = 0.000000000001;
-    public static final double EPSILON = 0.00000001;
 
     private double[][] matrix;
 
@@ -140,7 +139,7 @@ public class OldMatrix {
             for (int j = 0; j < e1.length; j++) {
                 double val1 = e1[j];
                 double val2 = e2[j];
-                if ((val1 - val2) >= EPSILON)
+                if (Math.abs(val1 - val2) >= EPSILON)
                     return false;
             }
         }

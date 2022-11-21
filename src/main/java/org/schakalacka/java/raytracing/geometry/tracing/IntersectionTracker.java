@@ -24,6 +24,11 @@ public class IntersectionTracker {
         return Collections.unmodifiableList(intersections.get(object));
     }
 
+    /***
+     *
+     * @param intersections a non-null list of Intersections to check for a hit
+     * @return exactly one intersection, representing a hit or null, if there was no hit
+     */
     public static Intersection getHit(List<Intersection> intersections) {
         Optional<Intersection> firstPositive = intersections.stream().filter(intersection -> intersection.getDistance() > 0).findFirst();
 
