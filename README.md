@@ -131,5 +131,26 @@ This is still fun!
 
 Cheers!
 
+### Day X+2
+Yesterday and today I've been working on finalizing chapter 7. This was rather straight forward and no real hurdles along the way.
+I find it amazing that we just take three spheres, "squash" and rotate them and just like that, they are 3 walls for our scene!
+Looking forward to the day I get the hang of this and start creating transformations because I know what I'm doing.
+Especially the part of shader pre-computation was interesting. It's something I've seen so many games, making me wait while 
+it is "precomputing shaders". Still, it seems so simple, and it'll probably be getting out of hand soon.
+
+Then I again saw those awful render-times. I played with parallel streams in the Sphere Renderer, but this time I wanted
+to take it a step further. Remember benchmarking software or other renderers that render sections of the image in parallel?
+Yeah, that's what I went with. Divide the canvas in chunks and create a thread per chunk. You "just" need to calculate the batch
+of x and y pixels each chunk should process and off you go, thanks to Java's easy parallelStream() API.
+
+I guess the chunk calculation is rather naive, but hey, I'm happy I worked it out.
+
+Next step will be establishing `Point` and `Vector` as first class citizens. The idea is to make this interface/abstract driven,
+so I can "easily" switch to a fastmath lib or something without major refactorings. There seems to be a handful of powerful
+vector/matrix libraries out there. 
+
+That's it, fun has been had and off to bed!
+
+
 
 

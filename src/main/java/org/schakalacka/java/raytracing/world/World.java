@@ -21,18 +21,17 @@ import java.util.stream.Collectors;
 public class World {
 
 
-    private final List<GeometryObject> objects;
+    private final List<GeometryObject> objects = new ArrayList<>();
     private PointLight lightSource;
 
 
     public World() {
-        this.lightSource = null;
-        this.objects = new ArrayList<>();
+        this(null);
     }
 
     private World(PointLight lightSource, GeometryObject... objects) {
         this.lightSource = lightSource;
-        this.objects = Arrays.stream(objects).toList();
+        this.objects.addAll(Arrays.stream(objects).toList());
     }
 
     public static World getDefault() {
@@ -80,5 +79,9 @@ public class World {
                 precalc.getEyeVector(),
                 precalc.getNormalVector()
         );
+    }
+
+    public void addObjects(GeometryObject... objects) {
+        this.objects.addAll(Arrays.asList(objects));
     }
 }
