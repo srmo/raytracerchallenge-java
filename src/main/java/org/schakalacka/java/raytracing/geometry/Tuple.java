@@ -9,7 +9,7 @@ public class Tuple {
 
     private final double[] values = new double[4];
 
-    private Tuple(final double x, final double y, final double z, final double w) {
+    public Tuple(final double x, final double y, final double z, final double w) {
         values[0] = x;
         values[1] = y;
         values[2] = z;
@@ -17,15 +17,21 @@ public class Tuple {
     }
 
     public static Tuple tuple(double x, double y, double z, double w) {
-        return new Tuple(x, y, z, w);
+        if (w == 0) {
+            return new RTVector(x, y, z);
+        } else if (w == 1) {
+            return new RTPoint(x, y, z);
+        } else {
+            return new Tuple(x, y, z, w);
+        }
     }
 
-    public static Tuple point(double x, double y, double z) {
-        return new Tuple(x, y, z, 1.0);
+    public static RTPoint point(double x, double y, double z) {
+        return new RTPoint(x, y, z);
     }
 
-    public static Tuple vector(double x, double y, double z) {
-        return new Tuple(x, y, z, 0.0);
+    public static RTVector vector(double x, double y, double z) {
+        return new RTVector(x, y, z);
     }
 
     public double x() {
@@ -45,18 +51,18 @@ public class Tuple {
     }
 
     public final boolean isVector() {
-        return w() == 0.0;
+        return this instanceof RTVector;
     }
 
     public final boolean isPoint() {
-        return w() == 1.0f;
+        return this instanceof RTPoint;
     }
 
     public Tuple add(Tuple that) {
         if (this.isPoint() && that.isPoint()) {
             throw new ArithmeticException("Can't add two Points");
         }
-        return new Tuple(this.x() + that.x(), this.y() + that.y(), this.z() + that.z(), this.w() + that.w());
+        return Tuple.tuple(this.x() + that.x(), this.y() + that.y(), this.z() + that.z(), this.w() + that.w());
 
     }
 
@@ -64,19 +70,19 @@ public class Tuple {
         if (this.isVector() && that.isPoint()) {
             throw new ArithmeticException("Can't subtract Point from Vector");
         }
-        return new Tuple(this.x() - that.x(), this.y() - that.y(), this.z() - that.z(), this.w() - that.w());
+        return Tuple.tuple(this.x() - that.x(), this.y() - that.y(), this.z() - that.z(), this.w() - that.w());
     }
 
     public Tuple negate() {
-        return new Tuple(this.x() * -1, this.y() * -1, this.z() * -1, this.w() * -1);
+        return Tuple.tuple(this.x() * -1, this.y() * -1, this.z() * -1, this.w() * -1);
     }
 
     public Tuple mul(double scalar) {
-        return new Tuple(this.x() * scalar, this.y() * scalar, this.z() * scalar, this.w() * scalar);
+        return Tuple.tuple(this.x() * scalar, this.y() * scalar, this.z() * scalar, this.w() * scalar);
     }
 
     public Tuple div(double scalar) {
-        return new Tuple(this.x() / scalar, this.y() / scalar, this.z() / scalar, this.w() / scalar);
+        return Tuple.tuple(this.x() / scalar, this.y() / scalar, this.z() / scalar, this.w() / scalar);
     }
 
     public double magnitude() {
@@ -85,7 +91,7 @@ public class Tuple {
 
     public Tuple normalize() {
         final double magnitude = magnitude();
-        return new Tuple(this.x() / magnitude, this.y() / magnitude, this.z() / magnitude, this.w() / magnitude);
+        return Tuple.tuple(this.x() / magnitude, this.y() / magnitude, this.z() / magnitude, this.w() / magnitude);
     }
 
     public double dot(Tuple that) {
