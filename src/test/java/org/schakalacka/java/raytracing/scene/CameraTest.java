@@ -2,7 +2,7 @@ package org.schakalacka.java.raytracing.scene;
 
 import org.junit.jupiter.api.Test;
 import org.schakalacka.java.raytracing.Constants;
-import org.schakalacka.java.raytracing.geometry.Matrix;
+import org.schakalacka.java.raytracing.geometry.MatrixProvider;
 import org.schakalacka.java.raytracing.geometry.Tuple;
 import org.schakalacka.java.raytracing.world.ViewTransformation;
 import org.schakalacka.java.raytracing.world.World;
@@ -21,7 +21,7 @@ class CameraTest {
         assertEquals(160, camera.getHSize());
         assertEquals(120, camera.getVSize());
         assertEquals(Math.PI / 2, camera.getFieldOfView());
-        assertEquals(Matrix.get(4, true), camera.getTransformationMatrix());
+        assertEquals(MatrixProvider.get(4, true), camera.getTransformationMatrix());
     }
 
     @Test
@@ -62,7 +62,7 @@ class CameraTest {
     @Test
     void rayForTransformedCamera() {
         var camera = new Camera(201, 101, Math.PI / 2);
-        camera.setTransformationMatrix(Matrix.rotationY(Math.PI / 4).mulM(Matrix.translation(0, -2, 5)));
+        camera.setTransformationMatrix(MatrixProvider.rotationY(Math.PI / 4).mulM(MatrixProvider.translation(0, -2, 5)));
 
         var ray = camera.rayForPixel(100, 50);
 

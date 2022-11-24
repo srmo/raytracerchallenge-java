@@ -1,6 +1,7 @@
 package org.schakalacka.java.raytracing.geometry.objects;
 
 import org.schakalacka.java.raytracing.geometry.Matrix;
+import org.schakalacka.java.raytracing.geometry.MatrixProvider;
 import org.schakalacka.java.raytracing.geometry.Tuple;
 import org.schakalacka.java.raytracing.geometry.tracing.Intersection;
 import org.schakalacka.java.raytracing.geometry.tracing.Ray;
@@ -14,7 +15,7 @@ import java.util.Objects;
 public class Sphere implements GeometryObject {
 
     private final Tuple position = Tuple.point(0, 0, 0);
-    private Matrix transformationMatrix = Matrix.get(4, true);
+    private Matrix transformationMatrix = MatrixProvider.get(4, true);
     private Matrix subMatrix3 = transformationMatrix.subM(3, 3);
     private Material material = Material.newMaterial().create();
 

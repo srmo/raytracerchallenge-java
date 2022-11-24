@@ -1,7 +1,7 @@
 package org.schakalacka.java.raytracing.renderers;
 
 import org.schakalacka.java.raytracing.PPMExporter;
-import org.schakalacka.java.raytracing.geometry.Matrix;
+import org.schakalacka.java.raytracing.geometry.MatrixProvider;
 import org.schakalacka.java.raytracing.geometry.Tuple;
 import org.schakalacka.java.raytracing.geometry.objects.Sphere;
 import org.schakalacka.java.raytracing.scene.*;
@@ -14,30 +14,30 @@ public class RenderWorld {
 
     public static void main(String[] args) {
         var floor = new Sphere();
-        floor.setTransformationMatrix(Matrix.scaling(10, 0.01, 10));
+        floor.setTransformationMatrix(MatrixProvider.scaling(10, 0.01, 10));
         floor.setMaterial(Material.newMaterial().color(new Color(1, 0.9, 0.9)).specular(0).create());
 
         var leftWall = new Sphere();
         leftWall.setTransformationMatrix(
-                Matrix.translation(0, 0, 5)
-                        .mulM(Matrix.rotationY(-Math.PI / 4))
-                        .mulM(Matrix.rotationX(Math.PI / 2))
-                        .mulM(Matrix.scaling(10, 0.01, 10))
+                MatrixProvider.translation(0, 0, 5)
+                        .mulM(MatrixProvider.rotationY(-Math.PI / 4))
+                        .mulM(MatrixProvider.rotationX(Math.PI / 2))
+                        .mulM(MatrixProvider.scaling(10, 0.01, 10))
         );
         leftWall.setMaterial(floor.material());
 
         var rightWall = new Sphere();
         rightWall.setTransformationMatrix(
-                Matrix.translation(0, 0, 5)
-                        .mulM(Matrix.rotationY(Math.PI / 4))
-                        .mulM(Matrix.rotationX(Math.PI / 2))
-                        .mulM(Matrix.scaling(10, 0.01, 10))
+                MatrixProvider.translation(0, 0, 5)
+                        .mulM(MatrixProvider.rotationY(Math.PI / 4))
+                        .mulM(MatrixProvider.rotationX(Math.PI / 2))
+                        .mulM(MatrixProvider.scaling(10, 0.01, 10))
         );
         rightWall.setMaterial(floor.material());
 
 
         var middleSphere = new Sphere();
-        middleSphere.setTransformationMatrix(Matrix.translation(-0.5, 1, 0.5));
+        middleSphere.setTransformationMatrix(MatrixProvider.translation(-0.5, 1, 0.5));
         middleSphere.setMaterial(Material.newMaterial()
                 .color(new Color(0.1, 1, 0.5))
                 .diffuse(0.7)
@@ -45,7 +45,7 @@ public class RenderWorld {
                 .create());
 
         var rightSphere = new Sphere();
-        rightSphere.setTransformationMatrix(Matrix.translation(1.5, 0.5, -0.5).mulM(Matrix.scaling(0.5, 0.5, 0.5)));
+        rightSphere.setTransformationMatrix(MatrixProvider.translation(1.5, 0.5, -0.5).mulM(MatrixProvider.scaling(0.5, 0.5, 0.5)));
         rightSphere.setMaterial(Material.newMaterial()
                 .color(new Color(0.5, 1, 0.1))
                 .diffuse(0.7)
@@ -53,7 +53,7 @@ public class RenderWorld {
                 .create());
 
         var leftSphere = new Sphere();
-        leftSphere.setTransformationMatrix(Matrix.translation(-1.5, 0.33, -0.75).mulM(Matrix.scaling(0.33, 0.33, 0.33)));
+        leftSphere.setTransformationMatrix(MatrixProvider.translation(-1.5, 0.33, -0.75).mulM(MatrixProvider.scaling(0.33, 0.33, 0.33)));
         leftSphere.setMaterial(Material.newMaterial()
                 .color(new Color(1, 0.2, 0.1))
                 .diffuse(0.7)

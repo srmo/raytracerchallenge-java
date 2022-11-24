@@ -1,6 +1,6 @@
 package org.schakalacka.java.raytracing.world;
 
-import org.schakalacka.java.raytracing.geometry.Matrix;
+import org.schakalacka.java.raytracing.geometry.MatrixProvider;
 import org.schakalacka.java.raytracing.geometry.Tuple;
 import org.schakalacka.java.raytracing.geometry.objects.GeometryObject;
 import org.schakalacka.java.raytracing.geometry.objects.Sphere;
@@ -40,7 +40,7 @@ public class World {
         sphere1.setMaterial(Material.newMaterial().color(new Color(0.8, 1, 0.6)).diffuse(0.7).specular(0.2).create());
 
         Sphere sphere2 = new Sphere();
-        sphere2.setTransformationMatrix(Matrix.scaling(0.5, 0.5, 0.5));
+        sphere2.setTransformationMatrix(MatrixProvider.scaling(0.5, 0.5, 0.5));
 
         return new World(lightSource, sphere1, sphere2);
     }

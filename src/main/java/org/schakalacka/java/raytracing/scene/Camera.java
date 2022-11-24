@@ -1,6 +1,7 @@
 package org.schakalacka.java.raytracing.scene;
 
 import org.schakalacka.java.raytracing.geometry.Matrix;
+import org.schakalacka.java.raytracing.geometry.MatrixProvider;
 import org.schakalacka.java.raytracing.geometry.Tuple;
 import org.schakalacka.java.raytracing.geometry.tracing.Ray;
 import org.schakalacka.java.raytracing.scene.tools.Chunk;
@@ -29,7 +30,7 @@ public class Camera {
         this.hSize = hSize;
         this.vSize = vSize;
         this.fieldOfView = fieldOfView;
-        setTransformationMatrix(Matrix.get(4, true));
+        setTransformationMatrix(MatrixProvider.get(4, true));
         calculatePixelSize();
     }
 

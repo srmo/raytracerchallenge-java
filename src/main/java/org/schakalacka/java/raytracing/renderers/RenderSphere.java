@@ -1,7 +1,7 @@
 package org.schakalacka.java.raytracing.renderers;
 
 import org.schakalacka.java.raytracing.PPMExporter;
-import org.schakalacka.java.raytracing.geometry.Matrix;
+import org.schakalacka.java.raytracing.geometry.MatrixProvider;
 import org.schakalacka.java.raytracing.geometry.Tuple;
 import org.schakalacka.java.raytracing.geometry.objects.Sphere;
 import org.schakalacka.java.raytracing.geometry.tracing.IntersectionTracker;
@@ -35,7 +35,7 @@ public class RenderSphere {
         var canvas = new Canvas((int) canvasPixels, (int) canvasPixels);
 
         var sphere = new Sphere();
-        sphere.setTransformationMatrix(Matrix.shearing(1, 0, 0, 0, 0, 0).mulM(Matrix.scaling(0.5, 1, 1)));
+        sphere.setTransformationMatrix(MatrixProvider.shearing(1, 0, 0, 0, 0, 0).mulM(MatrixProvider.scaling(0.5, 1, 1)));
 
         Material sphereMaterial = Material.newMaterial().color(new Color(1, 0.2, 1)).create();
         sphere.setMaterial(sphereMaterial);

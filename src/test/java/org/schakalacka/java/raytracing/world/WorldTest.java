@@ -1,7 +1,7 @@
 package org.schakalacka.java.raytracing.world;
 
 import org.junit.jupiter.api.Test;
-import org.schakalacka.java.raytracing.geometry.Matrix;
+import org.schakalacka.java.raytracing.geometry.MatrixProvider;
 import org.schakalacka.java.raytracing.geometry.Tuple;
 import org.schakalacka.java.raytracing.geometry.objects.Sphere;
 import org.schakalacka.java.raytracing.geometry.tracing.Intersection;
@@ -31,7 +31,7 @@ class WorldTest {
         sphere1.setMaterial(Material.newMaterial().color(new Color(0.8, 1, 0.6)).diffuse(0.7).specular(0.2).create());
 
         var sphere2 = new Sphere();
-        sphere2.setTransformationMatrix(Matrix.scaling(0.5, 0.5, 0.5));
+        sphere2.setTransformationMatrix(MatrixProvider.scaling(0.5, 0.5, 0.5));
 
         assertEquals(lightSource, world.getLightSource());
         assertTrue(world.getObjects().contains(sphere1));

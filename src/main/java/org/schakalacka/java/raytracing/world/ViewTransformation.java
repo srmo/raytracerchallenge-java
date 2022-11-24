@@ -1,6 +1,7 @@
 package org.schakalacka.java.raytracing.world;
 
 import org.schakalacka.java.raytracing.geometry.Matrix;
+import org.schakalacka.java.raytracing.geometry.MatrixProvider;
 import org.schakalacka.java.raytracing.geometry.Tuple;
 
 public class ViewTransformation {
@@ -13,14 +14,14 @@ public class ViewTransformation {
 
         var trueUpVector = leftVector.cross(forwardVector);
 
-        var orientationMatrix = Matrix.get(new double[][]{
+        var orientationMatrix = MatrixProvider.get(new double[][]{
                 {leftVector.x(), leftVector.y(), leftVector.z(), 0},
                 {trueUpVector.x(), trueUpVector.y(), trueUpVector.z(), 0},
                 {-forwardVector.x(), -forwardVector.y(), -forwardVector.z(), 0},
                 {0, 0, 0, 1},
         });
 
-        var translationMatrix = Matrix.translation(-from.x(), -from.y(), -from.z());
+        var translationMatrix = MatrixProvider.translation(-from.x(), -from.y(), -from.z());
 
         return orientationMatrix.mulM(translationMatrix);
     }

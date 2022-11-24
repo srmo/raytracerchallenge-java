@@ -3,6 +3,7 @@ package org.schakalacka.java.raytracing.geometry.objects;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.schakalacka.java.raytracing.geometry.Matrix;
+import org.schakalacka.java.raytracing.geometry.MatrixProvider;
 import org.schakalacka.java.raytracing.geometry.Tuple;
 import org.schakalacka.java.raytracing.geometry.tracing.Ray;
 import org.schakalacka.java.raytracing.scene.Material;
@@ -81,16 +82,16 @@ public class SphereTest {
     void defaultTransformation() {
         var sphereMatrix = new Sphere().getTransformationMatrix();
 
-        assertEquals(Matrix.get(4, true), sphereMatrix);
+        assertEquals(MatrixProvider.get(4, true), sphereMatrix);
     }
 
     @Test
     void setTransformation() {
         var sphere = new Sphere();
-        var sphereMatrix = Matrix.translation(2, 3, 4);
+        var sphereMatrix = MatrixProvider.translation(2, 3, 4);
         sphere.setTransformationMatrix(sphereMatrix);
 
-        var expectedSphereMatrix = Matrix.translation(2, 3, 4);
+        var expectedSphereMatrix = MatrixProvider.translation(2, 3, 4);
 
         assertEquals(expectedSphereMatrix, sphereMatrix);
     }
@@ -99,7 +100,7 @@ public class SphereTest {
     void intersectUsesScaling() {
         var ray = new Ray(Tuple.point(0, 0, -5), Tuple.vector(0, 0, 1));
         var sphere = new Sphere();
-        sphere.setTransformationMatrix(Matrix.scaling(2, 2, 2));
+        sphere.setTransformationMatrix(MatrixProvider.scaling(2, 2, 2));
 
         var intersections = sphere.intersect(ray);
 
@@ -153,7 +154,7 @@ public class SphereTest {
     @Test
     void normalOnTranslatedSphere() {
         var sphere = new Sphere();
-        sphere.setTransformationMatrix(Matrix.translation(0,1,0));
+        sphere.setTransformationMatrix(MatrixProvider.translation(0,1,0));
 
         var normal = sphere.normalVectorAt(Tuple.point(0,1.70711,-0.70711));
 
@@ -164,7 +165,7 @@ public class SphereTest {
     void normalOnTransformedSphere() {
         var sphere = new Sphere();
 
-        Matrix transformationMatrix = Matrix.scaling(1,0.5,1).mulM(Matrix.rotationZ(Math.PI/5));
+        Matrix transformationMatrix = MatrixProvider.scaling(1,0.5,1).mulM(MatrixProvider.rotationZ(Math.PI/5));
         sphere.setTransformationMatrix(transformationMatrix);
 
         var normal = sphere.normalVectorAt(Tuple.point(0, Math.sqrt(2)/2, -Math.sqrt(2)/2));
