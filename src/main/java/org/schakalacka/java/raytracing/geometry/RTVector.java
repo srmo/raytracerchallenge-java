@@ -6,4 +6,11 @@ public class RTVector extends Tuple {
         super(x, y, z, 0);
     }
 
+    public Tuple cross(RTPoint ignoredThat) {
+        throw new ArithmeticException("Cross product only defined for Vectors");
+    }
+
+    public Tuple sub(RTPoint that) {
+        throw new ArithmeticException("Can't subtract Point from Vector");
+    }
 }

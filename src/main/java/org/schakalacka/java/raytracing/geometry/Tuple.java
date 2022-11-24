@@ -59,17 +59,10 @@ public class Tuple {
     }
 
     public Tuple add(Tuple that) {
-        if (this.isPoint() && that.isPoint()) {
-            throw new ArithmeticException("Can't add two Points");
-        }
         return Tuple.tuple(this.x() + that.x(), this.y() + that.y(), this.z() + that.z(), this.w() + that.w());
-
     }
 
     public Tuple sub(Tuple that) {
-        if (this.isVector() && that.isPoint()) {
-            throw new ArithmeticException("Can't subtract Point from Vector");
-        }
         return Tuple.tuple(this.x() - that.x(), this.y() - that.y(), this.z() - that.z(), this.w() - that.w());
     }
 
@@ -109,15 +102,11 @@ public class Tuple {
      * @throws ArithmeticException when either this or that tuple isn't a vector
      */
     public Tuple cross(Tuple that) {
-        if (this.isVector() && that.isVector()) {
-            return Tuple.vector(
-                    this.y() * that.z() - this.z() * that.y(),
-                    this.z() * that.x() - this.x() * that.z(),
-                    this.x() * that.y() - this.y() * that.x()
-            );
-        } else {
-            throw new ArithmeticException("Cross product only defined for Vectors");
-        }
+        return Tuple.vector(
+                this.y() * that.z() - this.z() * that.y(),
+                this.z() * that.x() - this.x() * that.z(),
+                this.x() * that.y() - this.y() * that.x()
+        );
     }
 
     @Override
