@@ -1,4 +1,4 @@
-package org.schakalacka.java.raytracing.geometry;
+package org.schakalacka.java.raytracing.geometry.algebra;
 
 import org.schakalacka.java.raytracing.Constants;
 

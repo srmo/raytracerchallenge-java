@@ -1,8 +1,8 @@
 package org.schakalacka.java.raytracing.world;
 
 import org.junit.jupiter.api.Test;
-import org.schakalacka.java.raytracing.geometry.MatrixProvider;
-import org.schakalacka.java.raytracing.geometry.Tuple;
+import org.schakalacka.java.raytracing.geometry.algebra.MatrixProvider;
+import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
 import org.schakalacka.java.raytracing.geometry.objects.Sphere;
 import org.schakalacka.java.raytracing.geometry.tracing.Intersection;
 import org.schakalacka.java.raytracing.geometry.tracing.Precalc;

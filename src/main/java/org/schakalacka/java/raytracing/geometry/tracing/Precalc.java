@@ -1,6 +1,6 @@
 package org.schakalacka.java.raytracing.geometry.tracing;
 
-import org.schakalacka.java.raytracing.geometry.Tuple;
+import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
 import org.schakalacka.java.raytracing.geometry.objects.GeometryObject;
 
 public class Precalc {

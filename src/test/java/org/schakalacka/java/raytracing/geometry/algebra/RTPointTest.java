@@ -1,4 +1,4 @@
-package org.schakalacka.java.raytracing.geometry;
+package org.schakalacka.java.raytracing.geometry.algebra;
 
 import org.junit.jupiter.api.Test;
 
@@ -72,7 +72,7 @@ class RTPointTest {
     void negatePoint() {
         var tuple = Tuple.point(11, -2, 3);
 
-        Exception e = assertThrows(ArithmeticException.class, () -> tuple.negate());
+        Exception e = assertThrows(ArithmeticException.class, tuple::negate);
         assertEquals("Can't negate a point", e.getMessage());
     }
 

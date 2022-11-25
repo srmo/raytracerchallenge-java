@@ -1,8 +1,8 @@
 package org.schakalacka.java.raytracing.renderers;
 
 import org.schakalacka.java.raytracing.PPMExporter;
-import org.schakalacka.java.raytracing.geometry.MatrixProvider;
-import org.schakalacka.java.raytracing.geometry.Tuple;
+import org.schakalacka.java.raytracing.geometry.algebra.MatrixProvider;
+import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
 import org.schakalacka.java.raytracing.geometry.objects.Sphere;
 import org.schakalacka.java.raytracing.scene.*;
 import org.schakalacka.java.raytracing.world.ViewTransformation;
@@ -78,7 +78,7 @@ public class RenderWorld {
 
         long renderStart = System.currentTimeMillis();
 
-        var parallelChunks = 16;
+        var parallelChunks = 8;
         Canvas canvas = camera.render(world, parallelChunks);
 
         long renderEnd = System.currentTimeMillis();
@@ -87,7 +87,7 @@ public class RenderWorld {
 
 
         long exportStart = System.currentTimeMillis();
-        PPMExporter.export(canvas, "chapter7_%dx%d_chunks_%d.ppm".formatted(width, height, parallelChunks), 255);
+        PPMExporter.export(canvas, "chapter7_%dx%d_chunks_%d_Matrix_%s.ppm".formatted(width, height, parallelChunks, MatrixProvider.MT), 255);
         long exportEnd = System.currentTimeMillis();
         Logger.info("Export took {}ms", (exportEnd - exportStart));
     }

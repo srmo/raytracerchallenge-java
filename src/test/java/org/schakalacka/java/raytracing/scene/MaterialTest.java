@@ -1,14 +1,14 @@
 package org.schakalacka.java.raytracing.scene;
 
 import org.junit.jupiter.api.Test;
-import org.schakalacka.java.raytracing.geometry.Tuple;
+import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class MaterialTest {
 
-    private Tuple defaultPosition = Tuple.point(0, 0, 0);
-    private Material defaultMaterial = Material.newMaterial().create();
+    private final Tuple defaultPosition = Tuple.point(0, 0, 0);
+    private final Material defaultMaterial = Material.newMaterial().create();
 
     @Test
     void defaultMaterial() {

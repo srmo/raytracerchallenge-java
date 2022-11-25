@@ -1,7 +1,6 @@
 package org.schakalacka.java.raytracing.scene;
 
-import org.schakalacka.java.raytracing.geometry.Matrix;
-import org.schakalacka.java.raytracing.geometry.Tuple;
+import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
 
 public record Material(Color color, double ambient, double diffuse, double specular, double shininess) {
 

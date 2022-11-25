@@ -1,4 +1,4 @@
-package org.schakalacka.java.raytracing.geometry;
+package org.schakalacka.java.raytracing.geometry.algebra;
 
 public class RTVector extends Tuple {
 
@@ -10,7 +10,7 @@ public class RTVector extends Tuple {
         throw new ArithmeticException("Cross product only defined for Vectors");
     }
 
-    public Tuple sub(RTPoint that) {
+    public Tuple sub(RTPoint ignoredThat) {
         throw new ArithmeticException("Can't subtract Point from Vector");
     }
 }

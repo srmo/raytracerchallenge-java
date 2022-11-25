@@ -1,4 +1,4 @@
-package org.schakalacka.java.raytracing.geometry;
+package org.schakalacka.java.raytracing.geometry.algebra;
 
 import org.junit.jupiter.api.Test;
 
@@ -48,8 +48,8 @@ class TupleTest {
 
     @Test
     void subtractTuples() {
-        var t1 = Tuple.tuple(3, -2, 5,10);
-        var t2 = Tuple.tuple(-2, 3, 1,12);
+        var t1 = Tuple.tuple(3, -2, 5, 10);
+        var t2 = Tuple.tuple(-2, 3, 1, 12);
 
         var result = t1.sub(t2);
 

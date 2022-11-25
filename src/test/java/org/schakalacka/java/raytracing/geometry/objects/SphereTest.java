@@ -2,9 +2,9 @@ package org.schakalacka.java.raytracing.geometry.objects;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.schakalacka.java.raytracing.geometry.Matrix;
-import org.schakalacka.java.raytracing.geometry.MatrixProvider;
-import org.schakalacka.java.raytracing.geometry.Tuple;
+import org.schakalacka.java.raytracing.geometry.algebra.Matrix;
+import org.schakalacka.java.raytracing.geometry.algebra.MatrixProvider;
+import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
 import org.schakalacka.java.raytracing.geometry.tracing.Ray;
 import org.schakalacka.java.raytracing.scene.Material;
 

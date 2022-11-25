@@ -1,7 +1,7 @@
 package org.schakalacka.java.raytracing.scene;
 
 import org.junit.jupiter.api.Test;
-import org.schakalacka.java.raytracing.geometry.Tuple;
+import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
 
 import static org.junit.jupiter.api.Assertions.*;
 

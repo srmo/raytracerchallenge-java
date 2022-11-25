@@ -1,8 +1,8 @@
 package org.schakalacka.java.raytracing.renderers;
 
 import org.schakalacka.java.raytracing.PPMExporter;
-import org.schakalacka.java.raytracing.geometry.MatrixProvider;
-import org.schakalacka.java.raytracing.geometry.Tuple;
+import org.schakalacka.java.raytracing.geometry.algebra.MatrixProvider;
+import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
 import org.schakalacka.java.raytracing.geometry.objects.Sphere;
 import org.schakalacka.java.raytracing.geometry.tracing.IntersectionTracker;
 import org.schakalacka.java.raytracing.geometry.tracing.Ray;

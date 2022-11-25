@@ -152,5 +152,28 @@ vector/matrix libraries out there.
 That's it, fun has been had and off to bed!
 
 
+### Day X+3
+If someone sent me a PR, that is as huge as this single commit, I'd go berserk. Then again, think of it as a squash commit.
+Think of it of several small commits towards one goal:
+*Introduce a third-party library for matrix/vector calculations and provide an interface to switch between implementations*
 
+That's how we ended up with:
+* `MatrixProvider.MatrixType.NAIVE`
+* `MatrixProvider.MatrixType.EJML`
+
+`NAIVE` is my original implementation, using only java primitives, wrapped in my own classes, Tuple and Matrix.
+`EJML` is a library I found mentioned in a [Baeldung](https://www.baeldung.com/java-matrix-multiplication) post. 
+
+First step was to move this stuff to a new package. `algebra` seems like a fitting name to me as it is pure calculation stuff.
+The Provider architecture is rather raw, as is the mechanism to switch between Matrix implementations directly in the `MatrixProvider`
+by setting a different enum value. But hey, this is ongoing work.
+
+In the end, using EJML halves render-time which is great! Some of the implementations in the `EjmlMatrixWrapper` are rather ugly,
+as a result of direct ancestry from the old Matrix. 
+
+I guess, it will all fall in place when I start moving the calculation off of the CPU and into the GPU. That will be fun!
+
+That's all for now, no new GeometryObjects, no new Worlds or Scenes, sorry. But sometimes we need to do the work.
+
+Have fun!
 

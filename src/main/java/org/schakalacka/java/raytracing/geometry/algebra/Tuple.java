@@ -1,4 +1,4 @@
-package org.schakalacka.java.raytracing.geometry;
+package org.schakalacka.java.raytracing.geometry.algebra;
 
 import java.util.Objects;
 
@@ -146,6 +146,9 @@ public class Tuple {
         return this.sub(that.mul(2).mul(this.dot(that)));
     }
 
+    public double[] getArray() {
+        return this.values;
+    }
 }
 
 

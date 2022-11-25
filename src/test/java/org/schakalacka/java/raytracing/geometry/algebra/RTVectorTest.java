@@ -1,4 +1,4 @@
-package org.schakalacka.java.raytracing.geometry;
+package org.schakalacka.java.raytracing.geometry.algebra;
 
 import org.junit.jupiter.api.Test;
 
@@ -189,29 +189,29 @@ class RTVectorTest {
 
         assertEquals(Tuple.vector(1, -2, 1), result2);
 
-        Exception e = assertThrows(ArithmeticException.class, () -> Tuple.vector(1,1,1).cross(Tuple.point(1,1,1)));
+        Exception e = assertThrows(ArithmeticException.class, () -> Tuple.vector(1, 1, 1).cross(Tuple.point(1, 1, 1)));
         assertEquals("Cross product only defined for Vectors", e.getMessage());
 
     }
 
     @Test
     void reflectAt45Degrees() {
-        var vector = Tuple.vector(1,-1,0);
-        var normal = Tuple.vector(0,1,0);
+        var vector = Tuple.vector(1, -1, 0);
+        var normal = Tuple.vector(0, 1, 0);
 
         var reflectedVector = vector.reflect(normal);
 
-        assertEquals(Tuple.vector(1,1,0), reflectedVector);
+        assertEquals(Tuple.vector(1, 1, 0), reflectedVector);
     }
 
     @Test
     void reflectAtSlantedSurface() {
-        var vector = Tuple.vector(0,-1,0);
-        var normal = Tuple.vector(Math.sqrt(2)/2, Math.sqrt(2)/2, 0);
+        var vector = Tuple.vector(0, -1, 0);
+        var normal = Tuple.vector(Math.sqrt(2) / 2, Math.sqrt(2) / 2, 0);
 
         var reflectedVector = vector.reflect(normal);
 
-        assertEquals(Tuple.vector(1,0,0), reflectedVector);
+        assertEquals(Tuple.vector(1, 0, 0), reflectedVector);
     }
 
 }

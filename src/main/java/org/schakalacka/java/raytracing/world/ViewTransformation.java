@@ -1,8 +1,8 @@
 package org.schakalacka.java.raytracing.world;
 
-import org.schakalacka.java.raytracing.geometry.Matrix;
-import org.schakalacka.java.raytracing.geometry.MatrixProvider;
-import org.schakalacka.java.raytracing.geometry.Tuple;
+import org.schakalacka.java.raytracing.geometry.algebra.Matrix;
+import org.schakalacka.java.raytracing.geometry.algebra.MatrixProvider;
+import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
 
 public class ViewTransformation {
     public static Matrix transform(Tuple from, Tuple to, Tuple up) {

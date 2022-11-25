@@ -1,6 +1,6 @@
 package org.schakalacka.java.raytracing.scene;
 
-import org.schakalacka.java.raytracing.geometry.Tuple;
+import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
 
 public class Projectile {
 

@@ -1,7 +1,7 @@
 package org.schakalacka.java.raytracing.geometry.tracing;
 
-import org.schakalacka.java.raytracing.geometry.Matrix;
-import org.schakalacka.java.raytracing.geometry.Tuple;
+import org.schakalacka.java.raytracing.geometry.algebra.Matrix;
+import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
 
 public record Ray(Tuple origin, Tuple direction) {
 

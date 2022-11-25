@@ -1,9 +1,11 @@
-package org.schakalacka.java.raytracing.geometry;
+package org.schakalacka.java.raytracing.geometry.algebra;
 
-public class MatrixProvider {
-
-    public static Matrix get(double[][] ref) {
-        Matrix result = MatrixProvider.get(ref.length);
+class NaiveMatrixProvider {
+    
+    
+    static Matrix get(double[][] ref) {
+       
+        Matrix result = NaiveMatrixProvider.get(ref.length);
 
         for (int row = 0; row < ref.length; row++) {
             for (int col = 0; col < ref.length; col++) {
@@ -13,11 +15,11 @@ public class MatrixProvider {
         return result;
     }
 
-    public static Matrix get(int size) {
-        return MatrixProvider.get(size, false);
+    static Matrix get(int size) {
+        return NaiveMatrixProvider.get(size, false);
     }
 
-    public static Matrix get(int size, boolean isIdentity) {
+    static Matrix get(int size, boolean isIdentity) {
         Matrix result = new NaiveMatrix(size);
 
         if (isIdentity) {
@@ -31,8 +33,8 @@ public class MatrixProvider {
     /***
      * create a translation matrix. It is a 4x4 identity matrix, where the last colum is populated with the 3 values.
      */
-    public static Matrix translation(double x, double y, double z) {
-        Matrix result = MatrixProvider.get(4, true);
+    static Matrix translation(double x, double y, double z) {
+        Matrix result = NaiveMatrixProvider.get(4, true);
         result.set(0, 3, x);
         result.set(1, 3, y);
         result.set(2, 3, z);
@@ -44,8 +46,8 @@ public class MatrixProvider {
 //                {0, 0, 0, 1},
     }
 
-    public static Matrix scaling(double x, double y, double z) {
-        Matrix result = MatrixProvider.get(4, false);
+    static Matrix scaling(double x, double y, double z) {
+        Matrix result = NaiveMatrixProvider.get(4, false);
         result.set(0, 0, x);
         result.set(1, 1, y);
         result.set(2, 2, z);
@@ -62,8 +64,8 @@ public class MatrixProvider {
      *
      * @return a left-handed rotation matrix along the X axis
      */
-    public static Matrix rotationX(double radians) {
-        Matrix result = MatrixProvider.get(4, true);
+    static Matrix rotationX(double radians) {
+        Matrix result = NaiveMatrixProvider.get(4, true);
         result.set(1, 1, Math.cos(radians));
         result.set(1, 2, -Math.sin(radians));
         result.set(2, 1, Math.sin(radians));
@@ -81,8 +83,8 @@ public class MatrixProvider {
      *
      * @return a left-handed rotation matrix along the Y axis
      */
-    public static Matrix rotationY(double radians) {
-        Matrix result = MatrixProvider.get(4, true);
+    static Matrix rotationY(double radians) {
+        Matrix result = NaiveMatrixProvider.get(4, true);
         result.set(0, 0, Math.cos(radians));
         result.set(0, 1, 0);
         result.set(0, 2, Math.sin(radians));
@@ -108,8 +110,8 @@ public class MatrixProvider {
 //                {0, 0, 0, 1},
     }
 
-    public static Matrix rotationZ(double radians) {
-        Matrix result = MatrixProvider.get(4, true);
+    static Matrix rotationZ(double radians) {
+        Matrix result = NaiveMatrixProvider.get(4, true);
         result.set(0, 0, Math.cos(radians));
         result.set(0, 1, -Math.sin(radians));
         result.set(1, 0, Math.sin(radians));
@@ -124,8 +126,8 @@ public class MatrixProvider {
 //                {0, 0, 0, 1},
     }
 
-    public static Matrix shearing(double xy, double xz, double yx, double yz, double zx, double zy) {
-        Matrix result = MatrixProvider.get(4, true);
+    static Matrix shearing(double xy, double xz, double yx, double yz, double zx, double zy) {
+        Matrix result = NaiveMatrixProvider.get(4, true);
         result.set(0, 1, xy);
         result.set(0, 2, xz);
         result.set(1, 0, yx);
