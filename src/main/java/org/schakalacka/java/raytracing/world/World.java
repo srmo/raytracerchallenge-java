@@ -2,7 +2,7 @@ package org.schakalacka.java.raytracing.world;
 
 import org.schakalacka.java.raytracing.geometry.algebra.MatrixProvider;
 import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
-import org.schakalacka.java.raytracing.geometry.objects.GeometryObject;
+import org.schakalacka.java.raytracing.geometry.objects.Shape;
 import org.schakalacka.java.raytracing.geometry.objects.Sphere;
 import org.schakalacka.java.raytracing.geometry.tracing.Intersection;
 import org.schakalacka.java.raytracing.geometry.tracing.IntersectionTracker;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class World {
 
 
-    private final List<GeometryObject> objects = new ArrayList<>();
+    private final List<Shape> objects = new ArrayList<>();
     private PointLight lightSource;
 
 
@@ -29,7 +29,7 @@ public class World {
         this(null);
     }
 
-    private World(PointLight lightSource, GeometryObject... objects) {
+    private World(PointLight lightSource, Shape... objects) {
         this.lightSource = lightSource;
         this.objects.addAll(Arrays.stream(objects).toList());
     }
@@ -53,7 +53,7 @@ public class World {
         this.lightSource = lightSource;
     }
 
-    public List<GeometryObject> getObjects() {
+    public List<Shape> getObjects() {
         return objects;
     }
 
@@ -83,7 +83,7 @@ public class World {
         );
     }
 
-    public void addObjects(GeometryObject... objects) {
+    public void addObjects(Shape... objects) {
         this.objects.addAll(Arrays.asList(objects));
     }
 

@@ -1,7 +1,7 @@
 package org.schakalacka.java.raytracing.geometry.tracing;
 
 import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
-import org.schakalacka.java.raytracing.geometry.objects.GeometryObject;
+import org.schakalacka.java.raytracing.geometry.objects.Shape;
 
 import static org.schakalacka.java.raytracing.Constants.SHADOW_EPSILON;
 
@@ -9,7 +9,7 @@ public class Precalc {
 
 
     private final double distance;
-    private final GeometryObject object;
+    private final Shape object;
     private final Tuple point;
     private final Tuple eyeVector;
     private final Tuple normalVector;
@@ -37,7 +37,7 @@ public class Precalc {
         return distance;
     }
 
-    public GeometryObject getObject() {
+    public Shape getObject() {
         return object;
     }
 

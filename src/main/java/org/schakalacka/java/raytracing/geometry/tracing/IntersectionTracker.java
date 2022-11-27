@@ -1,12 +1,12 @@
 package org.schakalacka.java.raytracing.geometry.tracing;
 
-import org.schakalacka.java.raytracing.geometry.objects.GeometryObject;
+import org.schakalacka.java.raytracing.geometry.objects.Shape;
 
 import java.util.*;
 
 public class IntersectionTracker {
 
-    private static final Map<GeometryObject, List<Intersection>> intersections = new HashMap<>();
+    private static final Map<Shape, List<Intersection>> intersections = new HashMap<>();
 
     public static void reset() {
         intersections.clear();
@@ -20,7 +20,7 @@ public class IntersectionTracker {
     }
 
 
-    public static List<Intersection> get(GeometryObject object) {
+    public static List<Intersection> get(Shape object) {
         return Collections.unmodifiableList(intersections.get(object));
     }
 

@@ -1,19 +1,19 @@
 package org.schakalacka.java.raytracing.geometry.tracing;
 
-import org.schakalacka.java.raytracing.geometry.objects.GeometryObject;
+import org.schakalacka.java.raytracing.geometry.objects.Shape;
 
 import java.util.Objects;
 
 public class Intersection {
-    private final GeometryObject object;
+    private final Shape object;
     private final double distance;
 
-    public Intersection(GeometryObject object, double ticks) {
+    public Intersection(Shape object, double ticks) {
         this.object = object;
         this.distance = ticks;
     }
 
-    public GeometryObject getIntersectedObject() {
+    public Shape getIntersectedObject() {
         return this.object;
     }
 

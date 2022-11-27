@@ -2,15 +2,17 @@ package org.schakalacka.java.raytracing.geometry.objects;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.schakalacka.java.raytracing.geometry.algebra.Matrix;
-import org.schakalacka.java.raytracing.geometry.algebra.MatrixProvider;
 import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
 import org.schakalacka.java.raytracing.geometry.tracing.Ray;
-import org.schakalacka.java.raytracing.scene.Material;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SphereTest {
+
+    @Test
+    void sphereIsGeometryObject() {
+        assertInstanceOf(Shape.class, new Sphere());
+    }
 
     @Test
     void unitSphere() {
@@ -25,7 +27,7 @@ public class SphereTest {
         var ray = new Ray(Tuple.point(0, 0, -5), Tuple.vector(0, 0, 1));
         var sphere = new Sphere();
 
-        var intersection = sphere.intersect(ray);
+        var intersection = sphere.localIntersect(ray);
 
         assertEquals(2, intersection.size());
         assertEquals(4, intersection.get(0).getDistance());
@@ -37,7 +39,7 @@ public class SphereTest {
         var ray = new Ray(Tuple.point(0, 1, -5), Tuple.vector(0, 0, 1));
         var sphere = new Sphere();
 
-        var intersection = sphere.intersect(ray);
+        var intersection = sphere.localIntersect(ray);
 
         assertEquals(2, intersection.size());
         assertEquals(5, intersection.get(0).getDistance());
@@ -49,7 +51,7 @@ public class SphereTest {
         var ray = new Ray(Tuple.point(0, 2, -5), Tuple.vector(0, 0, 1));
         var sphere = new Sphere();
 
-        var intersection = sphere.intersect(ray);
+        var intersection = sphere.localIntersect(ray);
 
         assertEquals(0, intersection.size());
     }
@@ -59,7 +61,7 @@ public class SphereTest {
         var ray = new Ray(Tuple.point(0, 0, 0), Tuple.vector(0, 0, 1));
         var sphere = new Sphere();
 
-        var intersection = sphere.intersect(ray);
+        var intersection = sphere.localIntersect(ray);
 
         assertEquals(2, intersection.size());
         assertEquals(-1, intersection.get(0).getDistance());
@@ -71,7 +73,7 @@ public class SphereTest {
         var ray = new Ray(Tuple.point(0, 0, 5), Tuple.vector(0, 0, 1));
         var sphere = new Sphere();
 
-        var intersection = sphere.intersect(ray);
+        var intersection = sphere.localIntersect(ray);
 
         assertEquals(2, intersection.size());
         assertEquals(-6, intersection.get(0).getDistance());
@@ -79,40 +81,9 @@ public class SphereTest {
     }
 
     @Test
-    void defaultTransformation() {
-        var sphereMatrix = new Sphere().getTransformationMatrix();
-
-        assertEquals(MatrixProvider.get(4, true), sphereMatrix);
-    }
-
-    @Test
-    void setTransformation() {
-        var sphere = new Sphere();
-        var sphereMatrix = MatrixProvider.translation(2, 3, 4);
-        sphere.setTransformationMatrix(sphereMatrix);
-
-        var expectedSphereMatrix = MatrixProvider.translation(2, 3, 4);
-
-        assertEquals(expectedSphereMatrix, sphereMatrix);
-    }
-
-    @Test
-    void intersectUsesScaling() {
-        var ray = new Ray(Tuple.point(0, 0, -5), Tuple.vector(0, 0, 1));
-        var sphere = new Sphere();
-        sphere.setTransformationMatrix(MatrixProvider.scaling(2, 2, 2));
-
-        var intersections = sphere.intersect(ray);
-
-        assertEquals(2, intersections.size());
-        assertEquals(3, intersections.get(0).getDistance());
-        assertEquals(7, intersections.get(1).getDistance());
-    }
-
-    @Test
     void normalOnX() {
         var sphere = new Sphere();
-        var normal = sphere.normalVectorAt(Tuple.point(1, 0, 0));
+        var normal = sphere.localNormalVectorAt(Tuple.point(1, 0, 0));
 
         assertEquals(Tuple.vector(1, 0, 0), normal);
     }
@@ -120,7 +91,7 @@ public class SphereTest {
     @Test
     void normalOnY() {
         var sphere = new Sphere();
-        var normal = sphere.normalVectorAt(Tuple.point(0, 1, 0));
+        var normal = sphere.localNormalVectorAt(Tuple.point(0, 1, 0));
 
         assertEquals(Tuple.vector(0, 1, 0), normal);
     }
@@ -128,7 +99,7 @@ public class SphereTest {
     @Test
     void normalOnZ() {
         var sphere = new Sphere();
-        var normal = sphere.normalVectorAt(Tuple.point(0, 0, 1));
+        var normal = sphere.localNormalVectorAt(Tuple.point(0, 0, 1));
 
         assertEquals(Tuple.vector(0, 0, 1), normal);
     }
@@ -136,7 +107,7 @@ public class SphereTest {
     @Test
     void normalNotOnAxis() {
         var sphere = new Sphere();
-        var normal = sphere.normalVectorAt(Tuple.point(Math.sqrt(3) / 3, Math.sqrt(3) / 3, Math.sqrt(3) / 3));
+        var normal = sphere.localNormalVectorAt(Tuple.point(Math.sqrt(3) / 3, Math.sqrt(3) / 3, Math.sqrt(3) / 3));
 
         assertEquals(Tuple.vector(Math.sqrt(3) / 3, Math.sqrt(3) / 3, Math.sqrt(3) / 3), normal);
     }
@@ -144,53 +115,10 @@ public class SphereTest {
     @Test
     void normalIsAlreadyNormalized() {
         var sphere = new Sphere();
-        var normal = sphere.normalVectorAt(Tuple.point(Math.sqrt(3) / 3, Math.sqrt(3) / 3, Math.sqrt(3) / 3));
+        var normal = sphere.localNormalVectorAt(Tuple.point(Math.sqrt(3) / 3, Math.sqrt(3) / 3, Math.sqrt(3) / 3));
 
         var normalized = normal.normalize();
         assertNotSame(normal, normalized);
         assertEquals(normal, normalized);
     }
-
-    @Test
-    void normalOnTranslatedSphere() {
-        var sphere = new Sphere();
-        sphere.setTransformationMatrix(MatrixProvider.translation(0,1,0));
-
-        var normal = sphere.normalVectorAt(Tuple.point(0,1.70711,-0.70711));
-
-        assertEquals(Tuple.vector(0,0.7071067,-0.7071678), normal);
-    }
-
-    @Test
-    void normalOnTransformedSphere() {
-        var sphere = new Sphere();
-
-        Matrix transformationMatrix = MatrixProvider.scaling(1,0.5,1).mulM(MatrixProvider.rotationZ(Math.PI/5));
-        sphere.setTransformationMatrix(transformationMatrix);
-
-        var normal = sphere.normalVectorAt(Tuple.point(0, Math.sqrt(2)/2, -Math.sqrt(2)/2));
-
-        assertEquals(Tuple.vector(0,0.97014,-0.24254), normal);
-    }
-
-    @Test
-    void sphereHasDefaultMaterial() {
-        var sphere = new Sphere();
-        var material = sphere.material();
-
-        assertNotNull(material);
-    }
-
-    @Test
-    void sphereMaterial() {
-        var sphere = new Sphere();
-        var material = Material.newMaterial().ambient(1.0).create();
-        sphere.setMaterial(material);
-
-        assertSame(material, sphere.material());
-        assertEquals(1, sphere.material().ambient());
-    }
-
-
-
 }
