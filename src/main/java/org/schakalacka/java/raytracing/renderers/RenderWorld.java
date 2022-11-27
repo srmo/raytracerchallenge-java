@@ -61,7 +61,7 @@ public class RenderWorld {
                 .create());
 
         var world = new World();
-        world.setLightSource(new PointLight(Tuple.point(-10, 10, -10), new Color(1, 1, 1)));
+        world.setLightSource(new PointLight(Tuple.point(-10, 20, -10), new Color(0.8, 0.8, 0.8)));
         world.addObjects(floor, leftWall, rightWall, leftSphere, middleSphere, rightSphere);
 
         var width = 500;

@@ -72,16 +72,34 @@ public class World {
     }
 
     public Color shade_hit(Precalc precalc) {
+        boolean shadowed = isShadowed(precalc.getOverPoint());
         // TODO add iteration over multiple light sources here
         return precalc.getObject().material().lighting(
                 this.lightSource,
-                precalc.getPoint(),
+                precalc.getOverPoint(),
                 precalc.getEyeVector(),
-                precalc.getNormalVector()
+                precalc.getNormalVector(),
+                shadowed
         );
     }
 
     public void addObjects(GeometryObject... objects) {
         this.objects.addAll(Arrays.asList(objects));
     }
+
+    public boolean isShadowed(Tuple point) {
+        var vectorPointToLight = lightSource.position().sub(point);
+        var distancePointToLight = vectorPointToLight.magnitude();
+        var directionPointToLight = vectorPointToLight.normalize();
+
+        Ray r = new Ray(point, directionPointToLight);
+
+        // TODO find an optimisation here for intersections. Is there any?
+        List<Intersection> intersections = intersect(r);
+        Intersection hit = IntersectionTracker.getHit(intersections);
+
+        // we have a hit when it occurs on the way from the point to the lightsource.
+        return hit != null && hit.getDistance() < distancePointToLight;
+    }
+
 }

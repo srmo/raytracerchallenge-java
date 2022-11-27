@@ -1,6 +1,6 @@
 package org.schakalacka.java.raytracing.scene;
 
-import static org.schakalacka.java.raytracing.Constants.EPSILON;
+import static org.schakalacka.java.raytracing.Constants.EQUALS_EPSILON;
 
 public record Color(double r, double g, double b) {
 
@@ -62,9 +62,9 @@ public record Color(double r, double g, double b) {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj instanceof Color) {
-            return Math.abs(this.r - ((Color) obj).r) < EPSILON &&
-                    Math.abs(this.g - ((Color) obj).g) < EPSILON &&
-                    Math.abs(this.b - ((Color) obj).b) < EPSILON;
+            return Math.abs(this.r - ((Color) obj).r) < EQUALS_EPSILON &&
+                    Math.abs(this.g - ((Color) obj).g) < EQUALS_EPSILON &&
+                    Math.abs(this.b - ((Color) obj).b) < EQUALS_EPSILON;
         }
 
         return false;

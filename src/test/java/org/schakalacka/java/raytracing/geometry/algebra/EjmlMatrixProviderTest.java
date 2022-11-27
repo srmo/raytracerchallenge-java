@@ -382,7 +382,7 @@ class EjmlMatrixProviderTest {
                 {6, -1, 5},
         });
 
-        Exception e = assertThrows(UnsupportedOperationException.class, () -> matrix.minor(0,0));
+        Exception e = assertThrows(UnsupportedOperationException.class, () -> matrix.minor(0, 0));
         assertEquals("EjmlMatrixWrapper doesn't directly support minor calculation", e.getMessage());
     }
 
@@ -394,7 +394,7 @@ class EjmlMatrixProviderTest {
                 {6, -1, 5},
         });
 
-        Exception e = assertThrows(UnsupportedOperationException.class, () -> matrix.cofactor(0,0));
+        Exception e = assertThrows(UnsupportedOperationException.class, () -> matrix.cofactor(0, 0));
         assertEquals("EjmlMatrixWrapper doesn't directly support cofactor calculation", e.getMessage());
     }
 
@@ -538,8 +538,36 @@ class EjmlMatrixProviderTest {
     }
 
     @Test
-    void mulTDifferentSizes() {
-        fail("Implement!");
+    void mulTuple4() {
+        var expectedTuple = Tuple.tuple(18, 24, 33, 1);
+        var matrix1 = NaiveMatrixProvider.get(new double[][]{
+                {1, 2, 3, 4},
+                {2, 4, 4, 2},
+                {8, 6, 4, 1},
+                {0, 0, 0, 1},
+        });
+
+        var tuple = Tuple.tuple(1, 2, 3, 1);
+
+        var result = matrix1.mulT(tuple);
+
+        assertEquals(expectedTuple, result);
+    }
+
+    @Test
+    void mulTuple3() {
+        var expectedTuple = Tuple.tuple(14, 22, 32, 1);
+        var matrix1 = NaiveMatrixProvider.get(new double[][]{
+                {1, 2, 3},
+                {2, 4, 4},
+                {8, 6, 4}
+        });
+
+        var tuple = Tuple.tuple(1, 2, 3, 1);
+
+        var result = matrix1.mulT(tuple);
+
+        assertEquals(expectedTuple, result);
     }
 
     @Test

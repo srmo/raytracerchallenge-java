@@ -3,7 +3,7 @@ package org.schakalacka.java.raytracing.scene;
 import org.junit.jupiter.api.Test;
 import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MaterialTest {
 
@@ -67,13 +67,24 @@ class MaterialTest {
 
     @Test
     void lightingLightBehindSurface() {
-        var eyeVector = Tuple.vector(0,0,-1);
+        var eyeVector = Tuple.vector(0, 0, -1);
         var normalVector = Tuple.vector(0, 0, -1);
-        var light = new PointLight(Tuple.point(0,0,10), new Color(1, 1, 1));
+        var light = new PointLight(Tuple.point(0, 0, 10), new Color(1, 1, 1));
 
         var result = defaultMaterial.lighting(light, defaultPosition, eyeVector, normalVector);
 
-        assertEquals(new Color(0.1,0.1,0.1), result);
+        assertEquals(new Color(0.1, 0.1, 0.1), result);
+    }
+
+    @Test
+    void lightingSurfaceInShadow() {
+        var eyeVector = Tuple.vector(0, 0, -1);
+        var normalVector = Tuple.vector(0, 0, -1);
+        var light = new PointLight(Tuple.point(0, 0, -10), new Color(1, 1, 1));
+
+        Color lighting = defaultMaterial.lighting(light, defaultPosition, eyeVector, normalVector, true);
+
+        assertEquals(new Color(0.1, 0.1, 0.1), lighting);
     }
 
 }

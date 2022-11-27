@@ -1,8 +1,8 @@
 package org.schakalacka.java.raytracing.scene;
 
-import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
+import org.schakalacka.java.raytracing.geometry.algebra.RTPoint;
 
-public record PointLight(Tuple position, Color intensity) {
+public record PointLight(RTPoint position, Color intensity) {
 
     @Override
     public boolean equals(Object o) {

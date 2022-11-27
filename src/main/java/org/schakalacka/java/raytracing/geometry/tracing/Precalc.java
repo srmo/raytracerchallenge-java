@@ -3,6 +3,8 @@ package org.schakalacka.java.raytracing.geometry.tracing;
 import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
 import org.schakalacka.java.raytracing.geometry.objects.GeometryObject;
 
+import static org.schakalacka.java.raytracing.Constants.SHADOW_EPSILON;
+
 public class Precalc {
 
 
@@ -12,6 +14,7 @@ public class Precalc {
     private final Tuple eyeVector;
     private final Tuple normalVector;
     private final boolean inside;
+    private final Tuple overPoint;
 
     public Precalc(Intersection intersection, Ray ray) {
         distance = intersection.getDistance();
@@ -26,6 +29,8 @@ public class Precalc {
             this.inside = false;
             this.normalVector = object.normalVectorAt(point);
         }
+
+        overPoint = point.add(normalVector.mul(SHADOW_EPSILON));
     }
 
     public double getDistance() {
@@ -50,5 +55,9 @@ public class Precalc {
 
     public boolean inside() {
         return inside;
+    }
+
+    public Tuple getOverPoint() {
+        return overPoint;
     }
 }

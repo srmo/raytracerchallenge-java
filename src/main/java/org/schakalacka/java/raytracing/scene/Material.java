@@ -9,6 +9,10 @@ public record Material(Color color, double ambient, double diffuse, double specu
     }
 
     public Color lighting(PointLight light, Tuple eyePosition, Tuple eyeVector, Tuple normalVector) {
+        return this.lighting(light, eyePosition, eyeVector, normalVector, false);
+    }
+
+    public Color lighting(PointLight light, Tuple eyePosition, Tuple eyeVector, Tuple normalVector, boolean isInShadow) {
         Color ambientResult;
         Color diffuseResult;
         Color specularResult;
@@ -19,7 +23,9 @@ public record Material(Color color, double ambient, double diffuse, double specu
         var lightVector = light.position().sub(eyePosition).normalize();
 
         ambientResult = effectiveColor.mulS(this.ambient);
-
+        if (isInShadow) {
+            return ambientResult;
+        }
 
         // lightDotNormal: the cosine of the angle between light vector and normal vector
         // a negative value means the light is on the other side of surface!

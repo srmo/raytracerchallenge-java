@@ -2,7 +2,7 @@ package org.schakalacka.java.raytracing.geometry.algebra;
 
 import java.util.Objects;
 
-import static org.schakalacka.java.raytracing.Constants.EPSILON;
+import static org.schakalacka.java.raytracing.Constants.EQUALS_EPSILON;
 
 // TODO refactor this into an interface and make point and vector first class citizens
 public class Tuple {
@@ -128,10 +128,10 @@ public class Tuple {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj instanceof Tuple that) {
-            return Math.abs(this.x() - that.x()) < EPSILON &&
-                    Math.abs(this.y() - that.y()) < EPSILON &&
-                    Math.abs(this.z() - that.z()) < EPSILON &&
-                    Math.abs(this.w() - that.w()) < EPSILON;
+            return Math.abs(this.x() - that.x()) < EQUALS_EPSILON &&
+                    Math.abs(this.y() - that.y()) < EQUALS_EPSILON &&
+                    Math.abs(this.z() - that.z()) < EQUALS_EPSILON &&
+                    Math.abs(this.w() - that.w()) < EQUALS_EPSILON;
         }
 
         return false;

@@ -66,6 +66,25 @@ class WorldTest {
     }
 
     @Test
+    void shadeIntersectionInShader() {
+        var world = new World();
+        world.setLightSource(new PointLight(Tuple.point(0,0,-10), new Color(1,1,1)));
+        var sphere1 = new Sphere();
+        var sphere2 = new Sphere();
+        sphere2.setTransformationMatrix(MatrixProvider.translation(0,0,10));
+
+        world.addObjects(sphere1, sphere2);
+
+        var ray = new Ray(Tuple.point(0,0,5), Tuple.vector(0,0,1));
+        var intersection = new Intersection(sphere2, 4);
+
+        var precalcs = new Precalc(intersection, ray);
+        var shadeHit = world.shade_hit(precalcs);
+
+        assertEquals(new Color(0.1,0.1,0.1), shadeHit);
+    }
+
+    @Test
     void shadeIntersectionInside() {
         var world = World.getDefault();
         world.setLightSource(new PointLight(Tuple.point(0, 0.25, 0), new Color(1, 1, 1)));
@@ -114,6 +133,38 @@ class WorldTest {
         var color = world.color_at(ray);
 
         assertEquals(inner.material().color(), color);
+    }
+
+    @Test
+    void noShadowWhenNothingIsCollinearWithPointAndLight() {
+        var world = World.getDefault();
+        var point = Tuple.point(0, 10, 0);
+
+        assertFalse(world.isShadowed(point));
+    }
+
+    @Test
+    void isShadowWhenObjectBetweenPointAndLight() {
+        var world = World.getDefault();
+        var point = Tuple.point(10, -10, 10);
+
+        assertTrue(world.isShadowed(point));
+    }
+
+    @Test
+    void noShadowWhenObjectBehindPointAndLight() {
+        var world = World.getDefault();
+        var point = Tuple.point(-20, 20, -20);
+
+        assertFalse(world.isShadowed(point));
+    }
+
+    @Test
+    void noShadowWhenObjectBehindPoint() {
+        var world = World.getDefault();
+        var point = Tuple.point(-2, 2, -2);
+
+        assertFalse(world.isShadowed(point));
     }
 
 

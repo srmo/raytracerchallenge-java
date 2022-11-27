@@ -28,14 +28,14 @@ class CameraTest {
     void pixelSizeForHorizontalCanvas() {
         var camera = new Camera(200, 125, Math.PI / 2);
 
-        assertEquals(0.01, camera.getPixelSize(), Constants.EPSILON);
+        assertEquals(0.01, camera.getPixelSize(), Constants.EQUALS_EPSILON);
     }
 
     @Test
     void pixelSizeForVerticalCanvas() {
         var camera = new Camera(125, 200, Math.PI / 2);
 
-        assertEquals(0.01, camera.getPixelSize(), Constants.EPSILON);
+        assertEquals(0.01, camera.getPixelSize(), Constants.EQUALS_EPSILON);
     }
 
     @Test

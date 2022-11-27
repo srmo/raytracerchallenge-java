@@ -10,6 +10,10 @@ public class RTPoint extends Tuple {
         throw new ArithmeticException("Can't add two points");
     }
 
+    public RTVector sub(RTPoint that) {
+        return Tuple.vector(this.x() - that.x(), this.y() - that.y(), this.z() - that.z());
+    }
+
     @Override
     public Tuple cross(Tuple that) {
         throw new ArithmeticException("Point doesn't allow cross-product");

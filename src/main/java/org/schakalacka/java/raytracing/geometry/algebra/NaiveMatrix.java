@@ -46,7 +46,7 @@ public class NaiveMatrix implements Matrix {
             if (e1 == e2)
                 continue;
 
-            if (Math.abs(e1 - e2) >= Constants.EPSILON)
+            if (Math.abs(e1 - e2) >= Constants.EQUALS_EPSILON)
                 return false;
         }
         return true;
