@@ -4,6 +4,7 @@ import org.schakalacka.java.raytracing.PPMExporter;
 import org.schakalacka.java.raytracing.geometry.algebra.MatrixProvider;
 import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
 import org.schakalacka.java.raytracing.geometry.objects.Sphere;
+import org.schakalacka.java.raytracing.geometry.patterns.StripePattern;
 import org.schakalacka.java.raytracing.scene.*;
 import org.schakalacka.java.raytracing.world.ViewTransformation;
 import org.schakalacka.java.raytracing.world.World;
@@ -13,6 +14,9 @@ public class RenderWorld {
 
 
     public static void main(String[] args) {
+        StripePattern pattern = new StripePattern(new Color(0.1, 0.5, 0.5), new Color(0.5, 0.1, 0.5));
+        pattern.setTransformationMatrix(MatrixProvider.rotationY(Math.PI/4).mulM(MatrixProvider.scaling(-0.2,-0.2,-0.2)));
+
         var floor = new Sphere();
         floor.setTransformationMatrix(MatrixProvider.scaling(10, 0.01, 10));
         floor.setMaterial(Material.newMaterial().color(new Color(1, 0.9, 0.9)).specular(0).create());
@@ -42,6 +46,7 @@ public class RenderWorld {
                 .color(new Color(0.1, 1, 0.5))
                 .diffuse(0.7)
                 .specular(0.3)
+                .pattern(pattern)
                 .create());
 
         var rightSphere = new Sphere();
@@ -50,6 +55,7 @@ public class RenderWorld {
                 .color(new Color(0.5, 1, 0.1))
                 .diffuse(0.7)
                 .specular(0.3)
+                .pattern(pattern)
                 .create());
 
         var leftSphere = new Sphere();
@@ -58,6 +64,7 @@ public class RenderWorld {
                 .color(new Color(1, 0.2, 0.1))
                 .diffuse(0.7)
                 .specular(0.3)
+                .pattern(pattern)
                 .create());
 
         var world = new World();

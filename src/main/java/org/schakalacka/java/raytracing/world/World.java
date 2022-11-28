@@ -76,6 +76,7 @@ public class World {
         // TODO add iteration over multiple light sources here
         return precalc.getObject().material().lighting(
                 this.lightSource,
+                precalc.getObject(),
                 precalc.getOverPoint(),
                 precalc.getEyeVector(),
                 precalc.getNormalVector(),
@@ -98,7 +99,7 @@ public class World {
         List<Intersection> intersections = intersect(r);
         Intersection hit = IntersectionTracker.getHit(intersections);
 
-        // we have a hit when it occurs on the way from the point to the lightsource.
+        // we have a hit when it occurs on the way from the point to the light-source.
         return hit != null && hit.getDistance() < distancePointToLight;
     }
 

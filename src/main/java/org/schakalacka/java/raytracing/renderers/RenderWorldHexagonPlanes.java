@@ -47,7 +47,7 @@ public class RenderWorldHexagonPlanes {
         //floors.add(floor4);
 
         var middleSphere = new Sphere();
-        middleSphere.setTransformationMatrix(MatrixProvider.translation(-0.5, 1, 0.5));
+        middleSphere.setTransformationMatrix(MatrixProvider.translation(-0.5, -0.5, 0.5));
         middleSphere.setMaterial(Material.newMaterial()
                 .color(new Color(0.1, 1, 0.5))
                 .diffuse(0.7)
