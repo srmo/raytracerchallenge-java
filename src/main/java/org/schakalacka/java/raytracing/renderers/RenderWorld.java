@@ -4,6 +4,8 @@ import org.schakalacka.java.raytracing.PPMExporter;
 import org.schakalacka.java.raytracing.geometry.algebra.MatrixProvider;
 import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
 import org.schakalacka.java.raytracing.geometry.objects.Sphere;
+import org.schakalacka.java.raytracing.geometry.patterns.GradientPattern;
+import org.schakalacka.java.raytracing.geometry.patterns.Pattern;
 import org.schakalacka.java.raytracing.geometry.patterns.StripePattern;
 import org.schakalacka.java.raytracing.scene.*;
 import org.schakalacka.java.raytracing.world.ViewTransformation;
@@ -14,8 +16,8 @@ public class RenderWorld {
 
 
     public static void main(String[] args) {
-        StripePattern pattern = new StripePattern(new Color(0.1, 0.5, 0.5), new Color(0.5, 0.1, 0.5));
-        pattern.setTransformationMatrix(MatrixProvider.rotationY(Math.PI/4).mulM(MatrixProvider.scaling(-0.2,-0.2,-0.2)));
+        Pattern pattern = new GradientPattern(new Color(1, 0.1, 0.1), new Color(1, 1, 0.1));
+        pattern.setTransformationMatrix(MatrixProvider.rotationY(Math.PI/4));
 
         var floor = new Sphere();
         floor.setTransformationMatrix(MatrixProvider.scaling(10, 0.01, 10));
