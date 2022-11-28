@@ -3,7 +3,7 @@ package org.schakalacka.java.raytracing.geometry.tracing;
 import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
 import org.schakalacka.java.raytracing.geometry.objects.Shape;
 
-import static org.schakalacka.java.raytracing.Constants.SHADOW_EPSILON;
+import static org.schakalacka.java.raytracing.Constants.SHAPE_POINT_OFFSET_EPSILON;
 
 public class Precalc {
 
@@ -30,7 +30,7 @@ public class Precalc {
             this.normalVector = object.normalVectorAt(point);
         }
 
-        overPoint = point.add(normalVector.mul(SHADOW_EPSILON));
+        overPoint = point.add(normalVector.mul(SHAPE_POINT_OFFSET_EPSILON));
     }
 
     public double getDistance() {

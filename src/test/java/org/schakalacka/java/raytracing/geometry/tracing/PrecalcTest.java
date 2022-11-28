@@ -6,7 +6,7 @@ import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
 import org.schakalacka.java.raytracing.geometry.objects.Sphere;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.schakalacka.java.raytracing.Constants.SHADOW_EPSILON;
+import static org.schakalacka.java.raytracing.Constants.SHAPE_POINT_OFFSET_EPSILON;
 
 class PrecalcTest {
 
@@ -59,7 +59,7 @@ class PrecalcTest {
 
         var precalc = new Precalc(intersection, ray);
 
-        assertTrue(precalc.getOverPoint().z() < -SHADOW_EPSILON /2);
+        assertTrue(precalc.getOverPoint().z() < -SHAPE_POINT_OFFSET_EPSILON /2);
         assertTrue(precalc.getPoint().z() > precalc.getOverPoint().z());
 
     }
