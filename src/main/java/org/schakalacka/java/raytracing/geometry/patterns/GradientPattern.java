@@ -3,6 +3,7 @@ package org.schakalacka.java.raytracing.geometry.patterns;
 import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
 import org.schakalacka.java.raytracing.scene.Color;
 
+// TODO go wild with gradients! For example, how to wrap-around a gradient? https://stackoverflow.com/questions/22607043/color-gradient-algorithm
 public class GradientPattern extends Pattern {
 
     private final Color a;

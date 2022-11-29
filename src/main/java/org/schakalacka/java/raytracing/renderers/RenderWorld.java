@@ -4,9 +4,8 @@ import org.schakalacka.java.raytracing.PPMExporter;
 import org.schakalacka.java.raytracing.geometry.algebra.MatrixProvider;
 import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
 import org.schakalacka.java.raytracing.geometry.objects.Sphere;
-import org.schakalacka.java.raytracing.geometry.patterns.GradientPattern;
 import org.schakalacka.java.raytracing.geometry.patterns.Pattern;
-import org.schakalacka.java.raytracing.geometry.patterns.StripePattern;
+import org.schakalacka.java.raytracing.geometry.patterns.RingPattern;
 import org.schakalacka.java.raytracing.scene.*;
 import org.schakalacka.java.raytracing.world.ViewTransformation;
 import org.schakalacka.java.raytracing.world.World;
@@ -16,8 +15,8 @@ public class RenderWorld {
 
 
     public static void main(String[] args) {
-        Pattern pattern = new GradientPattern(new Color(1, 0.1, 0.1), new Color(1, 1, 0.1));
-        pattern.setTransformationMatrix(MatrixProvider.rotationY(Math.PI/4));
+        Pattern pattern = new RingPattern(Color.WHITE, Color.BLACK);
+        pattern.setTransformationMatrix(MatrixProvider.scaling(0.2, 0.2, 0.2).mulM(MatrixProvider.rotationZ(Math.toRadians(65))));
 
         var floor = new Sphere();
         floor.setTransformationMatrix(MatrixProvider.scaling(10, 0.01, 10));
@@ -43,7 +42,7 @@ public class RenderWorld {
 
 
         var middleSphere = new Sphere();
-        middleSphere.setTransformationMatrix(MatrixProvider.translation(-0.5, 1, 0.5));
+        middleSphere.setTransformationMatrix(MatrixProvider.translation(-0.5, 1, 0.5).mulM(MatrixProvider.rotationY(Math.toRadians(-80))));
         middleSphere.setMaterial(Material.newMaterial()
                 .color(new Color(0.1, 1, 0.5))
                 .diffuse(0.7)
@@ -57,7 +56,6 @@ public class RenderWorld {
                 .color(new Color(0.5, 1, 0.1))
                 .diffuse(0.7)
                 .specular(0.3)
-                .pattern(pattern)
                 .create());
 
         var leftSphere = new Sphere();
@@ -66,15 +64,16 @@ public class RenderWorld {
                 .color(new Color(1, 0.2, 0.1))
                 .diffuse(0.7)
                 .specular(0.3)
-                .pattern(pattern)
                 .create());
 
         var world = new World();
         world.setLightSource(new PointLight(Tuple.point(-10, 20, -10), new Color(0.8, 0.8, 0.8)));
         world.addObjects(floor, leftWall, rightWall, leftSphere, middleSphere, rightSphere);
 
-        var width = 500;
-        var height = 250;
+        // 4K 2,160 pixels tall and 3,840
+        // FHD 1,920 x 1,080 pixels
+        var width = 1920;
+        var height = 1080;
 
         var camera = new Camera(width, height, Math.PI / 3);
         camera.setTransformationMatrix(ViewTransformation
@@ -99,6 +98,7 @@ public class RenderWorld {
         PPMExporter.export(canvas, "chapter7_%dx%d_chunks_%d_Matrix_%s.ppm".formatted(width, height, parallelChunks, MatrixProvider.MT), 255);
         long exportEnd = System.currentTimeMillis();
         Logger.info("Export took {}ms", (exportEnd - exportStart));
+        Logger.info("pattern call: {} / {}", RingPattern.countA, RingPattern.countB);
     }
 
 

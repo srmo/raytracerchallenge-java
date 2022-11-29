@@ -23,11 +23,7 @@ public record Material(Color color, double ambient, double diffuse, double specu
         Color actualBaseColor = this.color;
         // when we have a pattern, use the patterns color and if we have a shape, make sure to get the pattern on the shape
         if (this.pattern != null) {
-            if (shape != null) {
-                actualBaseColor = this.pattern.patternAtShape(shape, eyePosition);
-            } else {
-                actualBaseColor = this.pattern.patternAt(eyePosition);
-            }
+            actualBaseColor = this.pattern.patternAtShape(shape, eyePosition);
         }
 
         var effectiveColor = actualBaseColor.mulC(light.intensity());
