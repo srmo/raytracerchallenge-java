@@ -3,8 +3,13 @@ package org.schakalacka.java.raytracing.renderers;
 import org.schakalacka.java.raytracing.PPMExporter;
 import org.schakalacka.java.raytracing.geometry.algebra.MatrixProvider;
 import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
+import org.schakalacka.java.raytracing.geometry.algebra.UVMapping;
 import org.schakalacka.java.raytracing.geometry.objects.Plane;
 import org.schakalacka.java.raytracing.geometry.objects.Sphere;
+import org.schakalacka.java.raytracing.geometry.patterns.CheckerPattern;
+import org.schakalacka.java.raytracing.geometry.patterns.Pattern;
+import org.schakalacka.java.raytracing.geometry.patterns.TextureMap;
+import org.schakalacka.java.raytracing.geometry.patterns.UVCheckerPattern;
 import org.schakalacka.java.raytracing.scene.*;
 import org.schakalacka.java.raytracing.world.ViewTransformation;
 import org.schakalacka.java.raytracing.world.World;
@@ -14,12 +19,30 @@ public class RenderWorldWithPlanes {
 
 
     public static void main(String[] args) {
-        var floor = new Plane();
-        floor.setMaterial(Material.newMaterial().color(new Color(1, 0.9, 0.9)).ambient(0.5).specular(0).create());
 
-        var backDrop = new Plane();
-        backDrop.setTransformationMatrix(MatrixProvider.translation(0, 0, 5).mulM(MatrixProvider.rotationX(Math.PI / 2)));
-        backDrop.setMaterial(Material.newMaterial().color(new Color(0.9, 0.5, 0.5)).ambient(0.5).diffuse(0.8).create());
+        Pattern patternRedWhite = new TextureMap(new UVCheckerPattern(20, 10, new Color(.6, .2, .2), Color.WHITE), new UVMapping());
+
+
+        var floor = new Plane();
+        CheckerPattern floorPattern = new CheckerPattern(new Color(0.3,0.3,0.3), Color.WHITE);
+        floorPattern.setTransformationMatrix(MatrixProvider.rotationY(Math.toRadians(45)));
+
+        floor.setMaterial(Material.newMaterial().color(new Color(1, 0.9, 0.9)).ambient(0.5).pattern(floorPattern).specular(0).create());
+
+        var backDrop1 = new Plane();
+        backDrop1.setTransformationMatrix(MatrixProvider.translation(0, 0, 5)
+                .mulM(MatrixProvider.rotationY(-Math.PI / 4))
+                .mulM(MatrixProvider.rotationX(Math.PI / 2))
+        );
+        backDrop1.setMaterial(Material.newMaterial().color(new Color(1, 0.9, 0.9)).ambient(0.5).diffuse(0.8).create());
+
+        var backDrop2 = new Plane();
+        backDrop2.setTransformationMatrix(MatrixProvider.translation(0, 0, 5)
+                .mulM(MatrixProvider.rotationY(Math.PI / 4))
+                .mulM(MatrixProvider.rotationX(Math.PI / 2))
+        );
+
+        backDrop2.setMaterial(Material.newMaterial().color(new Color(1, 0.9, 0.9)).ambient(0.5).diffuse(0.8).create());
 
         var middleSphere = new Sphere();
         middleSphere.setTransformationMatrix(MatrixProvider.translation(-0.5, 1, 0.5));
@@ -27,6 +50,7 @@ public class RenderWorldWithPlanes {
                 .color(new Color(0.1, 1, 0.5))
                 .diffuse(0.7)
                 .specular(0.3)
+                .pattern(patternRedWhite)
                 .create());
 
         var rightSphere = new Sphere();
@@ -46,8 +70,8 @@ public class RenderWorldWithPlanes {
                 .create());
 
         var world = new World();
-        world.setLightSource(new PointLight(Tuple.point(-10, 10, -10), new Color(0.8, 0.8, 0.8)));
-        world.addObjects(floor, backDrop, leftSphere, middleSphere, rightSphere);
+        world.setLightSource(new PointLight(Tuple.point(-10, 20, -10), new Color(0.8, 0.8, 0.8)));
+        world.addObjects(floor, backDrop1, backDrop2, leftSphere, middleSphere, rightSphere);
 
         var width = 500;
         var height = 250;

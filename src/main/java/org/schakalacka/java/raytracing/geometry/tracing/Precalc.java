@@ -14,6 +14,10 @@ public class Precalc {
     private final Tuple eyeVector;
     private final Tuple normalVector;
     private final boolean inside;
+
+    // a special point slightly lifted above some surface
+    // reason: due to floating point rounding errors, the points for reflection, shadow etc
+    // might end up 'below' a surface.
     private final Tuple overPoint;
 
     public Precalc(Intersection intersection, Ray ray) {
