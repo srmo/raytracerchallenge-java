@@ -4,6 +4,7 @@ import org.ejml.data.DMatrixRMaj;
 import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.dense.row.mult.MatrixVectorMult_DDRM;
 import org.schakalacka.java.raytracing.Constants;
+import org.schakalacka.java.raytracing.Counter;
 
 import java.util.Arrays;
 
@@ -27,6 +28,8 @@ public class EjmlMatrixWrapper implements Matrix {
 
     @Override
     public Matrix mulM(Matrix that) {
+        Counter.mulM++;
+
         DMatrixRMaj result = new DMatrixRMaj();
         DMatrixRMaj mult = CommonOps_DDRM.mult(this.wrappedMatrix, ((EjmlMatrixWrapper) that).wrappedMatrix, result);
         return new EjmlMatrixWrapper(mult);
@@ -34,7 +37,7 @@ public class EjmlMatrixWrapper implements Matrix {
 
     @Override
     public Tuple mulT(Tuple vector) {
-
+        Counter.mulT++;
         DMatrixRMaj resultVector = new DMatrixRMaj(this.wrappedMatrix.numCols);
 
         // ejml requires the vector and matrix to have the same size, i.e. if the vector has length N, the matrix also needs to be of size NxN
@@ -61,28 +64,32 @@ public class EjmlMatrixWrapper implements Matrix {
 
     @Override
     public Matrix transpose() {
+        Counter.transpose++;
         DMatrixRMaj transpose = CommonOps_DDRM.transpose(this.wrappedMatrix, null);
         return new EjmlMatrixWrapper(transpose);
     }
 
     @Override
     public double determinant() {
-        return CommonOps_DDRM.det(this.wrappedMatrix);
+        Counter.determinant++; return CommonOps_DDRM.det(this.wrappedMatrix);
     }
 
     @Override
     public Matrix subM(int r, int c) {
+        Counter.subM++;
         DMatrixRMaj extract = CommonOps_DDRM.extract(this.wrappedMatrix, 0, c, 0, r);
         return new EjmlMatrixWrapper(extract);
     }
 
     @Override
     public double minor(int r, int c) {
+        Counter.minor++;
         throw new UnsupportedOperationException("EjmlMatrixWrapper doesn't directly support minor calculation");
     }
 
     @Override
     public double cofactor(int r, int c) {
+        Counter.cofactor++;
         throw new UnsupportedOperationException("EjmlMatrixWrapper doesn't directly support cofactor calculation");
     }
 
@@ -93,6 +100,7 @@ public class EjmlMatrixWrapper implements Matrix {
 
     @Override
     public Matrix inverse() {
+        Counter.inverse++;
         if (!isInvertible()) {
             throw new ArithmeticException("Matrix not invertible");
         }

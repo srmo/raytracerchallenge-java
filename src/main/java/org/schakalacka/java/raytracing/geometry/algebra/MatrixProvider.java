@@ -1,5 +1,7 @@
 package org.schakalacka.java.raytracing.geometry.algebra;
 
+import org.schakalacka.java.raytracing.Counter;
+
 public class MatrixProvider {
 
     public enum MATRIX_TYPE {
@@ -50,6 +52,7 @@ public class MatrixProvider {
      * create a translation matrix. It is a 4x4 identity matrix, where the last colum is populated with the 3 values.
      */
     public static Matrix translation(double x, double y, double z) {
+        Counter.translate++;
         switch (MT) {
             case NAIVE -> {
                 return NaiveMatrixProvider.translation(x, y, z);
@@ -61,6 +64,7 @@ public class MatrixProvider {
         }    }
 
     public static Matrix scaling(double x, double y, double z) {
+        Counter.scale++;
         switch (MT) {
             case NAIVE -> {
                 return NaiveMatrixProvider.scaling(x, y, z);
@@ -76,6 +80,7 @@ public class MatrixProvider {
      * @return a left-handed rotation matrix along the X axis
      */
     public static Matrix rotationX(double radians) {
+        Counter.rotX++;
         switch (MT) {
             case NAIVE -> {
                 return NaiveMatrixProvider.rotationX(radians);
@@ -91,6 +96,7 @@ public class MatrixProvider {
      * @return a left-handed rotation matrix along the Y axis
      */
     public static Matrix rotationY(double radians) {
+        Counter.rotY++;
         switch (MT) {
             case NAIVE -> {
                 return NaiveMatrixProvider.rotationY(radians);
@@ -103,6 +109,7 @@ public class MatrixProvider {
     }
 
     public static Matrix rotationZ(double radians) {
+        Counter.rotZ++;
         switch (MT) {
             case NAIVE -> {
                 return NaiveMatrixProvider.rotationZ(radians);
@@ -115,6 +122,7 @@ public class MatrixProvider {
     }
 
     public static Matrix shearing(double xy, double xz, double yx, double yz, double zx, double zy) {
+        Counter.shear++;
         switch (MT) {
             case NAIVE -> {
                 return NaiveMatrixProvider.shearing(xy, xz, yx, yz, zx, zy);

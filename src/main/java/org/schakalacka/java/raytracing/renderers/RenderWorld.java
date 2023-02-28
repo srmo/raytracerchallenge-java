@@ -1,5 +1,6 @@
 package org.schakalacka.java.raytracing.renderers;
 
+import org.schakalacka.java.raytracing.Counter;
 import org.schakalacka.java.raytracing.PPMExporter;
 import org.schakalacka.java.raytracing.geometry.algebra.MatrixProvider;
 import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
@@ -105,6 +106,7 @@ public class RenderWorld {
         long exportEnd = System.currentTimeMillis();
         Logger.info("Export took {}ms", (exportEnd - exportStart));
         Logger.info("patternRedWhite call: {} / {}", RingPattern.countA, RingPattern.countB);
+        Logger.info("Counter : {} ", new Counter().toString());
     }
 
 
