@@ -79,8 +79,8 @@ public class RenderWorld {
 
         // 4K 2,160 pixels tall and 3,840
         // FHD 1,920 x 1,080 pixels
-        var width = 1920;
-        var height = 1080;
+        var width = 800;
+        var height = 600;
 
         var camera = new Camera(width, height, Math.PI / 3);
         camera.setTransformationMatrix(ViewTransformation

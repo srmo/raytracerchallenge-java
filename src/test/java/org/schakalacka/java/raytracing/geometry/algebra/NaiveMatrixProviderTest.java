@@ -506,9 +506,9 @@ class NaiveMatrixProviderTest {
 
         assertEquals(532, determinant);
         assertEquals(-160, cofactor23);
-        assertEquals((double) -160 / 532, inverse32);
+        assertEquals((float) -160 / 532, inverse32);
         assertEquals(105, cofactor32);
-        assertEquals((double) 105 / 532, inverse23);
+        assertEquals((float) 105 / 532, inverse23);
         assertEquals(expectedInverse, inverse);
     }
 
@@ -655,8 +655,8 @@ class NaiveMatrixProviderTest {
 
         assertTrue(scaledVector.isVector());
         assertEquals(-2, scaledVector.x());
-        assertEquals(2, scaledVector.y());
-        assertEquals(2, scaledVector.z());
+        assertEquals((float) 2, scaledVector.y());
+        assertEquals((float) 2, scaledVector.z());
     }
 
     @Test

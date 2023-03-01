@@ -11,6 +11,7 @@ public class MatrixProvider {
 
 
     public static MATRIX_TYPE MT = MATRIX_TYPE.EJML;
+//    public static MATRIX_TYPE MT = MATRIX_TYPE.NAIVE;
 
     public static Matrix get(double[][] ref) {
         switch (MT) {

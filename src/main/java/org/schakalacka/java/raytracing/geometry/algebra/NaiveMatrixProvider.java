@@ -1,5 +1,7 @@
 package org.schakalacka.java.raytracing.geometry.algebra;
 
+import org.schakalacka.java.raytracing.Counter;
+
 class NaiveMatrixProvider {
     
     
@@ -34,6 +36,7 @@ class NaiveMatrixProvider {
      * create a translation matrix. It is a 4x4 identity matrix, where the last colum is populated with the 3 values.
      */
     static Matrix translation(double x, double y, double z) {
+        Counter.translate++;
         Matrix result = NaiveMatrixProvider.get(4, true);
         result.set(0, 3, x);
         result.set(1, 3, y);
@@ -47,6 +50,7 @@ class NaiveMatrixProvider {
     }
 
     static Matrix scaling(double x, double y, double z) {
+        Counter.scale++;
         Matrix result = NaiveMatrixProvider.get(4, false);
         result.set(0, 0, x);
         result.set(1, 1, y);
@@ -65,6 +69,7 @@ class NaiveMatrixProvider {
      * @return a left-handed rotation matrix along the X axis
      */
     static Matrix rotationX(double radians) {
+        Counter.rotX++;
         Matrix result = NaiveMatrixProvider.get(4, true);
         result.set(1, 1, Math.cos(radians));
         result.set(1, 2, -Math.sin(radians));
@@ -84,6 +89,7 @@ class NaiveMatrixProvider {
      * @return a left-handed rotation matrix along the Y axis
      */
     static Matrix rotationY(double radians) {
+        Counter.rotY++;
         Matrix result = NaiveMatrixProvider.get(4, true);
         result.set(0, 0, Math.cos(radians));
         result.set(0, 1, 0);
@@ -111,6 +117,7 @@ class NaiveMatrixProvider {
     }
 
     static Matrix rotationZ(double radians) {
+        Counter.rotZ++;
         Matrix result = NaiveMatrixProvider.get(4, true);
         result.set(0, 0, Math.cos(radians));
         result.set(0, 1, -Math.sin(radians));
@@ -127,6 +134,7 @@ class NaiveMatrixProvider {
     }
 
     static Matrix shearing(double xy, double xz, double yx, double yz, double zx, double zy) {
+        Counter.shear++;
         Matrix result = NaiveMatrixProvider.get(4, true);
         result.set(0, 1, xy);
         result.set(0, 2, xz);

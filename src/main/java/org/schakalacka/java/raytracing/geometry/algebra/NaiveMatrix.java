@@ -1,6 +1,7 @@
 package org.schakalacka.java.raytracing.geometry.algebra;
 
 import org.schakalacka.java.raytracing.Constants;
+import org.schakalacka.java.raytracing.Counter;
 
 import java.util.Arrays;
 
@@ -11,11 +12,11 @@ public class NaiveMatrix implements Matrix {
     /***
      * row-column. mapped 2d-array to 1d
      */
-    private final double[] matrix;
+    private final float[] matrix;
 
     NaiveMatrix(int size) {
         this.size = size;
-        this.matrix = new double[size * size];
+        this.matrix = new float[size * size];
     }
 
 
@@ -26,7 +27,7 @@ public class NaiveMatrix implements Matrix {
 
     @Override
     public void set(int row, int col, double val) {
-        this.matrix[row * size + col] = val;
+        this.matrix[row * size + col] = (float) val;
     }
 
     @Override
@@ -70,6 +71,7 @@ public class NaiveMatrix implements Matrix {
      */
     @Override
     public Matrix mulM(Matrix that) {
+        Counter.mulM++;
         NaiveMatrix result = new NaiveMatrix(this.size);
 
         for (int r = 0; r < this.size; r++) {
@@ -88,12 +90,12 @@ public class NaiveMatrix implements Matrix {
 
     @Override
     public Tuple mulT(Tuple that) {
-
-        double x = 0;
+        Counter.mulT++;
+        float x = 0;
         for (int i = 0; i < this.size; i++) {
             x += this.get(0, i) * that.get(i);
         }
-        double y = 0;
+        float y = 0;
         for (int i = 0; i < this.size; i++) {
             y += this.get(1, i) * that.get(i);
         }
@@ -101,9 +103,9 @@ public class NaiveMatrix implements Matrix {
         for (int i = 0; i < this.size; i++) {
             z += this.get(2, i) * that.get(i);
         }
-        double w = 0;
+        float w = 0;
         if (this.size <= 3) {
-            w = that.w();
+            w = (float) that.w();
         } else {
             for (int i = 0; i < this.size; i++) {
                 w += this.get(3, i) * that.get(i);
@@ -115,6 +117,7 @@ public class NaiveMatrix implements Matrix {
 
     @Override
     public Matrix transpose() {
+        Counter.transpose++;
         final NaiveMatrix m = new NaiveMatrix(this.size);
 
         for (int i = 0; i < this.size; i++) {
@@ -128,6 +131,7 @@ public class NaiveMatrix implements Matrix {
 
     @Override
     public double determinant() {
+        Counter.determinant++;
         double determinant = 0;
         if (this.size == 2) {
             determinant = this.get(0, 0) * this.get(1, 1) - this.get(0, 1) * this.get(1, 0);
@@ -141,6 +145,7 @@ public class NaiveMatrix implements Matrix {
 
     @Override
     public Matrix subM(int r, int c) {
+        Counter.subM++;
         final NaiveMatrix m = new NaiveMatrix(this.size - 1);
 
         int targetRow = 0;
@@ -162,6 +167,7 @@ public class NaiveMatrix implements Matrix {
 
     @Override
     public double minor(int r, int c) {
+        Counter.minor++;
         return this.subM(r, c).determinant();
     }
 
@@ -170,17 +176,20 @@ public class NaiveMatrix implements Matrix {
      */
     @Override
     public double cofactor(int r, int c) {
+        Counter.cofactor++;
         int factor = (r + c) % 2 == 0 ? 1 : -1;
         return minor(r, c) * factor;
     }
 
     @Override
     public boolean isInvertible() {
+        Counter.isInvertible++;
         return determinant() != 0;
     }
 
     @Override
     public Matrix inverse() {
+        Counter.inverse++;
         if (!isInvertible()) {
             throw new ArithmeticException("Matrix not invertible");
         }
