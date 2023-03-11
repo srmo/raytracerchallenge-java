@@ -1,6 +1,7 @@
-package org.schakalacka.java.raytracing.geometry.algebra;
+package org.schakalacka.java.raytracing.math;
 
 import org.junit.jupiter.api.Test;
+import org.schakalacka.java.raytracing.Constants;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,12 +10,12 @@ class RTPointTest {
 
     @Test
     void pointIsPoint() {
-        var tuple = Tuple.point(4.3, -4.2, 3.1);
+        var tuple = Tuple.point(4.3f, -4.2f, 3.1f);
 
-        assertEquals(4.3, tuple.x());
-        assertEquals(-4.2, tuple.y());
-        assertEquals(3.1, tuple.z());
-        assertEquals(1.0, tuple.w());
+        assertEquals(4.3, tuple.x(), Constants.EQUALS_EPSILON);
+        assertEquals(-4.2, tuple.y(), Constants.EQUALS_EPSILON);
+        assertEquals(3.1, tuple.z(), Constants.EQUALS_EPSILON);
+        assertEquals(1.0, tuple.w(),  Constants.EQUALS_EPSILON);
         assertFalse(tuple.isVector());
         assertTrue(tuple.isPoint());
 
@@ -80,7 +81,7 @@ class RTPointTest {
     void multiplyPoint() {
         var tuple = Tuple.point(1, -2, 3);
 
-        Exception e = assertThrows(ArithmeticException.class, () -> tuple.mul(3.5));
+        Exception e = assertThrows(ArithmeticException.class, () -> tuple.mul(3.f));
         assertEquals("Can't multiply point with scalar", e.getMessage());
     }
 
@@ -88,7 +89,7 @@ class RTPointTest {
     void dividePoint() {
         var t1 = Tuple.point(1, -2, 3);
 
-        Exception e = assertThrows(ArithmeticException.class, () -> t1.div(3.5));
+        Exception e = assertThrows(ArithmeticException.class, () -> t1.div(3.5f));
         assertEquals("Can't divide point by scalar", e.getMessage());
     }
 

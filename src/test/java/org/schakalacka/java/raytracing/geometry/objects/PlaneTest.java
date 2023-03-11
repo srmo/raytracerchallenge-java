@@ -1,7 +1,7 @@
 package org.schakalacka.java.raytracing.geometry.objects;
 
 import org.junit.jupiter.api.Test;
-import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
+import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.geometry.tracing.Ray;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

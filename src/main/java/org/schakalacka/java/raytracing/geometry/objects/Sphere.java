@@ -1,6 +1,6 @@
 package org.schakalacka.java.raytracing.geometry.objects;
 
-import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
+import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.geometry.tracing.Intersection;
 import org.schakalacka.java.raytracing.geometry.tracing.Ray;
 
@@ -18,7 +18,7 @@ public class Sphere extends Shape {
         return position;
     }
 
-    public double radius() {
+    public float radius() {
         return 1;
     }
 
@@ -43,8 +43,8 @@ public class Sphere extends Shape {
         var discriminant = b * b - 4 * a * c;
 
         if (discriminant >= 0) {
-            result.add(new Intersection(this, (-b - Math.sqrt(discriminant)) / (2 * a)));
-            result.add(new Intersection(this, (-b + Math.sqrt(discriminant)) / (2 * a)));
+            result.add(new Intersection(this, (float) ((-b - Math.sqrt(discriminant)) / (2 * a))));
+            result.add(new Intersection(this, (float) ((-b + Math.sqrt(discriminant)) / (2 * a))));
             result.sort(Comparator.comparingDouble(Intersection::getDistance));
         }
 

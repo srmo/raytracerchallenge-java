@@ -1,21 +1,21 @@
-package org.schakalacka.java.raytracing.geometry.algebra;
+package org.schakalacka.java.raytracing.math;
 
-import org.ejml.data.DMatrixRMaj;
+import org.ejml.data.FMatrixRMaj;
 import org.ejml.simple.SimpleMatrix;
 
-class EjmlMatrixProvider {
+class EjmlMatrixProvider implements IMatrixProvider {
 
 
-    static Matrix get(double[][] ref) {
-        DMatrixRMaj matrix = new DMatrixRMaj(ref);
-        return new EjmlMatrixWrapper(matrix);
+    public EjmlMatrix get(float[][] ref) {
+        FMatrixRMaj matrix = new FMatrixRMaj(ref);
+        return new EjmlMatrix(matrix);
     }
 
-    static Matrix get(int size) {
-        return EjmlMatrixProvider.get(size, false);
+    public EjmlMatrix get(int size) {
+        return this.get(size, false);
     }
 
-    static Matrix get(int size, boolean isIdentity) {
+    public EjmlMatrix get(int size, boolean isIdentity) {
         final SimpleMatrix simpleMatrix;
 
         if (isIdentity) {
@@ -24,19 +24,19 @@ class EjmlMatrixProvider {
             simpleMatrix = new SimpleMatrix(size, size);
         }
 
-        return new EjmlMatrixWrapper(simpleMatrix.getDDRM());
+        return new EjmlMatrix(simpleMatrix.getFDRM());
     }
 
     /***
      * create a translation matrix. It is a 4x4 identity matrix, where the last colum is populated with the 3 values.
      */
-    static Matrix translation(double x, double y, double z) {
+    public EjmlMatrix translation(float x, float y, float z) {
         SimpleMatrix simpleMatrix = SimpleMatrix.identity(4);
         simpleMatrix.setColumn(3, 0, x, y, z);
-        return new EjmlMatrixWrapper(simpleMatrix.getDDRM());
+        return new EjmlMatrix(simpleMatrix.getFDRM());
     }
 
-    static Matrix scaling(double x, double y, double z) {
+    public EjmlMatrix scaling(float x, float y, float z) {
         SimpleMatrix simpleMatrix = new SimpleMatrix(new double[][]{
                 {x, 0, 0, 0},
                 {0, y, 0, 0},
@@ -44,14 +44,14 @@ class EjmlMatrixProvider {
                 {0, 0, 0, 1}
         });
 
-        return new EjmlMatrixWrapper(simpleMatrix.getDDRM());
+        return new EjmlMatrix(simpleMatrix.getFDRM());
     }
 
     /***
      *
      * @return a left-handed rotation matrix along the X axis
      */
-    static Matrix rotationX(double radians) {
+    public EjmlMatrix rotationX(float radians) {
         SimpleMatrix simpleMatrix = new SimpleMatrix(new double[][]{
                 {1, 0, 0, 0},
                 {0, Math.cos(radians), -Math.sin(radians), 0},
@@ -59,14 +59,14 @@ class EjmlMatrixProvider {
                 {0, 0, 0, 1},
         });
 
-        return new EjmlMatrixWrapper(simpleMatrix.getDDRM());
+        return new EjmlMatrix(simpleMatrix.getFDRM());
     }
 
     /***
      *
      * @return a left-handed rotation matrix along the Y axis
      */
-    static Matrix rotationY(double radians) {
+    public EjmlMatrix rotationY(float radians) {
         SimpleMatrix simpleMatrix = new SimpleMatrix(new double[][]{
                 {Math.cos(radians), 0, Math.sin(radians), 0},
                 {0, 1, 0, 0},
@@ -74,10 +74,10 @@ class EjmlMatrixProvider {
                 {0, 0, 0, 1},
         });
 
-        return new EjmlMatrixWrapper(simpleMatrix.getDDRM());
+        return new EjmlMatrix(simpleMatrix.getFDRM());
     }
 
-    static Matrix rotationZ(double radians) {
+    public EjmlMatrix rotationZ(float radians) {
         SimpleMatrix simpleMatrix = new SimpleMatrix(new double[][]{
                 {Math.cos(radians), -Math.sin(radians), 0, 0},
                 {Math.sin(radians), Math.cos(radians), 0, 0},
@@ -85,10 +85,10 @@ class EjmlMatrixProvider {
                 {0, 0, 0, 1},
         });
 
-        return new EjmlMatrixWrapper(simpleMatrix.getDDRM());
+        return new EjmlMatrix(simpleMatrix.getFDRM());
     }
 
-    static Matrix shearing(double xy, double xz, double yx, double yz, double zx, double zy) {
+    public EjmlMatrix shearing(float xy, float xz, float yx, float yz, float zx, float zy) {
         SimpleMatrix simpleMatrix = new SimpleMatrix(new double[][]{
                 {1, xy, xz, 0},
                 {yx, 1, yz, 0},
@@ -96,7 +96,7 @@ class EjmlMatrixProvider {
                 {0, 0, 0, 1},
         });
 
-        return new EjmlMatrixWrapper(simpleMatrix.getDDRM());
+        return new EjmlMatrix(simpleMatrix.getFDRM());
 
     }
 

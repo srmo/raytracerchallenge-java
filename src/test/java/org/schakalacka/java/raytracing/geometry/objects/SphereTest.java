@@ -2,7 +2,7 @@ package org.schakalacka.java.raytracing.geometry.objects;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
+import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.geometry.tracing.Ray;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -107,15 +107,15 @@ public class SphereTest {
     @Test
     void normalNotOnAxis() {
         var sphere = new Sphere();
-        var normal = sphere.localNormalVectorAt(Tuple.point(Math.sqrt(3) / 3, Math.sqrt(3) / 3, Math.sqrt(3) / 3));
+        var normal = sphere.localNormalVectorAt(Tuple.point((float) (Math.sqrt(3) / 3), (float) (Math.sqrt(3) / 3), (float) (Math.sqrt(3) / 3)));
 
-        assertEquals(Tuple.vector(Math.sqrt(3) / 3, Math.sqrt(3) / 3, Math.sqrt(3) / 3), normal);
+        assertEquals(Tuple.vector((float) (Math.sqrt(3) / 3), (float) (Math.sqrt(3) / 3), (float) (Math.sqrt(3) / 3)), normal);
     }
 
     @Test
     void normalIsAlreadyNormalized() {
         var sphere = new Sphere();
-        var normal = sphere.localNormalVectorAt(Tuple.point(Math.sqrt(3) / 3, Math.sqrt(3) / 3, Math.sqrt(3) / 3));
+        var normal = sphere.localNormalVectorAt(Tuple.point((float) (Math.sqrt(3) / 3), (float) (Math.sqrt(3) / 3), (float) (Math.sqrt(3) / 3)));
 
         var normalized = normal.normalize();
         assertNotSame(normal, normalized);

@@ -1,13 +1,14 @@
 package org.schakalacka.java.raytracing.world;
 
-import org.schakalacka.java.raytracing.geometry.algebra.MatrixProvider;
-import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
+
 import org.schakalacka.java.raytracing.geometry.objects.Shape;
 import org.schakalacka.java.raytracing.geometry.objects.Sphere;
 import org.schakalacka.java.raytracing.geometry.tracing.Intersection;
 import org.schakalacka.java.raytracing.geometry.tracing.IntersectionTracker;
 import org.schakalacka.java.raytracing.geometry.tracing.Precalc;
 import org.schakalacka.java.raytracing.geometry.tracing.Ray;
+import org.schakalacka.java.raytracing.math.MatrixProvider;
+import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.scene.Color;
 import org.schakalacka.java.raytracing.scene.Material;
 import org.schakalacka.java.raytracing.scene.PointLight;
@@ -40,7 +41,7 @@ public class World {
         sphere1.setMaterial(Material.newMaterial().color(new Color(0.8, 1, 0.6)).diffuse(0.7).specular(0.2).create());
 
         Sphere sphere2 = new Sphere();
-        sphere2.setTransformationMatrix(MatrixProvider.scaling(0.5, 0.5, 0.5));
+        sphere2.setTransformationMatrix(MatrixProvider.scaling(0.5f, 0.5f, 0.5f));
 
         return new World(lightSource, sphere1, sphere2);
     }
@@ -58,7 +59,7 @@ public class World {
     }
 
     public List<Intersection> intersect(Ray ray) {
-        return objects.stream().map(go -> go.intersect(ray)).flatMap(List::stream).sorted(Comparator.comparingDouble(Intersection::getDistance)).collect(Collectors.toList());
+        return objects.stream().map(worldObject -> worldObject.intersect(ray)).flatMap(List::stream).sorted(Comparator.comparingDouble(Intersection::getDistance)).collect(Collectors.toList());
 
     }
 

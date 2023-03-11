@@ -1,11 +1,11 @@
 package org.schakalacka.java.raytracing.geometry.tracing;
 
-import org.schakalacka.java.raytracing.geometry.algebra.Matrix;
-import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
+import org.schakalacka.java.raytracing.math.Matrix;
+import org.schakalacka.java.raytracing.math.Tuple;
 
 public record Ray(Tuple origin, Tuple direction) {
 
-    public Tuple position(double ticks) {
+    public Tuple position(float ticks) {
         return origin.add(direction.mul(ticks));
     }
 

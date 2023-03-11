@@ -1,8 +1,8 @@
 package org.schakalacka.java.raytracing.world;
 
-import org.schakalacka.java.raytracing.geometry.algebra.Matrix;
-import org.schakalacka.java.raytracing.geometry.algebra.MatrixProvider;
-import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
+import org.schakalacka.java.raytracing.math.Matrix;
+import org.schakalacka.java.raytracing.math.MatrixProvider;
+import org.schakalacka.java.raytracing.math.Tuple;
 
 public class ViewTransformation {
     public static Matrix transform(Tuple from, Tuple to, Tuple up) {
@@ -14,7 +14,7 @@ public class ViewTransformation {
 
         var trueUpVector = leftVector.cross(forwardVector);
 
-        var orientationMatrix = MatrixProvider.get(new double[][]{
+        var orientationMatrix = MatrixProvider.get(new float[][]{
                 {leftVector.x(), leftVector.y(), leftVector.z(), 0},
                 {trueUpVector.x(), trueUpVector.y(), trueUpVector.z(), 0},
                 {-forwardVector.x(), -forwardVector.y(), -forwardVector.z(), 0},

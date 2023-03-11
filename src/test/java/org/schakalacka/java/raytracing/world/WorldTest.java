@@ -1,8 +1,8 @@
 package org.schakalacka.java.raytracing.world;
 
 import org.junit.jupiter.api.Test;
-import org.schakalacka.java.raytracing.geometry.algebra.MatrixProvider;
-import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
+import org.schakalacka.java.raytracing.math.MatrixProvider;
+import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.geometry.objects.Sphere;
 import org.schakalacka.java.raytracing.geometry.tracing.Intersection;
 import org.schakalacka.java.raytracing.geometry.tracing.Precalc;
@@ -31,7 +31,7 @@ class WorldTest {
         sphere1.setMaterial(Material.newMaterial().color(new Color(0.8, 1, 0.6)).diffuse(0.7).specular(0.2).create());
 
         var sphere2 = new Sphere();
-        sphere2.setTransformationMatrix(MatrixProvider.scaling(0.5, 0.5, 0.5));
+        sphere2.setTransformationMatrix(MatrixProvider.scaling(0.5f, 0.5f, 0.5f));
 
         assertEquals(lightSource, world.getLightSource());
         assertTrue(world.getObjects().contains(sphere1));
@@ -87,11 +87,11 @@ class WorldTest {
     @Test
     void shadeIntersectionInside() {
         var world = World.getDefault();
-        world.setLightSource(new PointLight(Tuple.point(0, 0.25, 0), new Color(1, 1, 1)));
+        world.setLightSource(new PointLight(Tuple.point(0, 0.25f, 0), new Color(1, 1, 1)));
 
         var ray = new Ray(Tuple.point(0, 0, 0), Tuple.vector(0, 0, 1));
         var shape = world.getObjects().get(1);
-        var intersection = new Intersection(shape, 0.5);
+        var intersection = new Intersection(shape, 0.5f);
         var precalc = new Precalc(intersection, ray);
 
         var shaderColor = world.shade_hit(precalc);
@@ -128,7 +128,7 @@ class WorldTest {
         var inner = world.getObjects().get(1);
         inner.setMaterial(Material.newMaterial().ambient(1).create());
 
-        var ray = new Ray(Tuple.point(0, 0, .75), Tuple.vector(0, 0, -1));
+        var ray = new Ray(Tuple.point(0, 0, .75f), Tuple.vector(0, 0, -1));
 
         var color = world.color_at(ray);
 

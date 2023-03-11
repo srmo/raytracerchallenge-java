@@ -1,8 +1,8 @@
 package org.schakalacka.java.raytracing.geometry.objects;
 
 import org.junit.jupiter.api.Test;
-import org.schakalacka.java.raytracing.geometry.algebra.MatrixProvider;
-import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
+import org.schakalacka.java.raytracing.math.MatrixProvider;
+import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.geometry.tracing.Intersection;
 import org.schakalacka.java.raytracing.geometry.tracing.Ray;
 import org.schakalacka.java.raytracing.scene.Material;
@@ -57,8 +57,8 @@ class ShapeTest {
         shape.setTransformationMatrix(MatrixProvider.scaling(2, 2, 2));
         shape.intersect(ray);
 
-        assertEquals(Tuple.point(0, 0, -2.5), shape.transformedRayFromLocalIntersect.origin());
-        assertEquals(Tuple.vector(0, 0, 0.5), shape.transformedRayFromLocalIntersect.direction());
+        assertEquals(Tuple.point(0, 0, -2.5f), shape.transformedRayFromLocalIntersect.origin());
+        assertEquals(Tuple.vector(0, 0, 0.5f), shape.transformedRayFromLocalIntersect.direction());
     }
 
     @Test
@@ -78,19 +78,19 @@ class ShapeTest {
         var shape = new TestShape();
         shape.setTransformationMatrix(MatrixProvider.translation(0, 1, 0));
 
-        var normal = shape.normalVectorAt(Tuple.point(0, 1.70711, -0.70711));
+        var normal = shape.normalVectorAt(Tuple.point(0, 1.70711f, -0.70711f));
 
-        assertEquals(Tuple.vector(0, 0.70711, -0.70711), normal);
+        assertEquals(Tuple.vector(0, 0.70711f, -0.70711f), normal);
     }
 
     @Test
     void normalOnTransformedShape() {
         var shape = new TestShape();
-        shape.setTransformationMatrix(MatrixProvider.scaling(1,0.5,1).mulM(MatrixProvider.rotationZ(Math.PI/5)));
+        shape.setTransformationMatrix(MatrixProvider.scaling(1,0.5f,1).mulM(MatrixProvider.rotationZ((float) (Math.PI/5))));
 
-        var normal = shape.normalVectorAt(Tuple.point(0, Math.sqrt(2)/2, -Math.sqrt(2)/2));
+        var normal = shape.normalVectorAt(Tuple.point(0, (float) (Math.sqrt(2)/2), (float) (-Math.sqrt(2)/2)));
 
-        assertEquals(Tuple.vector(0,0.97014,-0.24254), normal);
+        assertEquals(Tuple.vector(0,0.97014f,-0.24254f), normal);
     }
 
     /***

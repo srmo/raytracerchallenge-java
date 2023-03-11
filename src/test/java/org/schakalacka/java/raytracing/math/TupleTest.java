@@ -1,6 +1,7 @@
-package org.schakalacka.java.raytracing.geometry.algebra;
+package org.schakalacka.java.raytracing.math;
 
 import org.junit.jupiter.api.Test;
+import org.schakalacka.java.raytracing.Constants;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,12 +10,12 @@ class TupleTest {
 
     @Test
     void tupleIsPoint() {
-        var tuple = Tuple.tuple(4.3, -4.2, 3.1, 1.0);
+        var tuple = Tuple.tuple(4.3f, (float) -4.2, 3.1f, 1.0f);
 
-        assertEquals(4.3, tuple.x());
-        assertEquals(-4.2, tuple.y());
-        assertEquals(3.1, tuple.z());
-        assertEquals(1.0, tuple.w());
+        assertEquals(4.3, tuple.x(), Constants.EQUALS_EPSILON);
+        assertEquals(-4.2, tuple.y(), Constants.EQUALS_EPSILON);
+        assertEquals(3.1, tuple.z(), Constants.EQUALS_EPSILON);
+        assertEquals(1.0, tuple.w(), Constants.EQUALS_EPSILON);
         assertFalse(tuple.isVector());
         assertTrue(tuple.isPoint());
 
@@ -22,12 +23,12 @@ class TupleTest {
 
     @Test
     void tupleIsVector() {
-        var tuple = Tuple.tuple(4.3, -4.2, 3.1, 0.0);
+        var tuple = Tuple.tuple(4.3f, (float) -4.2, 3.1f, 0.0f);
 
-        assertEquals(4.3, tuple.x());
-        assertEquals(-4.2, tuple.y());
-        assertEquals(3.1, tuple.z());
-        assertEquals(0.0, tuple.w());
+        assertEquals(4.3, tuple.x(), Constants.EQUALS_EPSILON);
+        assertEquals(-4.2, tuple.y(), Constants.EQUALS_EPSILON);
+        assertEquals(3.1, tuple.z(), Constants.EQUALS_EPSILON);
+        assertEquals(0.0, tuple.w(), Constants.EQUALS_EPSILON);
         assertTrue(tuple.isVector());
         assertFalse(tuple.isPoint());
 
@@ -75,7 +76,7 @@ class TupleTest {
     void multiplyTuple() {
         var tuple = Tuple.tuple(1, -2, 3, -4);
 
-        var result = tuple.mul(3.5);
+        var result = tuple.mul(3.5f);
 
         assertEquals(3.5, result.x());
         assertEquals(-7, result.y());

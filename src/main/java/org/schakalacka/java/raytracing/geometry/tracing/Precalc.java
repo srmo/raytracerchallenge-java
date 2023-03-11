@@ -1,6 +1,6 @@
 package org.schakalacka.java.raytracing.geometry.tracing;
 
-import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
+import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.geometry.objects.Shape;
 
 import static org.schakalacka.java.raytracing.Constants.SHAPE_POINT_OFFSET_EPSILON;
@@ -8,7 +8,7 @@ import static org.schakalacka.java.raytracing.Constants.SHAPE_POINT_OFFSET_EPSIL
 public class Precalc {
 
 
-    private final double distance;
+    private final float distance;
     private final Shape object;
     private final Tuple point;
     private final Tuple eyeVector;
@@ -37,7 +37,7 @@ public class Precalc {
         overPoint = point.add(normalVector.mul(SHAPE_POINT_OFFSET_EPSILON));
     }
 
-    public double getDistance() {
+    public float getDistance() {
         return distance;
     }
 

@@ -1,8 +1,8 @@
 package org.schakalacka.java.raytracing.geometry.patterns;
 
 import org.junit.jupiter.api.Test;
-import org.schakalacka.java.raytracing.geometry.algebra.MatrixProvider;
-import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
+import org.schakalacka.java.raytracing.math.MatrixProvider;
+import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.geometry.objects.Sphere;
 import org.schakalacka.java.raytracing.scene.Color;
 
@@ -56,9 +56,9 @@ class PatternTest {
         sphere.setTransformationMatrix(MatrixProvider.scaling(2, 2, 2));
 
         var pattern = new TestPattern();
-        pattern.setTransformationMatrix(MatrixProvider.translation(0.5, 1, 1.5));
+        pattern.setTransformationMatrix(MatrixProvider.translation(0.5f, 1, 1.5f));
 
-        Color color = pattern.patternAtShape(sphere, Tuple.point(2.5, 3, 3.5));
+        Color color = pattern.patternAtShape(sphere, Tuple.point(2.5f, 3, 3.5f));
         assertEquals(new Color(0.75, 0.5, 0.25), color);
     }
 

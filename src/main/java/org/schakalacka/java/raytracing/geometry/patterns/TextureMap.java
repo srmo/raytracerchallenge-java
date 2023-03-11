@@ -1,8 +1,8 @@
 package org.schakalacka.java.raytracing.geometry.patterns;
 
-import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
-import org.schakalacka.java.raytracing.geometry.algebra.UV;
-import org.schakalacka.java.raytracing.geometry.algebra.UVMapping;
+import org.schakalacka.java.raytracing.math.Tuple;
+import org.schakalacka.java.raytracing.math.UV;
+import org.schakalacka.java.raytracing.math.UVMapping;
 import org.schakalacka.java.raytracing.scene.Color;
 
 public class TextureMap extends Pattern {

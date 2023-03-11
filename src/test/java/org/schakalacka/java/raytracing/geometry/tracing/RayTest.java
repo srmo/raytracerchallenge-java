@@ -1,8 +1,8 @@
 package org.schakalacka.java.raytracing.geometry.tracing;
 
 import org.junit.jupiter.api.Test;
-import org.schakalacka.java.raytracing.geometry.algebra.MatrixProvider;
-import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
+import org.schakalacka.java.raytracing.math.MatrixProvider;
+import org.schakalacka.java.raytracing.math.Tuple;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -23,7 +23,7 @@ class RayTest {
         assertEquals(Tuple.point(2, 3, 4), ray.position(0));
         assertEquals(Tuple.point(3, 3, 4), ray.position(1));
         assertEquals(Tuple.point(1, 3, 4), ray.position(-1));
-        assertEquals(Tuple.point(4.5, 3, 4), ray.position(2.5));
+        assertEquals(Tuple.point(4.5f, 3, 4), ray.position(2.5f));
     }
 
     @Test

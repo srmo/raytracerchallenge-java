@@ -1,6 +1,6 @@
 package org.schakalacka.java.raytracing.geometry.patterns;
 
-import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
+import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.scene.Color;
 
 public class CheckerPattern extends Pattern {

@@ -1,8 +1,8 @@
 package org.schakalacka.java.raytracing.renderers;
 
 import org.schakalacka.java.raytracing.PPMExporter;
-import org.schakalacka.java.raytracing.geometry.algebra.MatrixProvider;
-import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
+import org.schakalacka.java.raytracing.math.MatrixProvider;
+import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.scene.Canvas;
 import org.schakalacka.java.raytracing.scene.Color;
 import org.tinylog.Logger;
@@ -22,7 +22,7 @@ public class RenderClock {
         Tuple hourHand = Tuple.point(0, 1, 0);
 
         var radiansPerHour = Math.PI / 6;
-        var rotationMatrix = MatrixProvider.rotationZ(radiansPerHour);
+        var rotationMatrix = MatrixProvider.rotationZ((float) radiansPerHour);
 
 
         // okay, well, I'm still getting a headache! Paint the z coordinate on the y-axis. See above

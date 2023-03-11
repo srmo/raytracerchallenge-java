@@ -1,28 +1,28 @@
-package org.schakalacka.java.raytracing.geometry.algebra;
+package org.schakalacka.java.raytracing.math;
 
 import org.schakalacka.java.raytracing.Counter;
 
-class NaiveMatrixProvider {
-    
-    
-    static Matrix get(double[][] ref) {
-       
-        Matrix result = NaiveMatrixProvider.get(ref.length);
+class CublasMatrixProvider implements IMatrixProvider {
 
-        for (int row = 0; row < ref.length; row++) {
-            for (int col = 0; col < ref.length; col++) {
+
+    public CublasMatrix get(float[][] ref) {
+
+        CublasMatrix result = this.get(ref.length);
+
+        for (int col = 0; col < ref.length; col++) {
+            for (int row = 0; row < ref.length; row++) {
                 result.set(row, col, ref[row][col]);
             }
         }
         return result;
     }
 
-    static Matrix get(int size) {
-        return NaiveMatrixProvider.get(size, false);
+    public CublasMatrix get(int size) {
+        return this.get(size, false);
     }
 
-    static Matrix get(int size, boolean isIdentity) {
-        Matrix result = new NaiveMatrix(size);
+    public CublasMatrix get(int size, boolean isIdentity) {
+        CublasMatrix result = new CublasMatrix(new float[size * size], size);
 
         if (isIdentity) {
             for (int i = 0; i < size; i++) {
@@ -35,9 +35,9 @@ class NaiveMatrixProvider {
     /***
      * create a translation matrix. It is a 4x4 identity matrix, where the last colum is populated with the 3 values.
      */
-    static Matrix translation(double x, double y, double z) {
+    public CublasMatrix translation(float x, float y, float z) {
         Counter.translate++;
-        Matrix result = NaiveMatrixProvider.get(4, true);
+        CublasMatrix result = this.get(4, true);
         result.set(0, 3, x);
         result.set(1, 3, y);
         result.set(2, 3, z);
@@ -49,9 +49,9 @@ class NaiveMatrixProvider {
 //                {0, 0, 0, 1},
     }
 
-    static Matrix scaling(double x, double y, double z) {
+    public CublasMatrix scaling(float x, float y, float z) {
         Counter.scale++;
-        Matrix result = NaiveMatrixProvider.get(4, false);
+        CublasMatrix result = this.get(4, false);
         result.set(0, 0, x);
         result.set(1, 1, y);
         result.set(2, 2, z);
@@ -68,13 +68,13 @@ class NaiveMatrixProvider {
      *
      * @return a left-handed rotation matrix along the X axis
      */
-    static Matrix rotationX(double radians) {
+    public CublasMatrix rotationX(float radians) {
         Counter.rotX++;
-        Matrix result = NaiveMatrixProvider.get(4, true);
-        result.set(1, 1, Math.cos(radians));
-        result.set(1, 2, -Math.sin(radians));
-        result.set(2, 1, Math.sin(radians));
-        result.set(2, 2, Math.cos(radians));
+        CublasMatrix result = this.get(4, true);
+        result.set(1, 1, (float) Math.cos(radians));
+        result.set(1, 2, (float) -Math.sin(radians));
+        result.set(2, 1, (float) Math.sin(radians));
+        result.set(2, 2, (float) Math.cos(radians));
 
         return result;
 
@@ -88,20 +88,20 @@ class NaiveMatrixProvider {
      *
      * @return a left-handed rotation matrix along the Y axis
      */
-    static Matrix rotationY(double radians) {
+    public CublasMatrix rotationY(float radians) {
         Counter.rotY++;
-        Matrix result = NaiveMatrixProvider.get(4, true);
-        result.set(0, 0, Math.cos(radians));
+        CublasMatrix result = this.get(4, true);
+        result.set(0, 0, (float) Math.cos(radians));
         result.set(0, 1, 0);
-        result.set(0, 2, Math.sin(radians));
+        result.set(0, 2, (float) Math.sin(radians));
         result.set(0, 3, 0);
         result.set(1, 0, 0);
         result.set(1, 1, 1);
         result.set(1, 2, 0);
         result.set(1, 3, 0);
-        result.set(2, 0, -Math.sin(radians));
+        result.set(2, 0, (float) -Math.sin(radians));
         result.set(2, 1, 0);
-        result.set(2, 2, Math.cos(radians));
+        result.set(2, 2, (float) Math.cos(radians));
         result.set(2, 3, 0);
         result.set(3, 0, 0);
         result.set(3, 1, 0);
@@ -116,13 +116,13 @@ class NaiveMatrixProvider {
 //                {0, 0, 0, 1},
     }
 
-    static Matrix rotationZ(double radians) {
+    public CublasMatrix rotationZ(float radians) {
         Counter.rotZ++;
-        Matrix result = NaiveMatrixProvider.get(4, true);
-        result.set(0, 0, Math.cos(radians));
-        result.set(0, 1, -Math.sin(radians));
-        result.set(1, 0, Math.sin(radians));
-        result.set(1, 1, Math.cos(radians));
+        CublasMatrix result = this.get(4, true);
+        result.set(0, 0, (float) Math.cos(radians));
+        result.set(0, 1, (float) -Math.sin(radians));
+        result.set(1, 0, (float) Math.sin(radians));
+        result.set(1, 1, (float) Math.cos(radians));
 
         return result;
 
@@ -133,9 +133,9 @@ class NaiveMatrixProvider {
 //                {0, 0, 0, 1},
     }
 
-    static Matrix shearing(double xy, double xz, double yx, double yz, double zx, double zy) {
+    public CublasMatrix shearing(float xy, float xz, float yx, float yz, float zx, float zy) {
         Counter.shear++;
-        Matrix result = NaiveMatrixProvider.get(4, true);
+        CublasMatrix result = this.get(4, true);
         result.set(0, 1, xy);
         result.set(0, 2, xz);
         result.set(1, 0, yx);

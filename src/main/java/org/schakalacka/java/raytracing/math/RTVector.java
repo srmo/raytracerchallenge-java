@@ -1,8 +1,8 @@
-package org.schakalacka.java.raytracing.geometry.algebra;
+package org.schakalacka.java.raytracing.math;
 
 public class RTVector extends Tuple {
 
-    public RTVector(final double x, final double y, final double z) {
+    public RTVector(final float x, final float y, final float z) {
         super(x, y, z, 0);
     }
 

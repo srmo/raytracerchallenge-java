@@ -1,6 +1,6 @@
 package org.schakalacka.java.raytracing.scene;
 
-import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
+import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.geometry.objects.Shape;
 import org.schakalacka.java.raytracing.geometry.patterns.Pattern;
 

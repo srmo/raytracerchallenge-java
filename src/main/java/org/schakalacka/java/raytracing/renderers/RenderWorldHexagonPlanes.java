@@ -1,8 +1,8 @@
 package org.schakalacka.java.raytracing.renderers;
 
 import org.schakalacka.java.raytracing.PPMExporter;
-import org.schakalacka.java.raytracing.geometry.algebra.MatrixProvider;
-import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
+import org.schakalacka.java.raytracing.math.MatrixProvider;
+import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.geometry.objects.Plane;
 import org.schakalacka.java.raytracing.geometry.objects.Shape;
 import org.schakalacka.java.raytracing.geometry.objects.Sphere;
@@ -25,20 +25,20 @@ public class RenderWorldHexagonPlanes {
         Material blackMaterial = Material.newMaterial().color(new Color(0.1,0.5,0.5)).shininess(500).specular(0).create();
         floor2.setMaterial(blackMaterial);
         floor2.setTransformationMatrix(MatrixProvider.translation(0, 0, 5)
-                .mulM(MatrixProvider.rotationX(Math.PI / 2)));
+                .mulM(MatrixProvider.rotationX((float) (Math.PI / 2))));
                 //.mulM(MatrixProvider.rotationX(Math.PI / 2)));
 
         var floor3 = new Plane();
         floor3.setMaterial(floor2.material());
-        floor3.setTransformationMatrix(MatrixProvider.translation(-10,0,0).mulM(MatrixProvider.rotationZ(-Math.PI/4)));
+        floor3.setTransformationMatrix(MatrixProvider.translation(-10,0,0).mulM(MatrixProvider.rotationZ((float) (-Math.PI/4))));
 
         var floor4 = new Plane();
         floor4.setMaterial(floor2.material());
-        floor4.setTransformationMatrix(MatrixProvider.translation(-10,0,0).mulM(MatrixProvider.rotationY(-Math.PI/2)).mulM(MatrixProvider.rotationZ(-Math.PI/4)));
+        floor4.setTransformationMatrix(MatrixProvider.translation(-10,0,0).mulM(MatrixProvider.rotationY((float) (-Math.PI/2))).mulM(MatrixProvider.rotationZ((float) (-Math.PI/4))));
 
         var floor5 = new Plane();
         floor5.setMaterial(floor2.material());
-        floor5.setTransformationMatrix(MatrixProvider.translation(10,0,0).mulM(MatrixProvider.rotationY(-Math.PI/4)).mulM(MatrixProvider.rotationZ(Math.PI/4)));
+        floor5.setTransformationMatrix(MatrixProvider.translation(10,0,0).mulM(MatrixProvider.rotationY((float) (-Math.PI/4))).mulM(MatrixProvider.rotationZ((float) (Math.PI/4))));
 
         List<Shape> floors = new ArrayList<>();
         floors.add(floor1);
@@ -47,7 +47,7 @@ public class RenderWorldHexagonPlanes {
         //floors.add(floor4);
 
         var middleSphere = new Sphere();
-        middleSphere.setTransformationMatrix(MatrixProvider.translation(-0.5, -0.5, 0.5));
+        middleSphere.setTransformationMatrix(MatrixProvider.translation((float) -0.5, (float) -0.5, 0.5f));
         middleSphere.setMaterial(Material.newMaterial()
                 .color(new Color(0.1, 1, 0.5))
                 .diffuse(0.7)
@@ -55,7 +55,7 @@ public class RenderWorldHexagonPlanes {
                 .create());
 
         var rightSphere = new Sphere();
-        rightSphere.setTransformationMatrix(MatrixProvider.translation(1.5, 0.5, -0.5).mulM(MatrixProvider.scaling(0.5, 0.5, 0.5)));
+        rightSphere.setTransformationMatrix(MatrixProvider.translation(1.5f, 0.5f, -0.5f).mulM(MatrixProvider.scaling(0.5f, 0.5f, 0.5f)));
         rightSphere.setMaterial(Material.newMaterial()
                 .color(new Color(0.5, 1, 0.1))
                 .diffuse(0.7)
@@ -63,7 +63,7 @@ public class RenderWorldHexagonPlanes {
                 .create());
 
         var leftSphere = new Sphere();
-        leftSphere.setTransformationMatrix(MatrixProvider.translation(-1.5, 0.33, -0.75).mulM(MatrixProvider.scaling(0.33, 0.33, 0.33)));
+        leftSphere.setTransformationMatrix(MatrixProvider.translation(-1.5f, 0.33f, -0.75f).mulM(MatrixProvider.scaling(0.33f, 0.33f, 0.33f)));
         leftSphere.setMaterial(Material.newMaterial()
                 .color(new Color(1, 0.2, 0.1))
                 .diffuse(0.7)
@@ -81,8 +81,8 @@ public class RenderWorldHexagonPlanes {
         var camera = new Camera(width, height, Math.PI / 3);
         camera.setTransformationMatrix(ViewTransformation
                 .transform(
-                        Tuple.point(0, 0.5, -5),
-                        Tuple.point(0, 0.5, 10),
+                        Tuple.point(0, 0.5f, -5),
+                        Tuple.point(0, 0.5f, 10),
                         Tuple.vector(0, 1, 0)
 //                        Tuple.point(0, 10, 0),
 //                        Tuple.point(0, 0, 0),

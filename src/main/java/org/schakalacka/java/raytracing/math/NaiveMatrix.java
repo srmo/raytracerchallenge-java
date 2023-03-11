@@ -1,4 +1,4 @@
-package org.schakalacka.java.raytracing.geometry.algebra;
+package org.schakalacka.java.raytracing.math;
 
 import org.schakalacka.java.raytracing.Constants;
 import org.schakalacka.java.raytracing.Counter;
@@ -12,7 +12,7 @@ public class NaiveMatrix implements Matrix {
     /***
      * row-column. mapped 2d-array to 1d
      */
-    private final float[] matrix;
+    final float[] matrix;
 
     NaiveMatrix(int size) {
         this.size = size;
@@ -21,12 +21,12 @@ public class NaiveMatrix implements Matrix {
 
 
     @Override
-    public double get(int row, int col) {
+    public float get(int row, int col) {
         return matrix[row * size + col];
     }
 
     @Override
-    public void set(int row, int col, double val) {
+    public void set(int row, int col, float val) {
         this.matrix[row * size + col] = (float) val;
     }
 
@@ -41,8 +41,8 @@ public class NaiveMatrix implements Matrix {
             return false;
 
         for (int i = 0; i < length; i++) {
-            double e1 = this.matrix[i];
-            double e2 = that.matrix[i];
+            float e1 = this.matrix[i];
+            float e2 = that.matrix[i];
 
             if (e1 == e2)
                 continue;
@@ -70,13 +70,13 @@ public class NaiveMatrix implements Matrix {
      * i.e. for a 4-Matrix, result[2][3] is the sum of the products over this[2][0-3] and that[0-3][3]
      */
     @Override
-    public Matrix mulM(Matrix that) {
+    public NaiveMatrix mulM(Matrix that) {
         Counter.mulM++;
         NaiveMatrix result = new NaiveMatrix(this.size);
 
         for (int r = 0; r < this.size; r++) {
             for (int c = 0; c < this.size; c++) {
-                double newVal = 0;
+                float newVal = 0;
 
                 for (int i = 0; i < this.size; i++) {
                     newVal += this.get(r, i) * that.get(i, c);
@@ -99,7 +99,7 @@ public class NaiveMatrix implements Matrix {
         for (int i = 0; i < this.size; i++) {
             y += this.get(1, i) * that.get(i);
         }
-        double z = 0;
+        float z = 0;
         for (int i = 0; i < this.size; i++) {
             z += this.get(2, i) * that.get(i);
         }
@@ -116,7 +116,7 @@ public class NaiveMatrix implements Matrix {
     }
 
     @Override
-    public Matrix transpose() {
+    public NaiveMatrix transpose() {
         Counter.transpose++;
         final NaiveMatrix m = new NaiveMatrix(this.size);
 
@@ -130,9 +130,9 @@ public class NaiveMatrix implements Matrix {
     }
 
     @Override
-    public double determinant() {
+    public float determinant() {
         Counter.determinant++;
-        double determinant = 0;
+        float determinant = 0;
         if (this.size == 2) {
             determinant = this.get(0, 0) * this.get(1, 1) - this.get(0, 1) * this.get(1, 0);
         } else {
@@ -144,7 +144,7 @@ public class NaiveMatrix implements Matrix {
     }
 
     @Override
-    public Matrix subM(int r, int c) {
+    public NaiveMatrix subM(int r, int c) {
         Counter.subM++;
         final NaiveMatrix m = new NaiveMatrix(this.size - 1);
 
@@ -166,7 +166,7 @@ public class NaiveMatrix implements Matrix {
     }
 
     @Override
-    public double minor(int r, int c) {
+    public float minor(int r, int c) {
         Counter.minor++;
         return this.subM(r, c).determinant();
     }
@@ -175,7 +175,7 @@ public class NaiveMatrix implements Matrix {
      * A cofactor is a minor, potentially negated. If the target sums up to an odd number, negate the minor.
      */
     @Override
-    public double cofactor(int r, int c) {
+    public float cofactor(int r, int c) {
         Counter.cofactor++;
         int factor = (r + c) % 2 == 0 ? 1 : -1;
         return minor(r, c) * factor;
@@ -188,17 +188,17 @@ public class NaiveMatrix implements Matrix {
     }
 
     @Override
-    public Matrix inverse() {
+    public NaiveMatrix inverse() {
         Counter.inverse++;
         if (!isInvertible()) {
             throw new ArithmeticException("Matrix not invertible");
         }
 
-        Matrix newMatrix = new NaiveMatrix(this.size);
-        double determinant = determinant();
+        NaiveMatrix newMatrix = new NaiveMatrix(this.size);
+        float determinant = determinant();
         for (int row = 0; row < this.size; row++) {
             for (int col = 0; col < this.size; col++) {
-                double cofactor = cofactor(row, col);
+                float cofactor = cofactor(row, col);
                 newMatrix.set(col, row, cofactor / determinant);
             }
         }

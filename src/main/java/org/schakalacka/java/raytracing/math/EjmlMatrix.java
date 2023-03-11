@@ -1,55 +1,59 @@
-package org.schakalacka.java.raytracing.geometry.algebra;
+package org.schakalacka.java.raytracing.math;
 
-import org.ejml.data.DMatrixRMaj;
-import org.ejml.dense.row.CommonOps_DDRM;
-import org.ejml.dense.row.mult.MatrixVectorMult_DDRM;
+import org.ejml.data.FMatrixRMaj;
+import org.ejml.dense.row.CommonOps_FDRM;
+import org.ejml.dense.row.mult.MatrixVectorMult_FDRM;
 import org.schakalacka.java.raytracing.Constants;
 import org.schakalacka.java.raytracing.Counter;
 
 import java.util.Arrays;
 
-public class EjmlMatrixWrapper implements Matrix {
+public class EjmlMatrix implements Matrix {
 
-    private final DMatrixRMaj wrappedMatrix;
+    final FMatrixRMaj wrappedMatrix;
 
-    EjmlMatrixWrapper(DMatrixRMaj wrappedMatrix) {
+    EjmlMatrix(FMatrixRMaj wrappedMatrix) {
         this.wrappedMatrix = wrappedMatrix;
     }
 
     @Override
-    public double get(int row, int col) {
+    public float get(int row, int col) {
         return wrappedMatrix.get(row, col);
     }
 
     @Override
-    public void set(int row, int col, double val) {
+    public void set(int row, int col, float val) {
         wrappedMatrix.set(row, col, val);
     }
 
     @Override
-    public Matrix mulM(Matrix that) {
+    public EjmlMatrix mulM(Matrix that) {
         Counter.mulM++;
 
-        DMatrixRMaj result = new DMatrixRMaj();
-        DMatrixRMaj mult = CommonOps_DDRM.mult(this.wrappedMatrix, ((EjmlMatrixWrapper) that).wrappedMatrix, result);
-        return new EjmlMatrixWrapper(mult);
+        if (that instanceof EjmlMatrix) {
+            FMatrixRMaj result = new FMatrixRMaj();
+            result = CommonOps_FDRM.mult(this.wrappedMatrix, ((EjmlMatrix) that).wrappedMatrix, result);
+            return new EjmlMatrix(result);
+        } else {
+            throw new IllegalArgumentException("Can only multiply with other EjmlMatrix");
+        }
     }
 
     @Override
     public Tuple mulT(Tuple vector) {
         Counter.mulT++;
-        DMatrixRMaj resultVector = new DMatrixRMaj(this.wrappedMatrix.numCols);
+        FMatrixRMaj resultVector = new FMatrixRMaj(this.wrappedMatrix.numCols);
 
         // ejml requires the vector and matrix to have the same size, i.e. if the vector has length N, the matrix also needs to be of size NxN
         // so let's rework this here. Consider only cases of 4x4, 3x3 matrices our vectors are always length 4
-        final double[] vectorArray;
+        final float[] vectorArray;
         if (this.wrappedMatrix.getNumCols() == 3) {
             vectorArray = Arrays.copyOfRange(vector.getArray(), 0, 3);
         } else {
             vectorArray = vector.getArray();
         }
 
-        MatrixVectorMult_DDRM.mult(wrappedMatrix, new DMatrixRMaj(vectorArray), resultVector);
+        MatrixVectorMult_FDRM.mult(wrappedMatrix, new FMatrixRMaj(vectorArray), resultVector);
 
         // also, if the matrix is 3x3, the resulting vector from ejml only has 3 elements.
         // again, our Tuples have 4 values, so adjust for that here. we need to keep the original w value of the vector.
@@ -63,34 +67,34 @@ public class EjmlMatrixWrapper implements Matrix {
     }
 
     @Override
-    public Matrix transpose() {
+    public EjmlMatrix transpose() {
         Counter.transpose++;
-        DMatrixRMaj transpose = CommonOps_DDRM.transpose(this.wrappedMatrix, null);
-        return new EjmlMatrixWrapper(transpose);
+        FMatrixRMaj transpose = CommonOps_FDRM.transpose(this.wrappedMatrix, null);
+        return new EjmlMatrix(transpose);
     }
 
     @Override
-    public double determinant() {
-        Counter.determinant++; return CommonOps_DDRM.det(this.wrappedMatrix);
+    public float determinant() {
+        Counter.determinant++; return CommonOps_FDRM.det(this.wrappedMatrix);
     }
 
     @Override
-    public Matrix subM(int r, int c) {
+    public EjmlMatrix subM(int r, int c) {
         Counter.subM++;
-        DMatrixRMaj extract = CommonOps_DDRM.extract(this.wrappedMatrix, 0, c, 0, r);
-        return new EjmlMatrixWrapper(extract);
+        FMatrixRMaj extract = CommonOps_FDRM.extract(this.wrappedMatrix, 0, c, 0, r);
+        return new EjmlMatrix(extract);
     }
 
     @Override
-    public double minor(int r, int c) {
+    public float minor(int r, int c) {
         Counter.minor++;
-        throw new UnsupportedOperationException("EjmlMatrixWrapper doesn't directly support minor calculation");
+        throw new UnsupportedOperationException("EjmlMatrix doesn't directly support minor calculation");
     }
 
     @Override
-    public double cofactor(int r, int c) {
+    public float cofactor(int r, int c) {
         Counter.cofactor++;
-        throw new UnsupportedOperationException("EjmlMatrixWrapper doesn't directly support cofactor calculation");
+        throw new UnsupportedOperationException("EjmlMatrix doesn't directly support cofactor calculation");
     }
 
     @Override
@@ -99,22 +103,22 @@ public class EjmlMatrixWrapper implements Matrix {
     }
 
     @Override
-    public Matrix inverse() {
+    public EjmlMatrix inverse() {
         Counter.inverse++;
         if (!isInvertible()) {
             throw new ArithmeticException("Matrix not invertible");
         }
 
-        DMatrixRMaj result = new DMatrixRMaj(this.wrappedMatrix.numCols, this.wrappedMatrix.numCols);
-        CommonOps_DDRM.invert(this.wrappedMatrix, result);
-        return new EjmlMatrixWrapper(result);
+        FMatrixRMaj result = new FMatrixRMaj(this.wrappedMatrix.numCols, this.wrappedMatrix.numCols);
+        CommonOps_FDRM.invert(this.wrappedMatrix, result);
+        return new EjmlMatrix(result);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        EjmlMatrixWrapper that = (EjmlMatrixWrapper) o;
+        EjmlMatrix that = (EjmlMatrix) o;
 
         int length = this.wrappedMatrix.getNumElements();
         if (that.wrappedMatrix.getNumElements() != that.wrappedMatrix.getNumElements())
@@ -140,7 +144,7 @@ public class EjmlMatrixWrapper implements Matrix {
 
     @Override
     public String toString() {
-        return "EjmlMatrixWrapper{" +
+        return "EjmlMatrix{" +
                 "wrappedMatrix=" + wrappedMatrix +
                 '}';
     }

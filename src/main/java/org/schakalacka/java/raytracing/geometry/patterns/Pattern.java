@@ -1,8 +1,8 @@
 package org.schakalacka.java.raytracing.geometry.patterns;
 
-import org.schakalacka.java.raytracing.geometry.algebra.Matrix;
-import org.schakalacka.java.raytracing.geometry.algebra.MatrixProvider;
-import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
+import org.schakalacka.java.raytracing.math.Matrix;
+import org.schakalacka.java.raytracing.math.MatrixProvider;
+import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.geometry.objects.Shape;
 import org.schakalacka.java.raytracing.scene.Color;
 

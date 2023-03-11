@@ -5,8 +5,8 @@ package org.schakalacka.java.raytracing;
 public final class Constants {
 
     //    public static final double EPSILON = 0.000000000001;
-    public static final double EQUALS_EPSILON = 0.0001;
-    public static final double SHAPE_POINT_OFFSET_EPSILON = 0.0000001;
+    public static final float EQUALS_EPSILON = 0.0001f;
+    public static final float SHAPE_POINT_OFFSET_EPSILON = 0.00001f;
 
     private Constants(){}
 }

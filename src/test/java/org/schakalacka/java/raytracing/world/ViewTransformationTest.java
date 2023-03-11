@@ -1,8 +1,8 @@
 package org.schakalacka.java.raytracing.world;
 
 import org.junit.jupiter.api.Test;
-import org.schakalacka.java.raytracing.geometry.algebra.MatrixProvider;
-import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
+import org.schakalacka.java.raytracing.math.MatrixProvider;
+import org.schakalacka.java.raytracing.math.Tuple;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -16,7 +16,7 @@ class ViewTransformationTest {
 
         var transformMatrix = ViewTransformation.transform(from, to, up);
 
-        var refMatrix = MatrixProvider.get(new double[][]{
+        var refMatrix = MatrixProvider.get(new float[][]{
                 {1, 0, 0, 0},
                 {0, 1, 0, 0},
                 {0, 0, 1, 0},
@@ -64,10 +64,10 @@ class ViewTransformationTest {
 
         var transformMatrix = ViewTransformation.transform(from, to, up);
 
-        var refMatrix = MatrixProvider.get(new double[][]{
-                {-0.50709, 0.50709, 0.67612, -2.36643},
-                {0.76772, 0.60609, 0.12122, -2.82843},
-                {-0.35857, 0.59761, -0.71714, 0.00000},
+        var refMatrix = MatrixProvider.get(new float[][]{
+                {(float) -0.50709, 0.50709f, 0.67612f, (float) -2.36643},
+                {0.76772f, 0.60609f, 0.12122f, (float) -2.82843},
+                {(float) -0.35857, 0.59761f, (float) -0.71714, 0.00000F},
                 {0, 0, 0, 1},
         });
 

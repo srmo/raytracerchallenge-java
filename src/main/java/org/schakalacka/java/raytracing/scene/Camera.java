@@ -1,15 +1,18 @@
 package org.schakalacka.java.raytracing.scene;
 
-import org.schakalacka.java.raytracing.geometry.algebra.Matrix;
-import org.schakalacka.java.raytracing.geometry.algebra.MatrixProvider;
-import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
 import org.schakalacka.java.raytracing.geometry.tracing.Ray;
+import org.schakalacka.java.raytracing.math.MATRIX_TYPE;
+import org.schakalacka.java.raytracing.math.Matrix;
+import org.schakalacka.java.raytracing.math.MatrixProvider;
+import org.schakalacka.java.raytracing.math.Tuple;
+import org.schakalacka.java.raytracing.math.cublas.RayTracingCublas;
 import org.schakalacka.java.raytracing.scene.tools.Chunk;
 import org.schakalacka.java.raytracing.scene.tools.ChunkCalculator;
 import org.schakalacka.java.raytracing.world.World;
 import org.tinylog.Logger;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ForkJoinPool;
 
@@ -84,7 +87,7 @@ public class Camera {
         var worldY = halfHeight - yOffset;
 
 
-        var pixel = inverseTransformationMatrix.mulT(Tuple.point(worldX, worldY, -1));
+        var pixel = inverseTransformationMatrix.mulT(Tuple.point((float) worldX, (float) worldY, -1));
         var origin = inverseTransformationMatrix.mulT(Tuple.point(0, 0, 0));
         var direction = pixel.sub(origin).normalize();
 
@@ -95,36 +98,54 @@ public class Camera {
         return this.render(world, 1);
     }
 
-    public Canvas render(World world, int parallelChunks) {
+    public Canvas renderSinglePixel(World world, int x, int y) {
         var image = new Canvas(this.hSize, this.vSize);
+        var ray = this.rayForPixel(x, y);
+        var color = world.color_at(ray);
+        image.write(x, y, color);
+        return image;
+    }
 
-        Chunk[] chunks = ChunkCalculator.calculateChunks(parallelChunks, hSize, vSize);
-
-        ForkJoinPool customThreadPool = new ForkJoinPool(parallelChunks);
-        try {
-
-            customThreadPool.submit(() -> Arrays.asList(chunks).parallelStream().forEach(chunk -> {
-                Logger.info("starting chunk {}", chunk);
-                var xFrom = chunk.xFrom();
-                var xTo = chunk.xTo();
-                var yFrom = chunk.yFrom();
-                var yTo = chunk.yTo();
-
-                for (int y = yFrom; y <= yTo; y++) {
-                    for (int x = xFrom; x <= xTo; x++) {
-                        var ray = this.rayForPixel(x, y);
-                        var color = world.color_at(ray);
-                        image.write(x, y, color);
-                    }
-                }
-            })).get();
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        } finally {
-            customThreadPool.shutdown();
+    public Canvas render(World world, int parallelChunks) {
+        if (Objects.requireNonNull(MatrixProvider.MT) == MATRIX_TYPE.CUBLAS) {
+            RayTracingCublas.setupContext();
         }
 
-        return image;
+        try {
+            var image = new Canvas(this.hSize, this.vSize);
+
+            Chunk[] chunks = ChunkCalculator.calculateChunks(parallelChunks, hSize, vSize);
+
+            ForkJoinPool customThreadPool = new ForkJoinPool(parallelChunks);
+            try {
+
+                customThreadPool.submit(() -> Arrays.asList(chunks).parallelStream().forEach(chunk -> {
+                    Logger.info("starting chunk {}", chunk);
+                    var xFrom = chunk.xFrom();
+                    var xTo = chunk.xTo();
+                    var yFrom = chunk.yFrom();
+                    var yTo = chunk.yTo();
+
+                    for (int y = yFrom; y <= yTo; y++) {
+                        for (int x = xFrom; x <= xTo; x++) {
+                            var ray = this.rayForPixel(x, y);
+                            var color = world.color_at(ray);
+                            image.write(x, y, color);
+                        }
+                    }
+                })).get();
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
+            } finally {
+                customThreadPool.shutdown();
+            }
+
+            return image;
+        } finally {
+            if (Objects.requireNonNull(MatrixProvider.MT) == MATRIX_TYPE.CUBLAS) {
+                RayTracingCublas.destroyContext();
+            }
+        }
     }
 
 }

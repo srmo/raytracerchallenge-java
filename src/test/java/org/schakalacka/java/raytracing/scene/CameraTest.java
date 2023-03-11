@@ -2,8 +2,8 @@ package org.schakalacka.java.raytracing.scene;
 
 import org.junit.jupiter.api.Test;
 import org.schakalacka.java.raytracing.Constants;
-import org.schakalacka.java.raytracing.geometry.algebra.MatrixProvider;
-import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
+import org.schakalacka.java.raytracing.math.MatrixProvider;
+import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.world.ViewTransformation;
 import org.schakalacka.java.raytracing.world.World;
 
@@ -55,19 +55,19 @@ class CameraTest {
         var ray = camera.rayForPixel(0, 0);
 
         assertEquals(Tuple.point(0, 0, 0), ray.origin());
-        assertEquals(Tuple.vector(0.66519, 0.33259, -0.66851), ray.direction());
+        assertEquals(Tuple.vector(0.66519f, 0.33259f, (float) -0.66851), ray.direction());
 
     }
 
     @Test
     void rayForTransformedCamera() {
         var camera = new Camera(201, 101, Math.PI / 2);
-        camera.setTransformationMatrix(MatrixProvider.rotationY(Math.PI / 4).mulM(MatrixProvider.translation(0, -2, 5)));
+        camera.setTransformationMatrix(MatrixProvider.rotationY((float) (Math.PI / 4)).mulM(MatrixProvider.translation(0, -2, 5)));
 
         var ray = camera.rayForPixel(100, 50);
 
         assertEquals(Tuple.point(0, 2, -5), ray.origin());
-        assertEquals(Tuple.vector(Math.sqrt(2) / 2, 0, -Math.sqrt(2) / 2), ray.direction());
+        assertEquals(Tuple.vector((float) (Math.sqrt(2) / 2), 0, (float) (-Math.sqrt(2) / 2)), ray.direction());
 
     }
 

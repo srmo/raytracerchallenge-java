@@ -1,3 +1,14 @@
+# Common stuff
+## Setup
+* standard maven setup
+* for jcublas support on nvidia (windows) 
+  * you need cublas64_11.dll from Cuda11 in your java.library path. I downloaded and installed CUDA 11 and copied the dll manually 
+  * [CUDA Download Page](https://developer.nvidia.com/cuda-downloads?target_os=Windows&target_arch=x86_64&target_version=11)
+  * I used `<project_jdk_home>/bin` as location
+  
+
+
+
 # All aboard the Raytracer-Challenge-Train
 ## Why?
 I saw this TikTok where someone mentioned the Book ["The Ray Tracer Challenge" by Jamis Buck"](http://raytracerchallenge.com/).

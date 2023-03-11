@@ -1,7 +1,7 @@
 package org.schakalacka.java.raytracing.scene;
 
 import org.junit.jupiter.api.Test;
-import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
+import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.geometry.objects.Sphere;
 import org.schakalacka.java.raytracing.geometry.patterns.StripePattern;
 
@@ -36,7 +36,7 @@ class MaterialTest {
 
     @Test
     void lightingEyeBetweenLightAndSurfaceEyeOffset45() {
-        var eyeVector = Tuple.vector(0, Math.sqrt(2) / 2, -Math.sqrt(2) / 2);
+        var eyeVector = Tuple.vector(0, (float) (Math.sqrt(2) / 2), (float) (-Math.sqrt(2) / 2));
         var normalVector = Tuple.vector(0, 0, -1);
         var light = new PointLight(Tuple.point(0, 0, -10), new Color(1, 1, 1));
 
@@ -58,7 +58,7 @@ class MaterialTest {
 
     @Test
     void lightingEyeBetweenLightAndSurfaceLightAndEyeOffset45() {
-        var eyeVector = Tuple.vector(0, -Math.sqrt(2) / 2, -Math.sqrt(2) / 2);
+        var eyeVector = Tuple.vector(0, (float) (-Math.sqrt(2) / 2), (float) (-Math.sqrt(2) / 2));
         var normalVector = Tuple.vector(0, 0, -1);
         var light = new PointLight(Tuple.point(0, 10, -10), new Color(1, 1, 1));
 
@@ -97,8 +97,8 @@ class MaterialTest {
         var normalVector = Tuple.vector(0, 0, -1);
         var light = new PointLight(Tuple.point(0, 0, -10), new Color(1, 1, 1));
 
-        var c1 = material.lighting(light, new Sphere(), Tuple.point(0.9, 0, 0), eyeVector, normalVector, false);
-        var c2 = material.lighting(light, new Sphere(), Tuple.point(1.1, 0, 0), eyeVector, normalVector, false);
+        var c1 = material.lighting(light, new Sphere(), Tuple.point(0.9f, 0, 0), eyeVector, normalVector, false);
+        var c2 = material.lighting(light, new Sphere(), Tuple.point(1.1f, 0, 0), eyeVector, normalVector, false);
 
         assertEquals(new Color(1, 1, 1), c1);
         assertEquals(new Color(0, 0, 0), c2);

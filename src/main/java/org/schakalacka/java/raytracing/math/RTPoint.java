@@ -1,8 +1,8 @@
-package org.schakalacka.java.raytracing.geometry.algebra;
+package org.schakalacka.java.raytracing.math;
 
 public class RTPoint extends Tuple {
 
-    public RTPoint(final double x, final double y, final double z) {
+    public RTPoint(final float x, final float y, final float z) {
         super(x, y, z, 1);
     }
 
@@ -25,12 +25,12 @@ public class RTPoint extends Tuple {
     }
 
     @Override
-    public Tuple mul(double scalar) {
+    public Tuple mul(float scalar) {
         throw new ArithmeticException("Can't multiply point with scalar");
     }
 
     @Override
-    public Tuple div(double scalar) {
+    public Tuple div(float scalar) {
         throw new ArithmeticException("Can't divide point by scalar");
     }
 }

@@ -1,6 +1,7 @@
-package org.schakalacka.java.raytracing.geometry.algebra;
+package org.schakalacka.java.raytracing.math;
 
 import org.junit.jupiter.api.Test;
+import org.schakalacka.java.raytracing.Constants;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,12 +10,12 @@ class RTVectorTest {
 
     @Test
     void tupleIsVector() {
-        var tuple = Tuple.vector(4.3, -4.2, 3.1);
+        var tuple = Tuple.vector(4.3f, (float) -4.2, 3.1f);
 
-        assertEquals(4.3, tuple.x());
-        assertEquals(-4.2, tuple.y());
-        assertEquals(3.1, tuple.z());
-        assertEquals(0.0, tuple.w());
+        assertEquals(4.3, tuple.x(), Constants.EQUALS_EPSILON);
+        assertEquals(-4.2, tuple.y(), Constants.EQUALS_EPSILON);
+        assertEquals(3.1, tuple.z(), Constants.EQUALS_EPSILON);
+        assertEquals(0.0, tuple.w(), Constants.EQUALS_EPSILON);
         assertTrue(tuple.isVector());
         assertFalse(tuple.isPoint());
 
@@ -99,7 +100,7 @@ class RTVectorTest {
     void multiplyVector() {
         var tuple = Tuple.vector(1, -2, 3);
 
-        var result = tuple.mul(3.5);
+        var result = tuple.mul(3.5f);
 
         assertEquals(3.5, result.x());
         assertEquals(-7, result.y());
@@ -139,7 +140,7 @@ class RTVectorTest {
         vector = Tuple.vector(-1, -2, -3);
         result = vector.magnitude();
 
-        assertEquals(Math.sqrt(14), result);
+        assertEquals(Math.sqrt(14), result,  Constants.EQUALS_EPSILON);
 
     }
 
@@ -157,7 +158,7 @@ class RTVectorTest {
         result = vector.normalize();
 
         // this is an approximation
-        var reference = Tuple.vector(1 / Math.sqrt(14), 2 / Math.sqrt(14), 3 / Math.sqrt(14));
+        var reference = Tuple.vector((float) (1 / Math.sqrt(14)), (float) (2 / Math.sqrt(14)), (float) (3 / Math.sqrt(14)));
 
         assertEquals(reference, result);
     }
@@ -207,7 +208,7 @@ class RTVectorTest {
     @Test
     void reflectAtSlantedSurface() {
         var vector = Tuple.vector(0, -1, 0);
-        var normal = Tuple.vector(Math.sqrt(2) / 2, Math.sqrt(2) / 2, 0);
+        var normal = Tuple.vector((float) (Math.sqrt(2) / 2), (float) (Math.sqrt(2) / 2), 0);
 
         var reflectedVector = vector.reflect(normal);
 

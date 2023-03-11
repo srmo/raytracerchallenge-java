@@ -1,6 +1,6 @@
 package org.schakalacka.java.raytracing.geometry.objects;
 
-import org.schakalacka.java.raytracing.geometry.algebra.Tuple;
+import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.geometry.tracing.Intersection;
 import org.schakalacka.java.raytracing.geometry.tracing.Ray;
 
@@ -19,7 +19,7 @@ public class Plane extends Shape {
             return Collections.emptyList();
         }
 
-        double distance = -ray.origin().y() / ray.direction().y();
+        float distance = -ray.origin().y() / ray.direction().y();
         return Collections.singletonList(new Intersection(this, distance));
     }
 

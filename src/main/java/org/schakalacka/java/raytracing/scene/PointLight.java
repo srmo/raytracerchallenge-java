@@ -1,6 +1,6 @@
 package org.schakalacka.java.raytracing.scene;
 
-import org.schakalacka.java.raytracing.geometry.algebra.RTPoint;
+import org.schakalacka.java.raytracing.math.RTPoint;
 
 public record PointLight(RTPoint position, Color intensity) {
 
