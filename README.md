@@ -188,3 +188,24 @@ That's all for now, no new GeometryObjects, no new Worlds or Scenes, sorry. But 
 
 Have fun!
 
+### Day X+N
+Been a sleep for a while and was wondering how I could improve performance. Everything is calculated on the CPU, so I thought
+I'd give the GPU a try. But how do you do that? I was aware of stuff like JCUDA but this whole GPU thing is rather new to me.
+Writing kernels? What is a kernel? Which parts to move to the GPU? Where is the point in code at which I move stuff to the GPU?
+
+Then I thought, hey, let's check which operations are the most expensive and which oeprations are happening most often.
+A simple global counter et voi la:
+`//NAIVE INFO: Counter : Counter{mulM=10, mulT=29464711, transpose=1916369, determinant=741426545, subM=611156128, minor=609057633, cofactor=618963224, isInvertible=16503397, inverse=16505189, translate=12, scale=10, rotX=4, rotY=6, rotZ=0, shear=0}`
+
+These are the numbers when using MT.NAIVE. The numbers for EJML are similar. 10-100 Million operations, yeah. OK.
+I started asking ChatGPT for how to perform multiplications on the GPU. It provided some JCUDA code, which I never tried as I got distracted by this whole AI thing.
+
+Then, I don't know how, I stumbled upon JCUBLAS, which is a JAVA binding/library for NVIDIA's CUDA, more specifically CUBLAS, which provides BLAS operations like 
+matrix-matrix, matrix-vector and vector-vector multiplication. I was like, "Hey, that's what I need!". So I went with an incredibly naive approach to just outsource the matrix-vector multiplication.
+You can see the results in `CublasMatrixWrapper`. It's not pretty, but it works. 
+
+Hm, at least for some value of "works". It produces the correct results, but the performance is abysmal.
+No wonder, I'm just using the naive approach, which is to copy the matrix and vector to the GPU, perform the multiplication and copy the result back to the CPU. Which is obviously slow.
+But hey, it's a start. I'll try to improve this, but I'm not sure if I'll be able to do it in a reasonable amount of time. I'll keep you posted.
+
+For now, I'll continue with the implementation in the book. I need a better understanding how to "chunk" the tracing algorithm such that bigger parts can be outsources and parallelized on the GPU, not just single operations.
