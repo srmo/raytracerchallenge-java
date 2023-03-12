@@ -78,12 +78,12 @@ public class Chapter11_reflection {
         world.addObjects(floor, backDrop1, backDrop2, leftSphere, middleSphere, rightSphere);
 
         // 4k resolution
-        var width = 3840;
-        var height = 2160;
+//        var width = 3840;
+//        var height = 2160;
 
         // 1080p resolution
-        // var width = 1920;
-        // var height = 1080;
+         var width = 1920;
+         var height = 1080;
 
         var camera = new Camera(width, height, Math.PI / 3);
         camera.setTransformationMatrix(ViewTransformation

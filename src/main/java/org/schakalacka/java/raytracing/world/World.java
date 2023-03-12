@@ -94,7 +94,8 @@ public class World {
         );
 
         Color reflectedColor = reflectedColor(precalc, remainingBounces);
-        return lightingColor.add(reflectedColor);
+        Color refractedColor = refractedColor(precalc, remainingBounces);
+        return lightingColor.add(reflectedColor).add(refractedColor);
     }
 
     public void addObjects(Shape... objects) {
@@ -127,6 +128,25 @@ public class World {
             Color reflectedColor = color_at(reflectedRay, remainingBounces - 1);
 
             return reflectedColor.mulS(precalc.getObject().material().reflectivity());
+        }
+    }
+
+    public Color refractedColor(Precalc precalc, int remainingBounces) {
+        if (remainingBounces < 1 || precalc.getObject().material().transparency() == 0) {
+            return Color.BLACK;
+        } else {
+            var nRatio = precalc.getN1() / precalc.getN2();
+            var cosI = precalc.getEyeVector().dot(precalc.getNormalVector());
+            var sin2T = nRatio * nRatio * (1 - cosI * cosI);
+
+            // exit early if we have total internal reflection
+            if (sin2T > 1) return Color.BLACK;
+
+            var cosT = Math.sqrt(1.0 - sin2T);
+            var direction = precalc.getNormalVector().mul((float) (nRatio * cosI - cosT)).sub(precalc.getEyeVector().mul((float) nRatio));
+            var refractedRay = new Ray(precalc.getUnderPoint(), direction);
+
+            return color_at(refractedRay, remainingBounces - 1).mulS(precalc.getObject().material().transparency());
         }
     }
 }

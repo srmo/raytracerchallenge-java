@@ -3,6 +3,7 @@ package org.schakalacka.java.raytracing.world;
 import org.junit.jupiter.api.Test;
 import org.schakalacka.java.raytracing.geometry.objects.Plane;
 import org.schakalacka.java.raytracing.geometry.objects.Sphere;
+import org.schakalacka.java.raytracing.geometry.patterns.PatternTest;
 import org.schakalacka.java.raytracing.geometry.tracing.Intersection;
 import org.schakalacka.java.raytracing.geometry.tracing.Precalc;
 import org.schakalacka.java.raytracing.geometry.tracing.Ray;
@@ -13,6 +14,9 @@ import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.scene.Color;
 import org.schakalacka.java.raytracing.scene.Material;
 import org.schakalacka.java.raytracing.scene.PointLight;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -71,20 +75,20 @@ class WorldTest {
     @Test
     void shadeIntersectionInShader() {
         var world = new World();
-        world.setLightSource(new PointLight(Tuple.point(0,0,-10), new Color(1,1,1)));
+        world.setLightSource(new PointLight(Tuple.point(0, 0, -10), new Color(1, 1, 1)));
         var sphere1 = new Sphere();
         var sphere2 = new Sphere();
-        sphere2.setTransformationMatrix(MatrixProvider.translation(0,0,10));
+        sphere2.setTransformationMatrix(MatrixProvider.translation(0, 0, 10));
 
         world.addObjects(sphere1, sphere2);
 
-        var ray = new Ray(Tuple.point(0,0,5), Tuple.vector(0,0,1));
+        var ray = new Ray(Tuple.point(0, 0, 5), Tuple.vector(0, 0, 1));
         var intersection = new Intersection(sphere2, 4);
 
         var precalcs = new Precalc(intersection, ray);
         var shadeHit = world.shade_hit(precalcs);
 
-        assertEquals(new Color(0.1,0.1,0.1), shadeHit);
+        assertEquals(new Color(0.1, 0.1, 0.1), shadeHit);
     }
 
     @Test
@@ -196,7 +200,7 @@ class WorldTest {
         plane.setTransformationMatrix(MatrixProvider.translation(0, -1, 0));
         world.addObjects(plane);
 
-        var ray = new Ray(Tuple.point(0, 0, -3), Tuple.vector(0, (float) (-Math.sqrt(2)/2), (float) (Math.sqrt(2)/2)));
+        var ray = new Ray(Tuple.point(0, 0, -3), Tuple.vector(0, (float) (-Math.sqrt(2) / 2), (float) (Math.sqrt(2) / 2)));
         var intersection = new Intersection(plane, (float) Math.sqrt(2));
         var precalc = new Precalc(intersection, ray);
 
@@ -213,7 +217,7 @@ class WorldTest {
         plane.setTransformationMatrix(MatrixProvider.translation(0, -1, 0));
         world.addObjects(plane);
 
-        var ray = new Ray(Tuple.point(0, 0, -3), Tuple.vector(0, (float) (-Math.sqrt(2)/2), (float) (Math.sqrt(2)/2)));
+        var ray = new Ray(Tuple.point(0, 0, -3), Tuple.vector(0, (float) (-Math.sqrt(2) / 2), (float) (Math.sqrt(2) / 2)));
         var intersection = new Intersection(plane, (float) Math.sqrt(2));
         var precalc = new Precalc(intersection, ray);
 
@@ -230,7 +234,7 @@ class WorldTest {
         plane.setTransformationMatrix(MatrixProvider.translation(0, -1, 0));
         world.addObjects(plane);
 
-        var ray = new Ray(Tuple.point(0, 0, -3), Tuple.vector(0, (float) (-Math.sqrt(2)/2), (float) (Math.sqrt(2)/2)));
+        var ray = new Ray(Tuple.point(0, 0, -3), Tuple.vector(0, (float) (-Math.sqrt(2) / 2), (float) (Math.sqrt(2) / 2)));
         var intersection = new Intersection(plane, (float) Math.sqrt(2));
         var precalc = new Precalc(intersection, ray);
 
@@ -242,7 +246,7 @@ class WorldTest {
     @Test
     void avoidInfiniteRecursionOnReflection() {
         var world = new World();
-        world.setLightSource(new PointLight(RTPoint.point(0,0,0), Color.WHITE));
+        world.setLightSource(new PointLight(RTPoint.point(0, 0, 0), Color.WHITE));
 
         var lowerPlane = new Plane();
         lowerPlane.setMaterial(new Material.MaterialBuilder().reflectivity(1).create());
@@ -270,12 +274,116 @@ class WorldTest {
         plane.setTransformationMatrix(MatrixProvider.translation(0, -1, 0));
         world.addObjects(plane);
 
-        var ray = new Ray(Tuple.point(0, 0, -3), Tuple.vector(0, (float) (-Math.sqrt(2)/2), (float) (Math.sqrt(2)/2)));
+        var ray = new Ray(Tuple.point(0, 0, -3), Tuple.vector(0, (float) (-Math.sqrt(2) / 2), (float) (Math.sqrt(2) / 2)));
         var intersection = new Intersection(plane, (float) Math.sqrt(2));
         var precalc = new Precalc(intersection, ray);
 
         var color = world.reflectedColor(precalc, 0);
 
         assertEquals(new Color(0, 0, 0), color);
+    }
+
+    @Test
+    void refractedColorForIntransparentMaterial() {
+        var world = World.getDefault();
+        var ray = new Ray(Tuple.point(0, 0, -5), Tuple.vector(0, 0, 1));
+        var shape = world.getObjects().get(1);
+
+        var intersection1 = new Intersection(shape, 4);
+        var intersection2 = new Intersection(shape, 6);
+        List<Intersection> intersections = Arrays.asList(intersection1, intersection2);
+
+        var precalc = new Precalc(intersection1, ray, intersections);
+
+        var color = world.refractedColor(precalc, 5);
+
+        assertEquals(new Color(0, 0, 0), color);
+
+    }
+
+
+    @Test
+    void refractedColorForTransparentMaterialButNoRemainingBounces() {
+        var world = World.getDefault();
+        var ray = new Ray(Tuple.point(0, 0, -5), Tuple.vector(0, 0, 1));
+        var shape = world.getObjects().get(1);
+        shape.setMaterial(Material.newMaterial().transparency(1.0).refractiveIndex(1.5).create());
+
+        var intersection1 = new Intersection(shape, 4);
+        var intersection2 = new Intersection(shape, 6);
+        List<Intersection> intersections = Arrays.asList(intersection1, intersection2);
+
+        var precalc = new Precalc(intersection1, ray, intersections);
+
+        var color = world.refractedColor(precalc, 0);
+
+        assertEquals(new Color(0, 0, 0), color);
+
+    }
+
+    @Test
+    void refractedColorUnderTotalInternalReflection() {
+        var world = World.getDefault();
+        var shape = world.getObjects().get(1);
+
+        shape.setMaterial(Material.newMaterial().transparency(1.0).refractiveIndex(1.5).create());
+
+        var ray = new Ray(Tuple.point(0, 0, (float) Math.sqrt(2) / 2), Tuple.vector(0, 1, 0));
+        var intersection1 = new Intersection(shape, -(float) Math.sqrt(2) / 2);
+        var intersection2 = new Intersection(shape, (float) Math.sqrt(2) / 2);
+        List<Intersection> intersections = Arrays.asList(intersection1, intersection2);
+
+        var precalc = new Precalc(intersection2, ray, intersections);
+
+        var color = world.refractedColor(precalc, 5);
+
+        assertEquals(Color.BLACK, color);
+    }
+
+    @Test
+    void refractionRay() {
+        var world = World.getDefault();
+        var sphere1 = world.getObjects().get(0);
+        var sphere2 = world.getObjects().get(1);
+
+        sphere1.setMaterial(Material.newMaterial().ambient(1).pattern(new PatternTest.TestPattern()).create());
+        sphere2.setMaterial(Material.newMaterial().transparency(1).refractiveIndex(1.5).create());
+
+        var ray = new Ray(Tuple.point(0, 0, 0.1f), Tuple.vector(0, 1, 0));
+        var intersection1 = new Intersection(sphere1, -0.9899f);
+        var intersection2 = new Intersection(sphere2, -0.4899f);
+        var intersection3 = new Intersection(sphere2, 0.4899f);
+        var intersection4 = new Intersection(sphere1, 0.9899f);
+
+        var intersections = Arrays.asList(intersection1, intersection2, intersection3, intersection4);
+
+        var precalc = new Precalc(intersections.get(2), ray, intersections);
+
+        var color = world.refractedColor(precalc, 5);
+
+        assertEquals(new Color(0, 0.99888, 0.04725), color);
+
+    }
+
+    @Test
+    void shadeHitWithTransparentMaterial() {
+        var world = World.getDefault();
+        var floor = new Plane();
+        floor.setTransformationMatrix(MatrixProvider.translation(0, -1, 0));
+        floor.setMaterial(Material.newMaterial().transparency(0.5).refractiveIndex(1.5).create());
+        world.addObjects(floor);
+
+        var ball = new Sphere();
+        ball.setTransformationMatrix(MatrixProvider.translation(0, -3.5f, -0.5f));
+        ball.setMaterial(Material.newMaterial().color(new Color(1,0,0)).ambient(0.5).create());
+        world.addObjects(ball);
+
+        var ray = new Ray(Tuple.point(0, 0, -3), Tuple.vector(0, (float) (-Math.sqrt(2) / 2), (float) (Math.sqrt(2) / 2)));
+        var intersection = new Intersection(floor, (float) Math.sqrt(2));
+        var precalc = new Precalc(intersection, ray);
+
+        var color = world.shade_hit(precalc, 5);
+
+        assertEquals(new Color(0.93642, 0.68642, 0.68642), color);
     }
 }

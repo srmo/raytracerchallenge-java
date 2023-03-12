@@ -21,6 +21,9 @@ class MaterialTest {
         assertEquals(0.9, material.diffuse());
         assertEquals(0.9, material.specular());
         assertEquals(200.0, material.shininess());
+        assertEquals(0, material.reflectivity());
+        assertEquals(0, material.transparency());
+        assertEquals(1.0, material.refractiveIndex());
     }
 
     @Test

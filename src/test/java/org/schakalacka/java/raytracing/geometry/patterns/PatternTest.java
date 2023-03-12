@@ -8,7 +8,7 @@ import org.schakalacka.java.raytracing.scene.Color;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class PatternTest {
+public class PatternTest {
 
     @Test
     void defaultTransformation() {
@@ -65,7 +65,7 @@ class PatternTest {
     /***
      * I'll follow the book here, b/c I find the idea interesting to use test-object specific fields that my tests can inspect
      */
-    static class TestPattern extends Pattern {
+    public static class TestPattern extends Pattern {
 
         @Override
         public Color patternAt(Tuple point) {

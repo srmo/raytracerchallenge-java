@@ -1,8 +1,9 @@
 package org.schakalacka.java.raytracing.geometry.objects;
 
-import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.geometry.tracing.Intersection;
 import org.schakalacka.java.raytracing.geometry.tracing.Ray;
+import org.schakalacka.java.raytracing.math.Tuple;
+import org.schakalacka.java.raytracing.scene.Material;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -12,6 +13,12 @@ import java.util.Objects;
 public class Sphere extends Shape {
 
     private final Tuple position = Tuple.point(0, 0, 0);
+
+    public static Sphere glassySphere() {
+        var sphere = new Sphere();
+        sphere.setMaterial(Material.newMaterial().transparency(1).refractiveIndex(1.5f).create());
+        return sphere;
+    }
 
 
     public Tuple position() {

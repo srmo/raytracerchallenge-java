@@ -2,8 +2,9 @@ package org.schakalacka.java.raytracing.geometry.objects;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.geometry.tracing.Ray;
+import org.schakalacka.java.raytracing.math.MatrixProvider;
+import org.schakalacka.java.raytracing.math.Tuple;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,6 +15,14 @@ public class SphereTest {
         assertInstanceOf(Shape.class, new Sphere());
     }
 
+    @Test
+    void glassSphere() {
+        var sphere = Sphere.glassySphere();
+
+        assertEquals(MatrixProvider.get(4,true), sphere.getTransformationMatrix());
+        assertEquals(1.5, sphere.material().refractiveIndex());
+        assertEquals(1.0, sphere.material().transparency());
+    }
     @Test
     void unitSphere() {
         var sphere = new Sphere();

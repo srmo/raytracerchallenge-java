@@ -1,10 +1,11 @@
 package org.schakalacka.java.raytracing.scene;
 
-import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.geometry.objects.Shape;
 import org.schakalacka.java.raytracing.geometry.patterns.Pattern;
+import org.schakalacka.java.raytracing.math.Tuple;
 
-public record Material(Color color, double ambient, double diffuse, double specular, double shininess, float reflectivity,
+public record Material(Color color, double ambient, double diffuse, double specular, double shininess,
+                       float reflectivity, double transparency, double refractiveIndex,
                        Pattern pattern) {
 
     public static MaterialBuilder newMaterial() {
@@ -71,6 +72,8 @@ public record Material(Color color, double ambient, double diffuse, double specu
         private double specular = 0.9;
         private double shininess = 200.0;
         private float reflectivity = 0.0f;
+        private double transparency = 0.0;
+        private double refractiveIndex = 1.0;
         private Pattern pattern;
 
         public MaterialBuilder color(Color color) {
@@ -103,8 +106,18 @@ public record Material(Color color, double ambient, double diffuse, double specu
             return this;
         }
 
+        public MaterialBuilder transparency(double transparency) {
+            this.transparency = transparency;
+            return this;
+        }
+
+        public MaterialBuilder refractiveIndex(double refractiveIndex) {
+            this.refractiveIndex = refractiveIndex;
+            return this;
+        }
+
         public Material create() {
-            return new Material(color, ambient, diffuse, specular, shininess, reflectivity, pattern);
+            return new Material(color, ambient, diffuse, specular, shininess, reflectivity, transparency, refractiveIndex, pattern);
         }
 
         public MaterialBuilder pattern(Pattern pattern) {
