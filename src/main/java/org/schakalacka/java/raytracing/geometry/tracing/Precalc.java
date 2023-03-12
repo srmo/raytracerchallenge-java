@@ -1,7 +1,7 @@
 package org.schakalacka.java.raytracing.geometry.tracing;
 
-import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.geometry.objects.Shape;
+import org.schakalacka.java.raytracing.math.Tuple;
 
 import static org.schakalacka.java.raytracing.Constants.SHAPE_POINT_OFFSET_EPSILON;
 
@@ -19,6 +19,7 @@ public class Precalc {
     // reason: due to floating point rounding errors, the points for reflection, shadow etc
     // might end up 'below' a surface.
     private final Tuple overPoint;
+    private final Tuple reflectVector;
 
     public Precalc(Intersection intersection, Ray ray) {
         distance = intersection.getDistance();
@@ -34,6 +35,7 @@ public class Precalc {
             this.normalVector = object.normalVectorAt(point);
         }
 
+        reflectVector = ray.direction().reflect(normalVector);
         overPoint = point.add(normalVector.mul(SHAPE_POINT_OFFSET_EPSILON));
     }
 
@@ -63,5 +65,9 @@ public class Precalc {
 
     public Tuple getOverPoint() {
         return overPoint;
+    }
+
+    public Tuple getReflectVector() {
+        return reflectVector;
     }
 }

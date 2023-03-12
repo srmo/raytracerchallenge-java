@@ -1,12 +1,15 @@
 package org.schakalacka.java.raytracing.world;
 
 import org.junit.jupiter.api.Test;
-import org.schakalacka.java.raytracing.math.MatrixProvider;
-import org.schakalacka.java.raytracing.math.Tuple;
+import org.schakalacka.java.raytracing.geometry.objects.Plane;
 import org.schakalacka.java.raytracing.geometry.objects.Sphere;
 import org.schakalacka.java.raytracing.geometry.tracing.Intersection;
 import org.schakalacka.java.raytracing.geometry.tracing.Precalc;
 import org.schakalacka.java.raytracing.geometry.tracing.Ray;
+import org.schakalacka.java.raytracing.math.MatrixProvider;
+import org.schakalacka.java.raytracing.math.RTPoint;
+import org.schakalacka.java.raytracing.math.RTVector;
+import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.scene.Color;
 import org.schakalacka.java.raytracing.scene.Material;
 import org.schakalacka.java.raytracing.scene.PointLight;
@@ -167,5 +170,112 @@ class WorldTest {
         assertFalse(world.isShadowed(point));
     }
 
+    @Test
+    void reflectedColorForNonReflectiveMaterial() {
+        var world = World.getDefault();
+        var ray = new Ray(Tuple.point(0, 0, 0), Tuple.vector(0, 0, 1));
+        var shape = world.getObjects().get(1);
+        shape.setMaterial(new Material.MaterialBuilder().ambient(1).create());
 
+        var intersection = new Intersection(shape, 1);
+
+        var precalc = new Precalc(intersection, ray);
+
+        var color = world.reflectedColor(precalc, 0);
+
+        assertEquals(new Color(0, 0, 0), color);
+
+    }
+
+
+    @Test
+    void reflectedColorForReflectiveMaterial() {
+        var world = World.getDefault();
+        var plane = new Plane();
+        plane.setMaterial(new Material.MaterialBuilder().reflectivity(0.5f).create());
+        plane.setTransformationMatrix(MatrixProvider.translation(0, -1, 0));
+        world.addObjects(plane);
+
+        var ray = new Ray(Tuple.point(0, 0, -3), Tuple.vector(0, (float) (-Math.sqrt(2)/2), (float) (Math.sqrt(2)/2)));
+        var intersection = new Intersection(plane, (float) Math.sqrt(2));
+        var precalc = new Precalc(intersection, ray);
+
+        var color = world.reflectedColor(precalc, 1);
+
+        assertEquals(new Color(0.190332, 0.237915, 0.142749), color);
+    }
+
+    @Test
+    void reflectedColorForReflectiveMaterialWithRemainingIterations() {
+        var world = World.getDefault();
+        var plane = new Plane();
+        plane.setMaterial(new Material.MaterialBuilder().reflectivity(0.5f).create());
+        plane.setTransformationMatrix(MatrixProvider.translation(0, -1, 0));
+        world.addObjects(plane);
+
+        var ray = new Ray(Tuple.point(0, 0, -3), Tuple.vector(0, (float) (-Math.sqrt(2)/2), (float) (Math.sqrt(2)/2)));
+        var intersection = new Intersection(plane, (float) Math.sqrt(2));
+        var precalc = new Precalc(intersection, ray);
+
+        var color = world.reflectedColor(precalc, 0);
+
+        assertEquals(new Color(0, 0, 0), color);
+    }
+
+    @Test
+    void shadeHitWithReflectiveMaterial() {
+        var world = World.getDefault();
+        var plane = new Plane();
+        plane.setMaterial(new Material.MaterialBuilder().reflectivity(0.5f).create());
+        plane.setTransformationMatrix(MatrixProvider.translation(0, -1, 0));
+        world.addObjects(plane);
+
+        var ray = new Ray(Tuple.point(0, 0, -3), Tuple.vector(0, (float) (-Math.sqrt(2)/2), (float) (Math.sqrt(2)/2)));
+        var intersection = new Intersection(plane, (float) Math.sqrt(2));
+        var precalc = new Precalc(intersection, ray);
+
+        var color = world.shade_hit(precalc);
+
+        assertEquals(new Color(0.87677, 0.92436, 0.82918), color);
+    }
+
+    @Test
+    void avoidInfiniteRecursionOnReflection() {
+        var world = new World();
+        world.setLightSource(new PointLight(RTPoint.point(0,0,0), Color.WHITE));
+
+        var lowerPlane = new Plane();
+        lowerPlane.setMaterial(new Material.MaterialBuilder().reflectivity(1).create());
+        lowerPlane.setTransformationMatrix(MatrixProvider.translation(0, -1, 0));
+
+        var upperPlane = new Plane();
+        upperPlane.setMaterial(new Material.MaterialBuilder().reflectivity(1).create());
+        upperPlane.setTransformationMatrix(MatrixProvider.translation(0, 1, 0));
+
+        world.addObjects(lowerPlane, upperPlane);
+
+        var ray = new Ray(RTPoint.point(0, 0, 0), RTVector.vector(0, 1, 0));
+
+        var color = world.color_at(ray);
+
+        // this is basically just to check that no infinite recursion happens
+        assertEquals(color, color);
+    }
+
+    @Test
+    void reflectedColorAtRecursionLimit() {
+        var world = new World();
+        var plane = new Plane();
+        plane.setMaterial(new Material.MaterialBuilder().reflectivity(0.5f).create());
+        plane.setTransformationMatrix(MatrixProvider.translation(0, -1, 0));
+        world.addObjects(plane);
+
+        var ray = new Ray(Tuple.point(0, 0, -3), Tuple.vector(0, (float) (-Math.sqrt(2)/2), (float) (Math.sqrt(2)/2)));
+        var intersection = new Intersection(plane, (float) Math.sqrt(2));
+        var precalc = new Precalc(intersection, ray);
+
+        var color = world.reflectedColor(precalc, 0);
+
+        assertEquals(new Color(0, 0, 0), color);
+    }
 }

@@ -1,6 +1,7 @@
 package org.schakalacka.java.raytracing.world;
 
 
+import org.schakalacka.java.raytracing.Constants;
 import org.schakalacka.java.raytracing.geometry.objects.Shape;
 import org.schakalacka.java.raytracing.geometry.objects.Sphere;
 import org.schakalacka.java.raytracing.geometry.tracing.Intersection;
@@ -64,18 +65,26 @@ public class World {
     }
 
     public Color color_at(Ray ray) {
+        return this.color_at(ray, Constants.DEFAULT_REFLECTION_DEPTH);
+    }
+
+    public Color color_at(Ray ray, int remainingBounces) {
         Intersection hit = IntersectionTracker.getHit(intersect(ray));
         if (hit == null) {
             return Color.BLACK;
         } else {
-            return shade_hit(new Precalc(hit, ray));
+            return shade_hit(new Precalc(hit, ray), remainingBounces);
         }
     }
 
     public Color shade_hit(Precalc precalc) {
+        return shade_hit(precalc, Constants.DEFAULT_REFLECTION_DEPTH);
+    }
+
+    public Color shade_hit(Precalc precalc, int remainingBounces) {
         boolean shadowed = isShadowed(precalc.getOverPoint());
         // TODO add iteration over multiple light sources here
-        return precalc.getObject().material().lighting(
+        Color lightingColor = precalc.getObject().material().lighting(
                 this.lightSource,
                 precalc.getObject(),
                 precalc.getOverPoint(),
@@ -83,6 +92,9 @@ public class World {
                 precalc.getNormalVector(),
                 shadowed
         );
+
+        Color reflectedColor = reflectedColor(precalc, remainingBounces);
+        return lightingColor.add(reflectedColor);
     }
 
     public void addObjects(Shape... objects) {
@@ -104,4 +116,17 @@ public class World {
         return hit != null && hit.getDistance() < distancePointToLight;
     }
 
+    public Color reflectedColor(Precalc precalc, int remainingBounces) {
+        if (remainingBounces < 1 || precalc.getObject().material().reflectivity() == 0) {
+            return Color.BLACK;
+        } else {
+            // important to start reflection at the overPoint, not at the intersection point, otherwise we get a self-intersection
+            Ray reflectedRay = new Ray(precalc.getOverPoint(), precalc.getReflectVector());
+
+            // we consumed one bounce, so we need to subtract one from the remaining bounces
+            Color reflectedColor = color_at(reflectedRay, remainingBounces - 1);
+
+            return reflectedColor.mulS(precalc.getObject().material().reflectivity());
+        }
+    }
 }

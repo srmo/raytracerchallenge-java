@@ -4,7 +4,7 @@ import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.geometry.objects.Shape;
 import org.schakalacka.java.raytracing.geometry.patterns.Pattern;
 
-public record Material(Color color, double ambient, double diffuse, double specular, double shininess,
+public record Material(Color color, double ambient, double diffuse, double specular, double shininess, float reflectivity,
                        Pattern pattern) {
 
     public static MaterialBuilder newMaterial() {
@@ -70,6 +70,7 @@ public record Material(Color color, double ambient, double diffuse, double specu
         private double diffuse = 0.9;
         private double specular = 0.9;
         private double shininess = 200.0;
+        private float reflectivity = 0.0f;
         private Pattern pattern;
 
         public MaterialBuilder color(Color color) {
@@ -97,8 +98,13 @@ public record Material(Color color, double ambient, double diffuse, double specu
             return this;
         }
 
+        public MaterialBuilder reflectivity(float reflectivity) {
+            this.reflectivity = reflectivity;
+            return this;
+        }
+
         public Material create() {
-            return new Material(color, ambient, diffuse, specular, shininess, pattern);
+            return new Material(color, ambient, diffuse, specular, shininess, reflectivity, pattern);
         }
 
         public MaterialBuilder pattern(Pattern pattern) {

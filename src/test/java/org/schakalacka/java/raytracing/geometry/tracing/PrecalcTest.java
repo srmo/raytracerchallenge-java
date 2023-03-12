@@ -1,9 +1,10 @@
 package org.schakalacka.java.raytracing.geometry.tracing;
 
 import org.junit.jupiter.api.Test;
+import org.schakalacka.java.raytracing.geometry.objects.Plane;
+import org.schakalacka.java.raytracing.geometry.objects.Sphere;
 import org.schakalacka.java.raytracing.math.MatrixProvider;
 import org.schakalacka.java.raytracing.math.Tuple;
-import org.schakalacka.java.raytracing.geometry.objects.Sphere;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.schakalacka.java.raytracing.Constants.SHAPE_POINT_OFFSET_EPSILON;
@@ -23,6 +24,17 @@ class PrecalcTest {
         assertEquals(Tuple.point(0,0,-1), precalc.getPoint());
         assertEquals(Tuple.vector(0,0,-1), precalc.getEyeVector());
         assertEquals(Tuple.vector(0,0,-1), precalc.getNormalVector());
+    }
+
+    @Test
+    void precalcReflectionVector() {
+        var ray = new Ray(Tuple.point(0,1,-1), Tuple.vector(0, (float) -(Math.sqrt(2)/2), (float) Math.sqrt(2)/2));
+        var plane = new Plane();
+        var intersection = new Intersection(plane, (float) Math.sqrt(2));
+
+        var precalc = new Precalc(intersection, ray);
+
+        assertEquals(Tuple.vector(0, (float) Math.sqrt(2)/2, (float) Math.sqrt(2)/2), precalc.getReflectVector());
     }
 
     @Test

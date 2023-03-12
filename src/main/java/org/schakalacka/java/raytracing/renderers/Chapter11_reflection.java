@@ -15,7 +15,7 @@ import org.schakalacka.java.raytracing.world.ViewTransformation;
 import org.schakalacka.java.raytracing.world.World;
 import org.tinylog.Logger;
 
-public class Chapter11 {
+public class Chapter11_reflection {
 
 
     public static void main(String[] args) {
@@ -77,8 +77,13 @@ public class Chapter11 {
         world.setLightSource(new PointLight(Tuple.point(-10, 20, -10), new Color(0.8, 0.8, 0.8)));
         world.addObjects(floor, backDrop1, backDrop2, leftSphere, middleSphere, rightSphere);
 
-        var width = 1920;
-        var height = 1080;
+        // 4k resolution
+        var width = 3840;
+        var height = 2160;
+
+        // 1080p resolution
+        // var width = 1920;
+        // var height = 1080;
 
         var camera = new Camera(width, height, Math.PI / 3);
         camera.setTransformationMatrix(ViewTransformation
