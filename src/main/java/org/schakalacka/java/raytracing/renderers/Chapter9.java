@@ -1,6 +1,7 @@
 package org.schakalacka.java.raytracing.renderers;
 
 import org.schakalacka.java.raytracing.PPMExporter;
+import org.schakalacka.java.raytracing.math.MATRIX_TYPE;
 import org.schakalacka.java.raytracing.math.MatrixProvider;
 import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.math.UVMapping;
@@ -15,11 +16,11 @@ import org.schakalacka.java.raytracing.world.ViewTransformation;
 import org.schakalacka.java.raytracing.world.World;
 import org.tinylog.Logger;
 
-public class RenderWorldWithPlanes {
+public class Chapter9 {
 
 
     public static void main(String[] args) {
-
+        MatrixProvider.MT = MATRIX_TYPE.EJML;
         Pattern patternRedWhite = new TextureMap(new UVCheckerPattern(20, 10, new Color(.6, .2, .2), Color.WHITE), new UVMapping());
 
 

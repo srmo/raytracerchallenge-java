@@ -2,6 +2,7 @@ package org.schakalacka.java.raytracing.renderers;
 
 import org.schakalacka.java.raytracing.Counter;
 import org.schakalacka.java.raytracing.PPMExporter;
+import org.schakalacka.java.raytracing.math.MATRIX_TYPE;
 import org.schakalacka.java.raytracing.math.MatrixProvider;
 import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.math.UVMapping;
@@ -12,10 +13,12 @@ import org.schakalacka.java.raytracing.world.ViewTransformation;
 import org.schakalacka.java.raytracing.world.World;
 import org.tinylog.Logger;
 
-public class RenderWorld {
+public class Chapter7 {
 
 
     public static void main(String[] args) {
+        MatrixProvider.MT = MATRIX_TYPE.EJML;
+
         Pattern patternRedWhite = new TextureMap(new UVCheckerPattern(10,10, new Color(.6,.2,.2), Color.WHITE), new UVMapping());
         Pattern patternBlackWhite = new TextureMap(new UVCheckerPattern(10,10, Color.BLACK, Color.WHITE), new UVMapping());
         //patternRedWhite.setTransformationMatrix(MatrixProvider.scaling(0.5, 0.5, 0.5));
@@ -77,7 +80,7 @@ public class RenderWorld {
         world.setLightSource(new PointLight(Tuple.point(-10, 20, -10), new Color(0.8, 0.8, 0.8)));
         world.addObjects(floor, leftWall, rightWall, leftSphere, middleSphere, rightSphere);
 
-        // 4K 2,160 pixels tall and 3,840
+        // 4K 3840 x 2,160 pixels
         // FHD 1,920 x 1,080 pixels
         var width = 640;
         var height = 480;
@@ -94,8 +97,8 @@ public class RenderWorld {
         long renderStart = System.currentTimeMillis();
 
         var parallelChunks = 8;
-        //Canvas canvas = camera.render(world, parallelChunks);
-        Canvas canvas = camera.renderSinglePixel(world, 300,200);
+        Canvas canvas = camera.render(world, parallelChunks);
+
 
         long renderEnd = System.currentTimeMillis();
         long renderTime = renderEnd - renderStart;

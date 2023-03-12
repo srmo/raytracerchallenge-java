@@ -1,11 +1,12 @@
 package org.schakalacka.java.raytracing.renderers;
 
 import org.schakalacka.java.raytracing.PPMExporter;
-import org.schakalacka.java.raytracing.math.MatrixProvider;
-import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.geometry.objects.Plane;
 import org.schakalacka.java.raytracing.geometry.objects.Shape;
 import org.schakalacka.java.raytracing.geometry.objects.Sphere;
+import org.schakalacka.java.raytracing.math.MATRIX_TYPE;
+import org.schakalacka.java.raytracing.math.MatrixProvider;
+import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.scene.*;
 import org.schakalacka.java.raytracing.world.ViewTransformation;
 import org.schakalacka.java.raytracing.world.World;
@@ -14,10 +15,11 @@ import org.tinylog.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RenderWorldHexagonPlanes {
+public class Chapter10 {
 
 
     public static void main(String[] args) {
+        MatrixProvider.MT = MATRIX_TYPE.EJML;
         var floor1 = new Plane();
         floor1.setMaterial(Material.newMaterial().color(new Color(1, 0.5, 0.5)).specular(0).create());
 
@@ -101,7 +103,7 @@ public class RenderWorldHexagonPlanes {
 
 
         long exportStart = System.currentTimeMillis();
-        PPMExporter.export(canvas, "chapter9_%dx%d_chunks_%d_Matrix_%s.ppm".formatted(width, height, parallelChunks, MatrixProvider.MT), 255);
+        PPMExporter.export(canvas, "chapter10_%dx%d_chunks_%d_Matrix_%s.ppm".formatted(width, height, parallelChunks, MatrixProvider.MT), 255);
         long exportEnd = System.currentTimeMillis();
         Logger.info("Export took {}ms", (exportEnd - exportStart));
     }

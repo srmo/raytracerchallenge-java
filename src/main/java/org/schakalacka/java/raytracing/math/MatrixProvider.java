@@ -4,7 +4,7 @@ import org.schakalacka.java.raytracing.Counter;
 
 public class MatrixProvider {
 
-    public static MATRIX_TYPE MT = MATRIX_TYPE.CUBLAS;
+    public static MATRIX_TYPE MT = MATRIX_TYPE.EJML;
 
     public static Matrix get(float[][] ref) {
         return MT.provider.get(ref);

@@ -10,7 +10,7 @@ import org.schakalacka.java.raytracing.scene.Canvas;
 import org.schakalacka.java.raytracing.scene.Color;
 import org.tinylog.Logger;
 
-public class RenderSphereShadow {
+public class Chapter5 {
 
 
     public static void main(String[] args) {
@@ -57,7 +57,7 @@ public class RenderSphereShadow {
 
 
         long exportStart = System.currentTimeMillis();
-        PPMExporter.export(canvas, "sphereShadow.ppm", 255);
+        PPMExporter.export(canvas, "chapter5_sphereShadow.ppm", 255);
         long exportEnd = System.currentTimeMillis();
         Logger.info("Export took {}ms", (exportEnd - exportStart));
     }

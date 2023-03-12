@@ -14,7 +14,7 @@ import org.tinylog.Logger;
 
 import java.util.stream.IntStream;
 
-public class RenderSphere {
+public class Chapter6 {
 
 
     public static void main(String[] args) {
@@ -108,7 +108,7 @@ public class RenderSphere {
 
 
         long exportStart = System.currentTimeMillis();
-        PPMExporter.export(canvas, "sphere.ppm", 255);
+        PPMExporter.export(canvas, "chapter6_sphere.ppm", 255);
         long exportEnd = System.currentTimeMillis();
         Logger.info("Export took {}ms", (exportEnd - exportStart));
     }

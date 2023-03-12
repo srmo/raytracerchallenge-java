@@ -7,12 +7,12 @@ import org.schakalacka.java.raytracing.scene.Canvas;
 import org.schakalacka.java.raytracing.scene.Color;
 import org.tinylog.Logger;
 
-public class RenderClock {
+public class Chapter4 {
 
     private Canvas canvas;
 
     public static void main(String[] args) {
-        RenderClock s = new RenderClock();
+        Chapter4 s = new Chapter4();
         s.canvas = new Canvas(700, 700);
 
         int clockRadius = 200;
@@ -33,7 +33,7 @@ public class RenderClock {
 
 
         long start = System.currentTimeMillis();
-        PPMExporter.export(s.canvas, "clockrender.ppm", 255);
+        PPMExporter.export(s.canvas, "chapter4_clockrender.ppm", 255);
         long end = System.currentTimeMillis();
         Logger.info("Export took " + (end - start) + " ms");
     }

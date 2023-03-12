@@ -8,14 +8,14 @@ import org.schakalacka.java.raytracing.scene.Environment;
 import org.schakalacka.java.raytracing.scene.Projectile;
 import org.tinylog.Logger;
 
-public class BallisticCurve {
+public class Chapter2 {
 
     private Canvas canvas;
     private Environment environment;
     private Projectile projectile;
 
     public static void main(String[] args) {
-        BallisticCurve s = new BallisticCurve();
+        Chapter2 s = new Chapter2();
 
 
         Tuple startPosition = Tuple.point(0, 1, 0);
@@ -35,7 +35,7 @@ public class BallisticCurve {
         }
         Logger.info("Took " + steps + " ticks.");
         long start = System.currentTimeMillis();
-        PPMExporter.export(s.canvas, "ballistic.ppm", 255);
+        PPMExporter.export(s.canvas, "Chapter2_ballistic.ppm", 255);
         long end = System.currentTimeMillis();
         Logger.info("Export took " + (end - start) + " ms");
     }
