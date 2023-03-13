@@ -16,26 +16,73 @@ public class Chapter11_reflection_refraction {
 
     public static void main(String[] args) {
 
+
         var floor = new Plane();
         CheckerPattern floorPattern = new CheckerPattern(Color.BLACK, Color.WHITE);
-        //floorPattern.setTransformationMatrix(MatrixProvider.rotationY((float) Math.toRadians(45)));
+        floorPattern.setTransformationMatrix(MatrixProvider.scaling(0.4f, 0.4f, 0.4f));
 
-        floor.setMaterial(Material.newMaterial().reflectivity(0.2f).color(new Color(1, 0.9, 0.9)).ambient(0.5).pattern(floorPattern).specular(0).create());
-//        floor.setMaterial(Material.newMaterial().reflectivity(0.2f).color(new Color(0.2, 0.2, 0.2)).ambient(0.5).specular(0).create());
+        floor.setMaterial(Material.newMaterial().color(new Color(1, 0.9, 0.9)).ambient(0.5).pattern(floorPattern).specular(0).create());
 
-        var middleSphere = new Sphere();
-        middleSphere.setTransformationMatrix(MatrixProvider.translation(-0.5f, 1, 0.5f));
+        var backDrop1 = new Plane();
+        CheckerPattern backPattern = new CheckerPattern(Color.BLACK, Color.WHITE);
+        backPattern.setTransformationMatrix(MatrixProvider.scaling(0.5f, 0.5f, 0.5f));
+
+
+        backDrop1.setTransformationMatrix(MatrixProvider.translation(0, 0, 5)
+                .mulM(MatrixProvider.rotationY((float) (-Math.PI / 4)))
+                .mulM(MatrixProvider.rotationX((float) (Math.PI / 2)))
+        );
+        backDrop1.setMaterial(Material.newMaterial().color(new Color(1, 0.9, 0.9)).ambient(0.5).diffuse(0.8).pattern(backPattern).create());
+
+        var backDrop2 = new Plane();
+        backDrop2.setTransformationMatrix(MatrixProvider.translation(0, 0, 5)
+                .mulM(MatrixProvider.rotationY((float) (Math.PI / 4)))
+                .mulM(MatrixProvider.rotationX((float) (Math.PI / 2)))
+        );
+
+        backDrop2.setMaterial(Material.newMaterial().color(new Color(1, 0.9, 0.9)).ambient(0.5).diffuse(0.8).pattern(backPattern).create());
+
+        var middleSphere = Sphere.glassySphere();
+        middleSphere.setTransformationMatrix(MatrixProvider.translation(-0.5f, 1.1f, 0.5f));
         middleSphere.setMaterial(Material.newMaterial()
-                .color(new Color(0.1, 1, 0.5))
-                //.diffuse(0.7)
-                .specular(0.3)
-                        .transparency(0.9f)
-                .reflectivity(0.2f)
+                .refractiveIndex(1.52)
+                .transparency(0.9)
+                .reflectivity(0.8f)
+                .ambient(0)
+                .diffuse(0.4f)
+                .specular(0.9f)
+                .shininess(300)
+                .color(new Color(0.4, 0.4, 0.4))
                 .create());
+
+        /*
+          color: [0, 0, 0.2]
+  ambient: 0
+  diffuse: 0.4
+  specular: 0.9
+  shininess: 300
+  reflective: 0.9
+  transparency: 0.9
+  refractive-index: 1.5
+         */
+
+        var innerSphere = Sphere.glassySphere();
+        innerSphere.setTransformationMatrix(MatrixProvider.translation(-0.5f, 1.2f, 0.5f).mulM(MatrixProvider.scaling(0.5f, 0.5f, 0.5f)));
+        innerSphere.setMaterial(Material.newMaterial()
+                        .refractiveIndex(1.333)
+                        .transparency(0.8f)
+                        .reflectivity(0.5f)
+                        .ambient(0)
+                        .diffuse(0.4f)
+                        .specular(0.9f)
+                        .shininess(300)
+                        .color(new Color(0.4, 0.4, 0.6))
+                        .create());
+
 
         var world = new World();
         world.setLightSource(new PointLight(Tuple.point(-10, 20, -10), new Color(0.8, 0.8, 0.8)));
-        world.addObjects(floor, middleSphere);
+        world.addObjects(floor, middleSphere, innerSphere);
 
         // 4k resolution
 //        var width = 3840;
@@ -48,15 +95,16 @@ public class Chapter11_reflection_refraction {
         var camera = new Camera(width, height, Math.PI / 3);
         camera.setTransformationMatrix(ViewTransformation
                 .transform(
-                        Tuple.point(0, 1.5f, -5),
-                        Tuple.point(0, 1, 0),
-                        Tuple.vector(0, 1, 0)
+                        // Tuple.point(-0.5f, 10f, 0.5f),
+                        Tuple.point(0f, 8f, 0f),
+                        Tuple.point(0, 0, 0),
+                        Tuple.vector(0, 0, -1)
                 )
         );
 
         long renderStart = System.currentTimeMillis();
 
-        var parallelChunks = 8;
+        var parallelChunks = 16;
         Canvas canvas = camera.render(world, parallelChunks);
 
         long renderEnd = System.currentTimeMillis();

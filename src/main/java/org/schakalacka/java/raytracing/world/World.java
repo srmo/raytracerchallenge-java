@@ -82,6 +82,17 @@ public class World {
     }
 
     public Color shade_hit(Precalc precalc, int remainingBounces) {
+        Tuple point = precalc.getPoint();
+        var pX = point.x();
+        var pY = point.y();
+        var pZ = point.z();
+
+        if (pX >= 0 && pX <= 0 + Constants.SHAPE_POINT_OFFSET_EPSILON && pY >= 0 && pY <= 0 + Constants.SHAPE_POINT_OFFSET_EPSILON && pZ >= 0 && pZ <= 0 + Constants.SHAPE_POINT_OFFSET_EPSILON) {
+            return new Color(1,0,0);
+        }
+        if (pX >= 0 && pX <= 0 + Constants.SHAPE_POINT_OFFSET_EPSILON && pY >= 0 && pY <= 0 + Constants.SHAPE_POINT_OFFSET_EPSILON) {
+            return new Color(1,0,0);
+        }
         boolean shadowed = isShadowed(precalc.getOverPoint());
         // TODO add iteration over multiple light sources here
         Color lightingColor = precalc.getObject().material().lighting(

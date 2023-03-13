@@ -9,7 +9,7 @@ class ChunkCalculatorTest {
     @Test
     void chunkCalculatorFailsForOddNumOfChunks() {
         Exception e = assertThrows(IllegalArgumentException.class, () -> ChunkCalculator.calculateChunks(3,10,10));
-        assertEquals("Can only calculate an even number of chunks!", e.getMessage());
+        assertEquals("Can only calculate an square number of chunks!", e.getMessage());
     }
 
     @Test

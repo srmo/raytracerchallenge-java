@@ -14,8 +14,11 @@ public class ChunkCalculator {
         final Chunk[] chunks = new Chunk[numChunks];
 
         // TODO add check if numChunks is perfect square
-        if (numChunks % 2 != 0 && numChunks != 1) {
-            throw new IllegalArgumentException("Can only calculate an even number of chunks!");
+
+        double squareRoot = Math.sqrt(numChunks);
+        long tst = (long)(squareRoot + 0.5);
+        if (tst*tst != numChunks && numChunks != 1) {
+            throw new IllegalArgumentException("Can only calculate an square number of chunks!");
         }
 
         final int divider = (int) Math.sqrt(numChunks);
