@@ -4,10 +4,7 @@ package org.schakalacka.java.raytracing.world;
 import org.schakalacka.java.raytracing.Constants;
 import org.schakalacka.java.raytracing.geometry.objects.Shape;
 import org.schakalacka.java.raytracing.geometry.objects.Sphere;
-import org.schakalacka.java.raytracing.geometry.tracing.Intersection;
-import org.schakalacka.java.raytracing.geometry.tracing.IntersectionTracker;
-import org.schakalacka.java.raytracing.geometry.tracing.Precalc;
-import org.schakalacka.java.raytracing.geometry.tracing.Ray;
+import org.schakalacka.java.raytracing.geometry.tracing.*;
 import org.schakalacka.java.raytracing.math.MatrixProvider;
 import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.scene.Color;
@@ -83,9 +80,10 @@ public class World {
 
     public Color shade_hit(Precalc precalc, int remainingBounces) {
 
-        boolean shadowed = isShadowed(precalc.getOverPoint());
+        boolean shadowed = getShadowResult(precalc.getOverPoint()).isShadowed();
+
         // TODO add iteration over multiple light sources here
-        Color lightingColor = precalc.getObject().material().lighting(
+        Color surfaceColor = precalc.getObject().material().lighting(
                 this.lightSource,
                 precalc.getObject(),
                 precalc.getOverPoint(),
@@ -94,16 +92,26 @@ public class World {
                 shadowed
         );
 
+
         Color reflectedColor = reflectedColor(precalc, remainingBounces);
         Color refractedColor = refractedColor(precalc, remainingBounces);
-        return lightingColor.add(reflectedColor).add(refractedColor);
+
+        boolean needsReflectance = precalc.getObject().material().reflectivity() > 0 && precalc.getObject().material().transparency() > 0;
+        if (needsReflectance) {
+            var reflectance = precalc.schlick();
+            return surfaceColor.add(reflectedColor.mulS(reflectance)).add(refractedColor.mulS(1 - reflectance));
+        } else {
+            return surfaceColor.add(reflectedColor).add(refractedColor);
+        }
+
     }
 
     public void addObjects(Shape... objects) {
         this.objects.addAll(Arrays.asList(objects));
     }
 
-    public boolean isShadowed(Tuple point) {
+    public ShadowResult getShadowResult(Tuple point) {
+
         var vectorPointToLight = lightSource.position().sub(point);
         var distancePointToLight = vectorPointToLight.magnitude();
         var directionPointToLight = vectorPointToLight.normalize();
@@ -114,8 +122,8 @@ public class World {
         List<Intersection> intersections = intersect(r);
         Intersection hit = IntersectionTracker.getHit(intersections);
 
-        // we have a hit when it occurs on the way from the point to the light-source.
-        return hit != null && hit.getDistance() < distancePointToLight;
+        boolean isShadowed = hit != null && hit.getDistance() < distancePointToLight && hit.getIntersectedObject().material().createsShadow();
+        return new ShadowResult(isShadowed, hit);
     }
 
     public Color reflectedColor(Precalc precalc, int remainingBounces) {

@@ -7,6 +7,7 @@ import org.schakalacka.java.raytracing.geometry.patterns.PatternTest;
 import org.schakalacka.java.raytracing.geometry.tracing.Intersection;
 import org.schakalacka.java.raytracing.geometry.tracing.Precalc;
 import org.schakalacka.java.raytracing.geometry.tracing.Ray;
+import org.schakalacka.java.raytracing.geometry.tracing.ShadowResult;
 import org.schakalacka.java.raytracing.math.MatrixProvider;
 import org.schakalacka.java.raytracing.math.RTPoint;
 import org.schakalacka.java.raytracing.math.RTVector;
@@ -147,7 +148,8 @@ class WorldTest {
         var world = World.getDefault();
         var point = Tuple.point(0, 10, 0);
 
-        assertFalse(world.isShadowed(point));
+        ShadowResult shadowResult = world.getShadowResult(point);
+        assertFalse(shadowResult.isShadowed());
     }
 
     @Test
@@ -155,7 +157,7 @@ class WorldTest {
         var world = World.getDefault();
         var point = Tuple.point(10, -10, 10);
 
-        assertTrue(world.isShadowed(point));
+        assertTrue(world.getShadowResult(point).isShadowed());
     }
 
     @Test
@@ -163,7 +165,7 @@ class WorldTest {
         var world = World.getDefault();
         var point = Tuple.point(-20, 20, -20);
 
-        assertFalse(world.isShadowed(point));
+        assertFalse(world.getShadowResult(point).isShadowed());
     }
 
     @Test
@@ -171,7 +173,7 @@ class WorldTest {
         var world = World.getDefault();
         var point = Tuple.point(-2, 2, -2);
 
-        assertFalse(world.isShadowed(point));
+        assertFalse(world.getShadowResult(point).isShadowed());
     }
 
     @Test
@@ -385,5 +387,29 @@ class WorldTest {
         var color = world.shade_hit(precalc, 5);
 
         assertEquals(new Color(0.93642, 0.68642, 0.68642), color);
+    }
+
+    @Test
+    void shadeHitWithTransparentAndReflectiveMaterial() {
+        var world = World.getDefault();
+        var ray = new Ray(Tuple.point(0, 0, -3), Tuple.vector(0, (float) (-Math.sqrt(2) / 2), (float) (Math.sqrt(2) / 2)));
+
+        var floor = new Plane();
+        floor.setTransformationMatrix(MatrixProvider.translation(0, -1, 0));
+        floor.setMaterial(Material.newMaterial().reflectivity(0.5f).transparency(0.5).refractiveIndex(1.5).create());
+        world.addObjects(floor);
+
+        var ball = new Sphere();
+        ball.setTransformationMatrix(MatrixProvider.translation(0, -3.5f, -0.5f));
+        ball.setMaterial(Material.newMaterial().color(new Color(1,0,0)).ambient(0.5).create());
+        world.addObjects(ball);
+
+        var intersection = new Intersection(floor, (float) Math.sqrt(2));
+        var precalc = new Precalc(intersection, ray);
+
+        var color = world.shade_hit(precalc, 5);
+
+        assertEquals(new Color(0.93391, 0.69643, 0.69243), color);
+
     }
 }

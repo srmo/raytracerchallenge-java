@@ -5,8 +5,8 @@ import org.schakalacka.java.raytracing.geometry.patterns.Pattern;
 import org.schakalacka.java.raytracing.math.Tuple;
 
 public record Material(Color color, double ambient, double diffuse, double specular, double shininess,
-                       float reflectivity, double transparency, double refractiveIndex,
-                       Pattern pattern) {
+                       float reflectivity, double transparency, double refractiveIndex, Pattern pattern,
+                       boolean createsShadow) {
 
     public static MaterialBuilder newMaterial() {
         return new MaterialBuilder();
@@ -64,6 +64,9 @@ public record Material(Color color, double ambient, double diffuse, double specu
         return ambientResult.add(diffuseResult).add(specularResult);
     }
 
+    public boolean createsShadow() {
+        return createsShadow;
+    }
 
     public static class MaterialBuilder {
         private Color color = new Color(1, 1, 1);
@@ -75,6 +78,7 @@ public record Material(Color color, double ambient, double diffuse, double specu
         private double transparency = 0.0;
         private double refractiveIndex = 1.0;
         private Pattern pattern;
+        private boolean createsShadow = true;
 
         public MaterialBuilder color(Color color) {
             this.color = color;
@@ -116,8 +120,13 @@ public record Material(Color color, double ambient, double diffuse, double specu
             return this;
         }
 
+        public MaterialBuilder createsShadow(boolean createsShadow) {
+            this.createsShadow = createsShadow;
+            return this;
+        }
+
         public Material create() {
-            return new Material(color, ambient, diffuse, specular, shininess, reflectivity, transparency, refractiveIndex, pattern);
+            return new Material(color, ambient, diffuse, specular, shininess, reflectivity, transparency, refractiveIndex, pattern, createsShadow);
         }
 
         public MaterialBuilder pattern(Pattern pattern) {

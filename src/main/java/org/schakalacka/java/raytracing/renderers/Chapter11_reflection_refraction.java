@@ -46,13 +46,13 @@ public class Chapter11_reflection_refraction {
         middleSphere.setTransformationMatrix(MatrixProvider.translation(-0.5f, 1.1f, 0.5f));
         middleSphere.setMaterial(Material.newMaterial()
                 .refractiveIndex(1.52)
-                .transparency(0.9)
-                .reflectivity(0.8f)
+                .transparency(1)
+                .reflectivity(0.9f)
                 .ambient(0)
                 .diffuse(0.4f)
                 .specular(0.9f)
                 .shininess(300)
-                .color(new Color(0.4, 0.4, 0.4))
+                .color(new Color(0.1, 0.2, 0.1))
                 .create());
 
         /*
@@ -67,16 +67,16 @@ public class Chapter11_reflection_refraction {
          */
 
         var innerSphere = Sphere.glassySphere();
-        innerSphere.setTransformationMatrix(MatrixProvider.translation(-0.5f, 1.2f, 0.5f).mulM(MatrixProvider.scaling(0.5f, 0.5f, 0.5f)));
+        innerSphere.setTransformationMatrix(MatrixProvider.translation(-0.5f, 1.2f, 0.5f).mulM(MatrixProvider.scaling(0.3f, 0.3f, 0.3f)));
         innerSphere.setMaterial(Material.newMaterial()
                         .refractiveIndex(1.333)
-                        .transparency(0.8f)
+                        .transparency(0.9f)
                         .reflectivity(0.5f)
-                        .ambient(0)
-                        .diffuse(0.4f)
-                        .specular(0.9f)
-                        .shininess(300)
-                        .color(new Color(0.4, 0.4, 0.6))
+                        .ambient(0.3f)
+                        .diffuse(0.2f)
+                        .specular(0.0f)
+                        .shininess(10)
+                        .color(new Color(0.1, 0.2, 0.4))
                         .create());
 
 

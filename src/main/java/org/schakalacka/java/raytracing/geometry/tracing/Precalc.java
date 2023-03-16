@@ -136,4 +136,22 @@ public class Precalc {
         return n2;
     }
 
+    public double schlick() {
+        double cos = eyeVector.dot(normalVector);
+
+        // total internal reflection can only occur if n1 > n2
+        if (n1 > n2) {
+            var n = n1 / n2;
+            var sin2_t = n * n * (1.0 - cos * cos);
+            if (sin2_t > 1.0) {
+                return 1.0;
+            }
+
+            // compute cos(theta_t) using trig identity
+            cos = Math.sqrt(1.0 - sin2_t);
+        }
+
+        var r0 = Math.pow((n1 - n2) / (n1 + n2), 2);
+        return r0 + (1 - r0) * Math.pow(1 - cos, 5);
+    }
 }

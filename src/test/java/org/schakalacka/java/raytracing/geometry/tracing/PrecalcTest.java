@@ -1,6 +1,7 @@
 package org.schakalacka.java.raytracing.geometry.tracing;
 
 import org.junit.jupiter.api.Test;
+import org.schakalacka.java.raytracing.Constants;
 import org.schakalacka.java.raytracing.geometry.objects.Plane;
 import org.schakalacka.java.raytracing.geometry.objects.Sphere;
 import org.schakalacka.java.raytracing.math.MatrixProvider;
@@ -165,5 +166,43 @@ class PrecalcTest {
 
         assertTrue(precalc.getUnderPoint().z() > SHAPE_POINT_OFFSET_EPSILON / 2);
         assertTrue(precalc.getPoint().z() < precalc.getUnderPoint().z());
+    }
+
+    @Test
+    void schlickTotalInternalReflection() {
+        var shape = Sphere.glassySphere();
+        var ray = new Ray(Tuple.point(0,0, (float) (Math.sqrt(2)/2)), Tuple.vector(0,1,0));
+        var intersections = new ArrayList<Intersection>();
+        intersections.add(new Intersection(shape, (float) (-Math.sqrt(2)/2)));
+        intersections.add(new Intersection(shape, (float) (Math.sqrt(2)/2)));
+
+        var precalc = new Precalc(intersections.get(1), ray, intersections);
+        assertEquals(1.0f, precalc.schlick());
+
+    }
+
+    @Test
+    void schlickPerpendicularRay() {
+        var shape = Sphere.glassySphere();
+        var ray = new Ray(Tuple.point(0,0,0), Tuple.vector(0,1,0));
+        var intersections = new ArrayList<Intersection>();
+        intersections.add(new Intersection(shape, -1));
+        intersections.add(new Intersection(shape, 1));
+
+        var precalc = new Precalc(intersections.get(1), ray, intersections);
+        assertEquals(0.04f, precalc.schlick(), Constants.EQUALS_EPSILON);
+
+    }
+
+    @Test
+    void schlickForSmallAngle() {
+        var shape = Sphere.glassySphere();
+        var ray = new Ray(Tuple.point(0,0.99f,-2), Tuple.vector(0,0,1));
+        var intersections = new ArrayList<Intersection>();
+        intersections.add(new Intersection(shape, 1.8589f));
+
+        var precalc = new Precalc(intersections.get(0), ray, intersections);
+        assertEquals(0.48873f, precalc.schlick(), Constants.EQUALS_EPSILON);
+
     }
 }
