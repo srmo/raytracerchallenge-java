@@ -34,6 +34,6 @@ public class UVMapping {
         // and 1 at the north pole, so we have to "flip it over"
         // by subtracting it from 1.
         var v = 1 - phi / Math.PI;
-        return new UV((float) u, (float) v);
+        return new UV( u,  v);
     }
 }

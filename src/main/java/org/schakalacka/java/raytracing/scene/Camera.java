@@ -87,7 +87,7 @@ public class Camera {
         var worldY = halfHeight - yOffset;
 
 
-        var pixel = inverseTransformationMatrix.mulT(Tuple.point((float) worldX, (float) worldY, -1));
+        var pixel = inverseTransformationMatrix.mulT(Tuple.point( worldX,  worldY, -1));
         var origin = inverseTransformationMatrix.mulT(Tuple.point(0, 0, 0));
         var direction = pixel.sub(origin).normalize();
 

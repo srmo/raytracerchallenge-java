@@ -2,14 +2,14 @@ package org.schakalacka.java.raytracing.math;
 
 import java.util.Objects;
 
-public record UV(float u, float v) {
+public record UV(double u, double v) {
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UV uv = (UV) o;
-        return Float.compare(uv.u, u) == 0 && Float.compare(uv.v, v) == 0;
+        return Double.compare(uv.u, u) == 0 && Double.compare(uv.v, v) == 0;
     }
 
     @Override

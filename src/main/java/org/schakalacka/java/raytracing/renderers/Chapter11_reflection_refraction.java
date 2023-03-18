@@ -29,15 +29,15 @@ public class Chapter11_reflection_refraction {
 
 
         backDrop1.setTransformationMatrix(MatrixProvider.translation(0, 0, 5)
-                .mulM(MatrixProvider.rotationY((float) (-Math.PI / 4)))
-                .mulM(MatrixProvider.rotationX((float) (Math.PI / 2)))
+                .mulM(MatrixProvider.rotationY( (-Math.PI / 4)))
+                .mulM(MatrixProvider.rotationX( (Math.PI / 2)))
         );
         backDrop1.setMaterial(Material.newMaterial().color(new Color(1, 0.9, 0.9)).ambient(0.5).diffuse(0.8).pattern(backPattern).create());
 
         var backDrop2 = new Plane();
         backDrop2.setTransformationMatrix(MatrixProvider.translation(0, 0, 5)
-                .mulM(MatrixProvider.rotationY((float) (Math.PI / 4)))
-                .mulM(MatrixProvider.rotationX((float) (Math.PI / 2)))
+                .mulM(MatrixProvider.rotationY( (Math.PI / 4)))
+                .mulM(MatrixProvider.rotationX( (Math.PI / 2)))
         );
 
         backDrop2.setMaterial(Material.newMaterial().color(new Color(1, 0.9, 0.9)).ambient(0.5).diffuse(0.8).pattern(backPattern).create());

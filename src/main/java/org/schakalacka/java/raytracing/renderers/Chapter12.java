@@ -4,12 +4,8 @@ import org.schakalacka.java.raytracing.PPMExporter;
 import org.schakalacka.java.raytracing.geometry.objects.Cube;
 import org.schakalacka.java.raytracing.geometry.objects.Plane;
 import org.schakalacka.java.raytracing.geometry.patterns.CheckerPattern;
-import org.schakalacka.java.raytracing.geometry.patterns.Pattern;
-import org.schakalacka.java.raytracing.geometry.patterns.TextureMap;
-import org.schakalacka.java.raytracing.geometry.patterns.UVCheckerPattern;
 import org.schakalacka.java.raytracing.math.MatrixProvider;
 import org.schakalacka.java.raytracing.math.Tuple;
-import org.schakalacka.java.raytracing.math.UVMapping;
 import org.schakalacka.java.raytracing.scene.*;
 import org.schakalacka.java.raytracing.world.ViewTransformation;
 import org.schakalacka.java.raytracing.world.World;
@@ -19,12 +15,10 @@ public class Chapter12 {
 
 
     public static void main(String[] args) {
-        Pattern patternRedWhite = new TextureMap(new UVCheckerPattern(20, 10, new Color(1, .2, .2), Color.WHITE), new UVMapping());
-
 
         var floor = new Plane();
-        CheckerPattern floorPattern = new CheckerPattern(Color.BLACK, new Color(0.6,0.6,0.6));
-        floorPattern.setTransformationMatrix(MatrixProvider.rotationY((float) Math.toRadians(45)));
+        CheckerPattern floorPattern = new CheckerPattern(Color.BLACK, new Color(0.6, 0.6, 0.6));
+        floorPattern.setTransformationMatrix(MatrixProvider.rotationY(Math.toRadians(45)));
 
         floor.setMaterial(Material.newMaterial().reflectivity(0.2f).color(new Color(1, 0.9, 0.9)).ambient(0.5).pattern(floorPattern).specular(0).create());
 
@@ -34,15 +28,15 @@ public class Chapter12 {
 
 
         backDrop1.setTransformationMatrix(MatrixProvider.translation(0, 0, 5)
-                .mulM(MatrixProvider.rotationY((float) (-Math.PI / 4)))
-                .mulM(MatrixProvider.rotationX((float) (Math.PI / 2)))
+                .mulM(MatrixProvider.rotationY((-Math.PI / 4)))
+                .mulM(MatrixProvider.rotationX((Math.PI / 2)))
         );
         backDrop1.setMaterial(Material.newMaterial().color(new Color(1, 0.9, 0.9)).ambient(0.5).diffuse(0.8).pattern(backPattern).create());
 
         var backDrop2 = new Plane();
         backDrop2.setTransformationMatrix(MatrixProvider.translation(0, 0, 5)
-                .mulM(MatrixProvider.rotationY((float) (Math.PI / 4)))
-                .mulM(MatrixProvider.rotationX((float) (Math.PI / 2)))
+                .mulM(MatrixProvider.rotationY((Math.PI / 4)))
+                .mulM(MatrixProvider.rotationX((Math.PI / 2)))
         );
 
         backDrop2.setMaterial(Material.newMaterial().color(new Color(1, 0.9, 0.9)).ambient(0.5).diffuse(0.8).pattern(backPattern).create());
@@ -50,12 +44,10 @@ public class Chapter12 {
         var tableTop = new Cube();
         tableTop.setTransformationMatrix(
                 MatrixProvider.translation(0, 3, -3)
-                        .mulM(MatrixProvider.rotationY((float) Math.toRadians(45)))
+                        .mulM(MatrixProvider.rotationY(Math.toRadians(45)))
                         .mulM(MatrixProvider.scaling(2, 0.1f, 1.5f))
         );
         tableTop.setMaterial(Material.newMaterial().color(new Color(0.588, 0.294, 0)).ambient(0.5).create());
-        var c = new java.awt.Color(0.588f, 0.294f, 0);
-
 
         var world = new World();
         world.setLightSource(new PointLight(Tuple.point(-10, 20, -10), new Color(0.8, 0.8, 0.8)));

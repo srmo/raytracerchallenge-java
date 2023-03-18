@@ -24,7 +24,7 @@ public class Chapter11_reflection {
 
         var floor = new Plane();
         CheckerPattern floorPattern = new CheckerPattern(Color.BLACK, Color.WHITE);
-        floorPattern.setTransformationMatrix(MatrixProvider.rotationY((float) Math.toRadians(45)));
+        floorPattern.setTransformationMatrix(MatrixProvider.rotationY( Math.toRadians(45)));
 
         floor.setMaterial(Material.newMaterial().reflectivity(0.2f).color(new Color(1, 0.9, 0.9)).ambient(0.5).pattern(floorPattern).specular(0).create());
 
@@ -34,15 +34,15 @@ public class Chapter11_reflection {
 
 
         backDrop1.setTransformationMatrix(MatrixProvider.translation(0, 0, 5)
-                .mulM(MatrixProvider.rotationY((float) (-Math.PI / 4)))
-                .mulM(MatrixProvider.rotationX((float) (Math.PI / 2)))
+                .mulM(MatrixProvider.rotationY( (-Math.PI / 4)))
+                .mulM(MatrixProvider.rotationX( (Math.PI / 2)))
         );
         backDrop1.setMaterial(Material.newMaterial().color(new Color(1, 0.9, 0.9)).ambient(0.5).diffuse(0.8).pattern(backPattern).create());
 
         var backDrop2 = new Plane();
         backDrop2.setTransformationMatrix(MatrixProvider.translation(0, 0, 5)
-                .mulM(MatrixProvider.rotationY((float) (Math.PI / 4)))
-                .mulM(MatrixProvider.rotationX((float) (Math.PI / 2)))
+                .mulM(MatrixProvider.rotationY( (Math.PI / 4)))
+                .mulM(MatrixProvider.rotationX( (Math.PI / 2)))
         );
 
         backDrop2.setMaterial(Material.newMaterial().color(new Color(1, 0.9, 0.9)).ambient(0.5).diffuse(0.8).pattern(backPattern).create());

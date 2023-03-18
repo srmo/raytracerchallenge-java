@@ -35,8 +35,8 @@ public class Chapter7 {
         var leftWall = new Sphere();
         leftWall.setTransformationMatrix(
                 MatrixProvider.translation(0, 0, 5)
-                        .mulM(MatrixProvider.rotationY((float) (-Math.PI / 4)))
-                        .mulM(MatrixProvider.rotationX((float) (Math.PI / 2)))
+                        .mulM(MatrixProvider.rotationY( (-Math.PI / 4)))
+                        .mulM(MatrixProvider.rotationX( (Math.PI / 2)))
                         .mulM(MatrixProvider.scaling(10, 0.01f, 10))
         );
         leftWall.setMaterial(basicMaterial);
@@ -44,15 +44,15 @@ public class Chapter7 {
         var rightWall = new Sphere();
         rightWall.setTransformationMatrix(
                 MatrixProvider.translation(0, 0, 5)
-                        .mulM(MatrixProvider.rotationY((float) (Math.PI / 4)))
-                        .mulM(MatrixProvider.rotationX((float) (Math.PI / 2)))
+                        .mulM(MatrixProvider.rotationY( (Math.PI / 4)))
+                        .mulM(MatrixProvider.rotationX( (Math.PI / 2)))
                         .mulM(MatrixProvider.scaling(10, 0.01f, 10))
         );
         rightWall.setMaterial(basicMaterial);
 
 
         var middleSphere = new Sphere();
-        middleSphere.setTransformationMatrix(MatrixProvider.translation(-0.5f, 1, 0.5f).mulM(MatrixProvider.rotationY((float) Math.toRadians(-80))));
+        middleSphere.setTransformationMatrix(MatrixProvider.translation(-0.5f, 1, 0.5f).mulM(MatrixProvider.rotationY( Math.toRadians(-80))));
         middleSphere.setMaterial(Material.newMaterial()
                 .color(new Color(0.1, 1, 0.5))
                 .diffuse(0.7)

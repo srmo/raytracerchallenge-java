@@ -22,7 +22,7 @@ public class Chapter4 {
         Tuple hourHand = Tuple.point(0, 1, 0);
 
         var radiansPerHour = Math.PI / 6;
-        var rotationMatrix = MatrixProvider.rotationZ((float) radiansPerHour);
+        var rotationMatrix = MatrixProvider.rotationZ( radiansPerHour);
 
 
         // okay, well, I'm still getting a headache! Paint the z coordinate on the y-axis. See above

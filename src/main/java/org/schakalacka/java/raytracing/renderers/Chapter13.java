@@ -17,7 +17,7 @@ public class Chapter13 {
 
         var floor = new Plane();
         CheckerPattern floorPattern = new CheckerPattern(Color.BLACK, new Color(0.6,0.6,0.6));
-        floorPattern.setTransformationMatrix(MatrixProvider.rotationY((float) Math.toRadians(45)));
+        floorPattern.setTransformationMatrix(MatrixProvider.rotationY( Math.toRadians(45)));
 
         floor.setMaterial(Material.newMaterial().reflectivity(0.2f).color(new Color(1, 0.9, 0.9)).ambient(0.5).pattern(floorPattern).specular(0).create());
 
@@ -27,15 +27,15 @@ public class Chapter13 {
 
 
         backDrop1.setTransformationMatrix(MatrixProvider.translation(0, 0, 5)
-                .mulM(MatrixProvider.rotationY((float) (-Math.PI / 4)))
-                .mulM(MatrixProvider.rotationX((float) (Math.PI / 2)))
+                .mulM(MatrixProvider.rotationY( (-Math.PI / 4)))
+                .mulM(MatrixProvider.rotationX( (Math.PI / 2)))
         );
         backDrop1.setMaterial(Material.newMaterial().color(new Color(1, 0.9, 0.9)).ambient(0.5).diffuse(0.8).pattern(backPattern).create());
 
         var backDrop2 = new Plane();
         backDrop2.setTransformationMatrix(MatrixProvider.translation(0, 0, 5)
-                .mulM(MatrixProvider.rotationY((float) (Math.PI / 4)))
-                .mulM(MatrixProvider.rotationX((float) (Math.PI / 2)))
+                .mulM(MatrixProvider.rotationY( (Math.PI / 4)))
+                .mulM(MatrixProvider.rotationX( (Math.PI / 2)))
         );
 
         backDrop2.setMaterial(Material.newMaterial().color(new Color(1, 0.9, 0.9)).ambient(0.5).diffuse(0.8).pattern(backPattern).create());
@@ -49,8 +49,8 @@ public class Chapter13 {
 //        var height = 2160;
 
         // full hd
-        var width = 1920;
-        var height = 1080;
+        var width = 500;
+        var height = 500;
 
         var camera = new Camera(width, height, Math.PI / 3);
         camera.setTransformationMatrix(ViewTransformation

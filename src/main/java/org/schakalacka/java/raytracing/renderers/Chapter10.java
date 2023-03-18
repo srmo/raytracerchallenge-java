@@ -27,20 +27,20 @@ public class Chapter10 {
         Material blackMaterial = Material.newMaterial().color(new Color(0.1,0.5,0.5)).shininess(500).specular(0).create();
         floor2.setMaterial(blackMaterial);
         floor2.setTransformationMatrix(MatrixProvider.translation(0, 0, 5)
-                .mulM(MatrixProvider.rotationX((float) (Math.PI / 2))));
+                .mulM(MatrixProvider.rotationX( (Math.PI / 2))));
                 //.mulM(MatrixProvider.rotationX(Math.PI / 2)));
 
         var floor3 = new Plane();
         floor3.setMaterial(floor2.material());
-        floor3.setTransformationMatrix(MatrixProvider.translation(-10,0,0).mulM(MatrixProvider.rotationZ((float) (-Math.PI/4))));
+        floor3.setTransformationMatrix(MatrixProvider.translation(-10,0,0).mulM(MatrixProvider.rotationZ( (-Math.PI/4))));
 
         var floor4 = new Plane();
         floor4.setMaterial(floor2.material());
-        floor4.setTransformationMatrix(MatrixProvider.translation(-10,0,0).mulM(MatrixProvider.rotationY((float) (-Math.PI/2))).mulM(MatrixProvider.rotationZ((float) (-Math.PI/4))));
+        floor4.setTransformationMatrix(MatrixProvider.translation(-10,0,0).mulM(MatrixProvider.rotationY( (-Math.PI/2))).mulM(MatrixProvider.rotationZ( (-Math.PI/4))));
 
         var floor5 = new Plane();
         floor5.setMaterial(floor2.material());
-        floor5.setTransformationMatrix(MatrixProvider.translation(10,0,0).mulM(MatrixProvider.rotationY((float) (-Math.PI/4))).mulM(MatrixProvider.rotationZ((float) (Math.PI/4))));
+        floor5.setTransformationMatrix(MatrixProvider.translation(10,0,0).mulM(MatrixProvider.rotationY( (-Math.PI/4))).mulM(MatrixProvider.rotationZ( (Math.PI/4))));
 
         List<Shape> floors = new ArrayList<>();
         floors.add(floor1);
@@ -49,7 +49,7 @@ public class Chapter10 {
         //floors.add(floor4);
 
         var middleSphere = new Sphere();
-        middleSphere.setTransformationMatrix(MatrixProvider.translation((float) -0.5, (float) -0.5, 0.5f));
+        middleSphere.setTransformationMatrix(MatrixProvider.translation( -0.5,  -0.5, 0.5f));
         middleSphere.setMaterial(Material.newMaterial()
                 .color(new Color(0.1, 1, 0.5))
                 .diffuse(0.7)

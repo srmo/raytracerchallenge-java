@@ -39,7 +39,7 @@ public class World {
             var axisScaling = MatrixProvider.scaling(0.02f, 0.02f, 0.02f);
 
             var xAxis = new Cylinder();
-            xAxis.setTransformationMatrix(axisScaling.mulM(MatrixProvider.rotationZ((float) Math.toRadians(90))));
+            xAxis.setTransformationMatrix(axisScaling.mulM(MatrixProvider.rotationZ( Math.toRadians(90))));
             xAxis.setMaterial(Material.newMaterial().color(new Color(1, 0, 0)).ambient(0.5).diffuse(0.8).specular(0).create());
 
             var yAxis = new Cylinder();
@@ -47,7 +47,7 @@ public class World {
             yAxis.setMaterial(Material.newMaterial().color(new Color(1, 0, 0)).ambient(0.5).diffuse(0.8).specular(0).create());
 
             var zAxis = new Cylinder();
-            zAxis.setTransformationMatrix(axisScaling.mulM(MatrixProvider.rotationX((float) Math.toRadians(90))));
+            zAxis.setTransformationMatrix(axisScaling.mulM(MatrixProvider.rotationX( Math.toRadians(90))));
             zAxis.setMaterial(Material.newMaterial().color(new Color(1, 0, 0)).ambient(0.5).diffuse(0.8).specular(0).create());
 
             this.objects.addAll(List.of(xAxis, yAxis, zAxis));
@@ -178,7 +178,7 @@ public class World {
             if (sin2T > 1) return Color.BLACK;
 
             var cosT = Math.sqrt(1.0 - sin2T);
-            var direction = precalc.getNormalVector().mul((float) (nRatio * cosI - cosT)).sub(precalc.getEyeVector().mul((float) nRatio));
+            var direction = precalc.getNormalVector().mul( (nRatio * cosI - cosT)).sub(precalc.getEyeVector().mul( nRatio));
             var refractedRay = new Ray(precalc.getUnderPoint(), direction);
 
             return color_at(refractedRay, remainingBounces - 1).mulS(precalc.getObject().material().transparency());
