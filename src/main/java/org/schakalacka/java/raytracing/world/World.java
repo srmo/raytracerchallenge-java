@@ -2,6 +2,7 @@ package org.schakalacka.java.raytracing.world;
 
 
 import org.schakalacka.java.raytracing.Constants;
+import org.schakalacka.java.raytracing.geometry.objects.Cylinder;
 import org.schakalacka.java.raytracing.geometry.objects.Shape;
 import org.schakalacka.java.raytracing.geometry.objects.Sphere;
 import org.schakalacka.java.raytracing.geometry.tracing.*;
@@ -23,17 +24,42 @@ public class World {
     private final List<Shape> objects = new ArrayList<>();
     private PointLight lightSource;
 
-
     public World() {
-        this(null);
+        this(null, false);
+    }
+    public World(boolean showsAxis) {
+        this(null, showsAxis);
     }
 
-    private World(PointLight lightSource, Shape... objects) {
+    private World(PointLight lightSource, boolean showAxis, Shape... objects) {
         this.lightSource = lightSource;
         this.objects.addAll(Arrays.stream(objects).toList());
+
+        if (showAxis) {
+            var axisScaling = MatrixProvider.scaling(0.02f, 0.02f, 0.02f);
+
+            var xAxis = new Cylinder();
+            xAxis.setTransformationMatrix(axisScaling.mulM(MatrixProvider.rotationZ((float) Math.toRadians(90))));
+            xAxis.setMaterial(Material.newMaterial().color(new Color(1, 0, 0)).ambient(0.5).diffuse(0.8).specular(0).create());
+
+            var yAxis = new Cylinder();
+            yAxis.setTransformationMatrix(axisScaling);
+            yAxis.setMaterial(Material.newMaterial().color(new Color(1, 0, 0)).ambient(0.5).diffuse(0.8).specular(0).create());
+
+            var zAxis = new Cylinder();
+            zAxis.setTransformationMatrix(axisScaling.mulM(MatrixProvider.rotationX((float) Math.toRadians(90))));
+            zAxis.setMaterial(Material.newMaterial().color(new Color(1, 0, 0)).ambient(0.5).diffuse(0.8).specular(0).create());
+
+            this.objects.addAll(List.of(xAxis, yAxis, zAxis));
+        }
     }
 
+
     public static World getDefault() {
+        return getDefault(false);
+    }
+
+    public static World getDefault(boolean showAxis) {
         PointLight lightSource = new PointLight(Tuple.point(-10, 10, -10), new Color(1, 1, 1));
         Sphere sphere1 = new Sphere();
         sphere1.setMaterial(Material.newMaterial().color(new Color(0.8, 1, 0.6)).diffuse(0.7).specular(0.2).create());
@@ -41,7 +67,7 @@ public class World {
         Sphere sphere2 = new Sphere();
         sphere2.setTransformationMatrix(MatrixProvider.scaling(0.5f, 0.5f, 0.5f));
 
-        return new World(lightSource, sphere1, sphere2);
+        return new World(lightSource, showAxis, sphere1, sphere2);
     }
 
     public PointLight getLightSource() {

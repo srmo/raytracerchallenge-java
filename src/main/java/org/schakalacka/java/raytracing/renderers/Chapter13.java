@@ -1,7 +1,6 @@
 package org.schakalacka.java.raytracing.renderers;
 
 import org.schakalacka.java.raytracing.PPMExporter;
-import org.schakalacka.java.raytracing.geometry.objects.Cylinder;
 import org.schakalacka.java.raytracing.geometry.objects.Plane;
 import org.schakalacka.java.raytracing.geometry.patterns.CheckerPattern;
 import org.schakalacka.java.raytracing.math.MatrixProvider;
@@ -41,24 +40,9 @@ public class Chapter13 {
 
         backDrop2.setMaterial(Material.newMaterial().color(new Color(1, 0.9, 0.9)).ambient(0.5).diffuse(0.8).pattern(backPattern).create());
 
-        var axisScaling = MatrixProvider.scaling(0.02f,0.02f, 0.02f);
-
-        var xAxis = new Cylinder();
-        xAxis.setTransformationMatrix(axisScaling.mulM(MatrixProvider.rotationZ((float) Math.toRadians(90))));
-        xAxis.setMaterial(Material.newMaterial().color(new Color(1, 0, 0)).ambient(0.5).diffuse(0.8).specular(0).create());
-
-        var yAxis = new Cylinder();
-        yAxis.setTransformationMatrix(axisScaling);
-        yAxis.setMaterial(Material.newMaterial().color(new Color(1, 0, 0)).ambient(0.5).diffuse(0.8).specular(0).create());
-
-        var zAxis = new Cylinder();
-        zAxis.setTransformationMatrix(axisScaling.mulM(MatrixProvider.rotationX((float) Math.toRadians(90))));
-        zAxis.setMaterial(Material.newMaterial().color(new Color(1, 0, 0)).ambient(0.5).diffuse(0.8).specular(0).create());
-
-
-        var world = new World();
+        var world = new World(true);
         world.setLightSource(new PointLight(Tuple.point(-10, 20, -10), new Color(0.8, 0.8, 0.8)));
-        world.addObjects(floor, backDrop1, backDrop2, xAxis, yAxis, zAxis);
+        world.addObjects(floor, backDrop1, backDrop2);
 
         // 4k width height
 //        var width = 3840;
