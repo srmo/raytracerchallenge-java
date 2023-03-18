@@ -55,7 +55,11 @@ public class Precalc {
         this.overPoint = point.add(normalVector.mul(SHAPE_POINT_OFFSET_EPSILON));
         this.underPoint = point.sub(normalVector.mul(SHAPE_POINT_OFFSET_EPSILON));
 
-        calculateN1N2();
+        var intersectedObject = intersection.getIntersectedObject();
+
+        if (intersectedObject.material().reflectivity() != 0 || intersectedObject.material().refractiveIndex() != 0 || intersectedObject.material().transparency() != 0) {
+            calculateN1N2();
+        }
     }
 
     private void calculateN1N2() {
