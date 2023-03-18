@@ -10,7 +10,7 @@ class TupleTest {
 
     @Test
     void tupleIsPoint() {
-        var tuple = Tuple.tuple(4.3f, (float) -4.2, 3.1f, 1.0f);
+        var tuple = Tuple.tuple(4.3f,  -4.2, 3.1f, 1.0f);
 
         assertEquals(4.3, tuple.x(), Constants.EQUALS_EPSILON);
         assertEquals(-4.2, tuple.y(), Constants.EQUALS_EPSILON);
@@ -23,7 +23,7 @@ class TupleTest {
 
     @Test
     void tupleIsVector() {
-        var tuple = Tuple.tuple(4.3f, (float) -4.2, 3.1f, 0.0f);
+        var tuple = Tuple.tuple(4.3f,  -4.2, 3.1f, 0.0f);
 
         assertEquals(4.3, tuple.x(), Constants.EQUALS_EPSILON);
         assertEquals(-4.2, tuple.y(), Constants.EQUALS_EPSILON);

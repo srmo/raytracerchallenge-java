@@ -12,7 +12,7 @@ import static org.schakalacka.java.raytracing.Constants.SHAPE_POINT_OFFSET_EPSIL
 public class Precalc {
 
 
-    private final float distance;
+    private final double distance;
     private final Shape object;
     private final Tuple point;
     private final Tuple eyeVector;
@@ -20,7 +20,7 @@ public class Precalc {
     private final boolean inside;
 
     // a special point slightly lifted above some surface
-    // reason: due to floating point rounding errors, the points for reflection, shadow etc.
+    // reason: due to doubleing point rounding errors, the points for reflection, shadow etc.
     // might end up 'below' a surface.
     private final Tuple overPoint;
     private final Tuple underPoint;
@@ -97,7 +97,7 @@ public class Precalc {
         }
     }
 
-    public float getDistance() {
+    public double getDistance() {
         return distance;
     }
 

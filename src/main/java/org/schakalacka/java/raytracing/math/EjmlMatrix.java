@@ -1,8 +1,8 @@
 package org.schakalacka.java.raytracing.math;
 
-import org.ejml.data.FMatrixRMaj;
-import org.ejml.dense.row.CommonOps_FDRM;
-import org.ejml.dense.row.mult.MatrixVectorMult_FDRM;
+import org.ejml.data.DMatrixRMaj;
+import org.ejml.dense.row.CommonOps_DDRM;
+import org.ejml.dense.row.mult.MatrixVectorMult_DDRM;
 import org.schakalacka.java.raytracing.Constants;
 import org.schakalacka.java.raytracing.Counter;
 
@@ -10,19 +10,19 @@ import java.util.Arrays;
 
 public class EjmlMatrix implements Matrix {
 
-    final FMatrixRMaj wrappedMatrix;
+    final DMatrixRMaj wrappedMatrix;
 
-    EjmlMatrix(FMatrixRMaj wrappedMatrix) {
+    EjmlMatrix(DMatrixRMaj wrappedMatrix) {
         this.wrappedMatrix = wrappedMatrix;
     }
 
     @Override
-    public float get(int row, int col) {
+    public double get(int row, int col) {
         return wrappedMatrix.get(row, col);
     }
 
     @Override
-    public void set(int row, int col, float val) {
+    public void set(int row, int col, double val) {
         wrappedMatrix.set(row, col, val);
     }
 
@@ -31,8 +31,8 @@ public class EjmlMatrix implements Matrix {
         Counter.mulM++;
 
         if (that instanceof EjmlMatrix) {
-            FMatrixRMaj result = new FMatrixRMaj();
-            result = CommonOps_FDRM.mult(this.wrappedMatrix, ((EjmlMatrix) that).wrappedMatrix, result);
+            DMatrixRMaj result = new DMatrixRMaj();
+            result = CommonOps_DDRM.mult(this.wrappedMatrix, ((EjmlMatrix) that).wrappedMatrix, result);
             return new EjmlMatrix(result);
         } else {
             throw new IllegalArgumentException("Can only multiply with other EjmlMatrix");
@@ -42,18 +42,18 @@ public class EjmlMatrix implements Matrix {
     @Override
     public Tuple mulT(Tuple vector) {
         Counter.mulT++;
-        FMatrixRMaj resultVector = new FMatrixRMaj(this.wrappedMatrix.numCols);
+        DMatrixRMaj resultVector = new DMatrixRMaj(this.wrappedMatrix.numCols);
 
         // ejml requires the vector and matrix to have the same size, i.e. if the vector has length N, the matrix also needs to be of size NxN
         // so let's rework this here. Consider only cases of 4x4, 3x3 matrices our vectors are always length 4
-        final float[] vectorArray;
+        final double[] vectorArray;
         if (this.wrappedMatrix.getNumCols() == 3) {
             vectorArray = Arrays.copyOfRange(vector.getArray(), 0, 3);
         } else {
             vectorArray = vector.getArray();
         }
 
-        MatrixVectorMult_FDRM.mult(wrappedMatrix, new FMatrixRMaj(vectorArray), resultVector);
+        MatrixVectorMult_DDRM.mult(wrappedMatrix, new DMatrixRMaj(vectorArray), resultVector);
 
         // also, if the matrix is 3x3, the resulting vector from ejml only has 3 elements.
         // again, our Tuples have 4 values, so adjust for that here. we need to keep the original w value of the vector.
@@ -69,30 +69,30 @@ public class EjmlMatrix implements Matrix {
     @Override
     public EjmlMatrix transpose() {
         Counter.transpose++;
-        FMatrixRMaj transpose = CommonOps_FDRM.transpose(this.wrappedMatrix, null);
+        DMatrixRMaj transpose = CommonOps_DDRM.transpose(this.wrappedMatrix, null);
         return new EjmlMatrix(transpose);
     }
 
     @Override
-    public float determinant() {
-        Counter.determinant++; return CommonOps_FDRM.det(this.wrappedMatrix);
+    public double determinant() {
+        Counter.determinant++; return CommonOps_DDRM.det(this.wrappedMatrix);
     }
 
     @Override
     public EjmlMatrix subM(int r, int c) {
         Counter.subM++;
-        FMatrixRMaj extract = CommonOps_FDRM.extract(this.wrappedMatrix, 0, c, 0, r);
+        DMatrixRMaj extract = CommonOps_DDRM.extract(this.wrappedMatrix, 0, c, 0, r);
         return new EjmlMatrix(extract);
     }
 
     @Override
-    public float minor(int r, int c) {
+    public double minor(int r, int c) {
         Counter.minor++;
         throw new UnsupportedOperationException("EjmlMatrix doesn't directly support minor calculation");
     }
 
     @Override
-    public float cofactor(int r, int c) {
+    public double cofactor(int r, int c) {
         Counter.cofactor++;
         throw new UnsupportedOperationException("EjmlMatrix doesn't directly support cofactor calculation");
     }
@@ -109,8 +109,8 @@ public class EjmlMatrix implements Matrix {
             throw new ArithmeticException("Matrix not invertible");
         }
 
-        FMatrixRMaj result = new FMatrixRMaj(this.wrappedMatrix.numCols, this.wrappedMatrix.numCols);
-        CommonOps_FDRM.invert(this.wrappedMatrix, result);
+        DMatrixRMaj result = new DMatrixRMaj(this.wrappedMatrix.numCols, this.wrappedMatrix.numCols);
+        CommonOps_DDRM.invert(this.wrappedMatrix, result);
         return new EjmlMatrix(result);
     }
 

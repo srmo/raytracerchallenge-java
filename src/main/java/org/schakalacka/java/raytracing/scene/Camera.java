@@ -39,7 +39,7 @@ public class Camera {
 
     private void calculatePixelSize() {
         double halfView = Math.tan(fieldOfView / 2);
-        double aspectRatio = (double) hSize / (double) vSize;
+        double aspectRatio = (double) hSize /  vSize;
 
         if (aspectRatio >= 1) {
             halfWidth = halfView;
@@ -98,6 +98,7 @@ public class Camera {
         return this.render(world, 1);
     }
 
+    @SuppressWarnings("unused")
     public Canvas renderSinglePixel(World world, int x, int y) {
         var image = new Canvas(this.hSize, this.vSize);
         var ray = this.rayForPixel(x, y);

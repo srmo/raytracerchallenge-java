@@ -33,13 +33,13 @@ class PrecalcTest {
 
     @Test
     void precalcReflectionVector() {
-        var ray = new Ray(Tuple.point(0,1,-1), Tuple.vector(0, (float) -(Math.sqrt(2)/2), (float) Math.sqrt(2)/2));
+        var ray = new Ray(Tuple.point(0,1,-1), Tuple.vector(0,  -(Math.sqrt(2)/2),  Math.sqrt(2)/2));
         var plane = new Plane();
-        var intersection = new Intersection(plane, (float) Math.sqrt(2));
+        var intersection = new Intersection(plane,  Math.sqrt(2));
 
         var precalc = new Precalc(intersection, ray);
 
-        assertEquals(Tuple.vector(0, (float) Math.sqrt(2)/2, (float) Math.sqrt(2)/2), precalc.getReflectVector());
+        assertEquals(Tuple.vector(0,  Math.sqrt(2)/2,  Math.sqrt(2)/2), precalc.getReflectVector());
     }
 
     @Test
@@ -171,10 +171,10 @@ class PrecalcTest {
     @Test
     void schlickTotalInternalReflection() {
         var shape = Sphere.glassySphere();
-        var ray = new Ray(Tuple.point(0,0, (float) (Math.sqrt(2)/2)), Tuple.vector(0,1,0));
+        var ray = new Ray(Tuple.point(0,0,  (Math.sqrt(2)/2)), Tuple.vector(0,1,0));
         var intersections = new ArrayList<Intersection>();
-        intersections.add(new Intersection(shape, (float) (-Math.sqrt(2)/2)));
-        intersections.add(new Intersection(shape, (float) (Math.sqrt(2)/2)));
+        intersections.add(new Intersection(shape,  (-Math.sqrt(2)/2)));
+        intersections.add(new Intersection(shape,  (Math.sqrt(2)/2)));
 
         var precalc = new Precalc(intersections.get(1), ray, intersections);
         assertEquals(1.0f, precalc.schlick());

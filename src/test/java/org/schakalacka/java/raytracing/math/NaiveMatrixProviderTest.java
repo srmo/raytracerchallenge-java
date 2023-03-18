@@ -58,7 +58,7 @@ class NaiveMatrixProviderTest {
 
     @Test
     void createMatrix4() {
-        var ref = new float[][]{
+        var ref = new double[][]{
                 {1, 2, 3, 4},
                 {5.5f, 6.5f, 7.5f, 8.5F},
                 {9, 10, 11, 12},
@@ -85,7 +85,7 @@ class NaiveMatrixProviderTest {
         assertEquals(16.5, matrix.get(3, 3));
 
 
-        // float check that the matrix doesn't ref the initial object
+        // double check that the matrix doesn't ref the initial object
         ref[0][2] = 5;
         assertEquals(3, matrix.get(0, 2));
 
@@ -93,7 +93,7 @@ class NaiveMatrixProviderTest {
 
     @Test
     void createMatrix2() {
-        var ref = new float[][]{
+        var ref = new double[][]{
                 {-3, 5},
                 {1, -2},
         };
@@ -106,7 +106,7 @@ class NaiveMatrixProviderTest {
         assertEquals(-2, matrix.get(1, 1));
 
 
-        // float check that the matrix doesn't ref the initial object
+        // double check that the matrix doesn't ref the initial object
         ref[0][1] = -999;
         assertEquals(5, matrix.get(0, 1));
 
@@ -114,7 +114,7 @@ class NaiveMatrixProviderTest {
 
     @Test
     void createMatrix3() {
-        var ref = new float[][]{
+        var ref = new double[][]{
                 {-3, 5, 0},
                 {1, -2, -7},
                 {0, 1, 1}
@@ -133,21 +133,21 @@ class NaiveMatrixProviderTest {
         assertEquals(1, matrix.get(2, 2));
 
 
-        // float check that the matrix doesn't ref the initial object
+        // double check that the matrix doesn't ref the initial object
         ref[0][1] = -999;
         assertEquals(5, matrix.get(0, 1));
     }
 
     @Test
     void matrixCompareEqual() {
-        var ref = new float[][]{
+        var ref = new double[][]{
                 {1, 2, 3, 4},
                 {5, 6, 7, 8},
                 {9, 8, 7, 6},
                 {5, 4, 3, 2},
         };
 
-        var ref2 = new float[][]{
+        var ref2 = new double[][]{
                 {1, 2, 3, 4},
                 {5, 6, 7, 8},
                 {9, 8, 7, 6},
@@ -162,14 +162,14 @@ class NaiveMatrixProviderTest {
 
     @Test
     void matrixCompareNotEqual() {
-        var ref = new float[][]{
+        var ref = new double[][]{
                 {1, 2, 3, 4},
                 {5, 6, 7, 8},
                 {9, 8, 7, 6},
                 {5, 4, 3, 2},
         };
 
-        var ref2 = new float[][]{
+        var ref2 = new double[][]{
                 {2, 3, 4, 5},
                 {6, 7, 8, 9},
                 {8, 7, 6, 5},
@@ -185,20 +185,20 @@ class NaiveMatrixProviderTest {
 
     @Test
     void mul4() {
-        var expectedMatrix = provider.get(new float[][]{
+        var expectedMatrix = provider.get(new double[][]{
                 {20, 22, 50, 48},
                 {44, 54, 114, 108},
                 {40, 58, 110, 102},
                 {16, 26, 46, 42},
         });
-        var matrix1 = provider.get(new float[][]{
+        var matrix1 = provider.get(new double[][]{
                 {1, 2, 3, 4},
                 {5, 6, 7, 8},
                 {9, 8, 7, 6},
                 {5, 4, 3, 2},
         });
 
-        var matrix2 = provider.get(new float[][]{
+        var matrix2 = provider.get(new double[][]{
                 {-2, 1, 2, 3},
                 {3, 2, 1, -1},
                 {4, 3, 6, 5},
@@ -213,18 +213,18 @@ class NaiveMatrixProviderTest {
 
     @Test
     void mul3() {
-        var expectedMatrix = provider.get(new float[][]{
+        var expectedMatrix = provider.get(new double[][]{
                 {16, 14, 22},
                 {36, 38, 58},
                 {34, 46, 68},
         });
-        var matrix1 = provider.get(new float[][]{
+        var matrix1 = provider.get(new double[][]{
                 {1, 2, 3},
                 {5, 6, 7},
                 {9, 8, 7},
         });
 
-        var matrix2 = provider.get(new float[][]{
+        var matrix2 = provider.get(new double[][]{
                 {-2, 1, 2},
                 {3, 2, 1},
                 {4, 3, 6},
@@ -237,16 +237,16 @@ class NaiveMatrixProviderTest {
 
     @Test
     void mul2() {
-        var expectedMatrix = provider.get(new float[][]{
+        var expectedMatrix = provider.get(new double[][]{
                 {4, 5},
                 {8, 17},
         });
-        var matrix1 = provider.get(new float[][]{
+        var matrix1 = provider.get(new double[][]{
                 {1, 2},
                 {5, 6},
         });
 
-        var matrix2 = provider.get(new float[][]{
+        var matrix2 = provider.get(new double[][]{
                 {-2, 1},
                 {3, 2},
         });
@@ -259,7 +259,7 @@ class NaiveMatrixProviderTest {
     @Test
     void mulTuple4() {
         var expectedTuple = Tuple.tuple(18, 24, 33, 1);
-        var matrix1 = provider.get(new float[][]{
+        var matrix1 = provider.get(new double[][]{
                 {1, 2, 3, 4},
                 {2, 4, 4, 2},
                 {8, 6, 4, 1},
@@ -276,7 +276,7 @@ class NaiveMatrixProviderTest {
     @Test
     void mulIdentity() {
         var identity = provider.get(4, true);
-        var matrix1 = provider.get(new float[][]{
+        var matrix1 = provider.get(new double[][]{
                 {1, 2, 3, 4},
                 {2, 4, 4, 2},
                 {8, 6, 4, 1},
@@ -290,13 +290,13 @@ class NaiveMatrixProviderTest {
 
     @Test
     void transpose() {
-        var expected = provider.get(new float[][]{
+        var expected = provider.get(new double[][]{
                 {0, 9, 1, 0},
                 {9, 8, 8, 0},
                 {3, 0, 5, 5},
                 {0, 8, 3, 8},
         });
-        var matrix1 = provider.get(new float[][]{
+        var matrix1 = provider.get(new double[][]{
                 {0, 9, 3, 0},
                 {9, 8, 0, 8},
                 {1, 8, 5, 3},
@@ -310,13 +310,13 @@ class NaiveMatrixProviderTest {
 
     @Test
     void transposeIdentity() {
-        var expected = provider.get(new float[][]{
+        var expected = provider.get(new double[][]{
                 {1, 0, 0, 0},
                 {0, 1, 0, 0},
                 {0, 0, 1, 0},
                 {0, 0, 0, 1},
         });
-        var matrix1 = provider.get(new float[][]{
+        var matrix1 = provider.get(new double[][]{
                 {1, 0, 0, 0},
                 {0, 1, 0, 0},
                 {0, 0, 1, 0},
@@ -330,7 +330,7 @@ class NaiveMatrixProviderTest {
 
     @Test
     void determinant2() {
-        var matrix = provider.get(new float[][]{
+        var matrix = provider.get(new double[][]{
                 {1, 5},
                 {-3, 2}
         });
@@ -342,11 +342,11 @@ class NaiveMatrixProviderTest {
 
     @Test
     void submatrix3() {
-        var expected = provider.get(new float[][]{
+        var expected = provider.get(new double[][]{
                 {1, 5},
                 {-3, 2},
         });
-        var matrix = provider.get(new float[][]{
+        var matrix = provider.get(new double[][]{
                 {1, 5, 0},
                 {-3, 2, 7},
                 {0, 6, -3},
@@ -359,12 +359,12 @@ class NaiveMatrixProviderTest {
 
     @Test
     void submatrix4() {
-        var expected = provider.get(new float[][]{
+        var expected = provider.get(new double[][]{
                 {-6, 1, 1},
                 {-8, 5, 8},
                 {-1, 0, 8}
        });
-        var matrix = provider.get(new float[][]{
+        var matrix = provider.get(new double[][]{
                 {-6, 1, 1, 6},
                 {-8, 5, 8, 6},
                 {-1, 0, 8, 2},
@@ -378,7 +378,7 @@ class NaiveMatrixProviderTest {
 
     @Test
     void minor3() {
-        var matrix = provider.get(new float[][]{
+        var matrix = provider.get(new double[][]{
                 {3, 5, 0},
                 {2, -1, -7},
                 {6, -1, 5},
@@ -393,7 +393,7 @@ class NaiveMatrixProviderTest {
 
     @Test
     void cofactor3() {
-        var matrix = provider.get(new float[][]{
+        var matrix = provider.get(new double[][]{
                 {3, 5, 0},
                 {2, -1, -7},
                 {6, -1, 5},
@@ -412,7 +412,7 @@ class NaiveMatrixProviderTest {
 
     @Test
     void determinant3() {
-        var matrix = provider.get(new float[][]{
+        var matrix = provider.get(new double[][]{
                 {1, 2, 6},
                 {-5, 8, -4},
                 {2, 6, 4},
@@ -432,7 +432,7 @@ class NaiveMatrixProviderTest {
 
     @Test
     void determinant4() {
-        var matrix = provider.get(new float[][]{
+        var matrix = provider.get(new double[][]{
                 {-2, -8, 3, 5},
                 {-3, 1, 7, 3},
                 {1, 2, -9, 6},
@@ -454,7 +454,7 @@ class NaiveMatrixProviderTest {
 
     @Test
     void isInvertible() {
-        var matrix = provider.get(new float[][]{
+        var matrix = provider.get(new double[][]{
                 {6, 4, 4, 4},
                 {5, 5, 7, 6},
                 {4, -9, 3, -7},
@@ -469,7 +469,7 @@ class NaiveMatrixProviderTest {
 
     @Test
     void isNotInvertible() {
-        var matrix = provider.get(new float[][]{
+        var matrix = provider.get(new double[][]{
                 {-4, 2, -2, -3},
                 {9, 6, 2, 6},
                 {0, -5, 1, -5},
@@ -484,7 +484,7 @@ class NaiveMatrixProviderTest {
 
     @Test
     void invert4() {
-        var matrix = provider.get(new float[][]{
+        var matrix = provider.get(new double[][]{
                 {-5, 2, 6, -8},
                 {1, -5, 1, 8},
                 {7, 7, -6, -7},
@@ -499,46 +499,46 @@ class NaiveMatrixProviderTest {
         var inverse23 = inverse.get(2, 3);
 
 
-        var expectedInverse = provider.get(new float[][]{
-                {0.21804511278195488f, 0.45112781954887216f, 0.24060150375939848f, (float) -0.045112781954887216},
-                {(float) -0.8082706766917294, (float) -1.4567669172932332, (float) -0.44360902255639095, 0.5206766917293233F},
-                {(float) -0.07894736842105263, (float) -0.2236842105263158, (float) -0.05263157894736842, 0.19736842105263158F},
-                {(float) -0.5225563909774437, (float) -0.8139097744360902, (float) -0.3007518796992481, 0.30639097744360905F}
+        var expectedInverse = provider.get(new double[][]{
+                {0.21804511278195488f, 0.45112781954887216f, 0.24060150375939848f,  -0.045112781954887216},
+                { -0.8082706766917294,  -1.4567669172932332,  -0.44360902255639095, 0.5206766917293233F},
+                { -0.07894736842105263,  -0.2236842105263158,  -0.05263157894736842, 0.19736842105263158F},
+                { -0.5225563909774437,  -0.8139097744360902,  -0.3007518796992481, 0.30639097744360905F}
         });
 
         assertEquals(532, determinant);
         assertEquals(-160, cofactor23);
-        assertEquals((float) -160 / 532, inverse32);
+        assertEquals( -160.0 / 532.0, inverse32);
         assertEquals(105, cofactor32);
-        assertEquals((float) 105 / 532, inverse23);
+        assertEquals( 105.0 / 532.0, inverse23);
         assertEquals(expectedInverse, inverse);
     }
 
     @Test
     void invertAnother() {
-        var matrix1 = provider.get(new float[][]{
+        var matrix1 = provider.get(new double[][]{
                 {8, -5, 9, 2},
                 {7, 5, 6, 1},
                 {-6, 0, 9, 6},
                 {-3, 0, -9, -4},
         });
-        var matrix1ExpectedInvert = provider.get(new float[][]{
-                {(float) -0.15384615, (float) -0.15384615, (float) -0.28205128, (float) -0.53846153},
-                {(float) -0.07692307, 0.12307692f, 0.02564102f, 0.03076923F},
+        var matrix1ExpectedInvert = provider.get(new double[][]{
+                { -0.15384615,  -0.15384615,  -0.28205128,  -0.53846153},
+                { -0.07692307, 0.12307692f, 0.02564102f, 0.03076923F},
                 {0.35897435f, 0.35897435f, 0.43589743f, 0.92307692F},
-                {(float) -0.69230769, (float) -0.69230769, (float) -0.76923076, (float) -1.92307692}
+                { -0.69230769,  -0.69230769,  -0.76923076,  -1.92307692}
         });
-        var matrix2 = provider.get(new float[][]{
+        var matrix2 = provider.get(new double[][]{
                 {9, 3, 0, 9},
                 {-5, -2, -6, -3},
                 {-4, 9, 6, 4},
                 {-7, 6, 6, 2},
         });
-        var matrix2ExpectedInvert = provider.get(new float[][]{
-                {(float) -0.04074074, (float) -0.07777777, 0.14444444f, (float) -0.22222222},
-                {(float) -0.07777777, 0.03333333f, 0.36666666f, (float) -0.33333333},
-                {(float) -0.02901234, (float) -0.14629629, (float) -0.10925925, 0.12962962F},
-                {0.17777777f, 0.06666666f, (float) -0.26666666, 0.33333F}
+        var matrix2ExpectedInvert = provider.get(new double[][]{
+                { -0.04074074,  -0.07777777, 0.14444444f,  -0.22222222},
+                { -0.07777777, 0.03333333f, 0.36666666f,  -0.33333333},
+                { -0.02901234,  -0.14629629,  -0.10925925, 0.12962962F},
+                {0.17777777f, 0.06666666f,  -0.26666666, 0.33333F}
         });
 
         var inverse1 = matrix1.inverse();
@@ -550,13 +550,13 @@ class NaiveMatrixProviderTest {
 
     @Test
     void multiplyInverse() {
-        var matrix1 = provider.get(new float[][]{
+        var matrix1 = provider.get(new double[][]{
                 {3, -9, 7, 3},
                 {3, -8, 2, -9},
                 {-4, 4, 4, 1},
                 {-6, 5, -1, 1},
         });
-        var matrix2 = provider.get(new float[][]{
+        var matrix2 = provider.get(new double[][]{
                 {8, 2, 2, 2},
                 {3, -1, 7, 0},
                 {7, 0, 5, 4},
@@ -572,7 +572,7 @@ class NaiveMatrixProviderTest {
     void translation() {
         var translation = provider.translation(-1, 2, 3);
 
-        var expectedMatrix = provider.get(new float[][]{
+        var expectedMatrix = provider.get(new double[][]{
                 {1, 0, 0, -1},
                 {0, 1, 0, 2},
                 {0, 0, 1, 3},
@@ -657,8 +657,8 @@ class NaiveMatrixProviderTest {
 
         assertTrue(scaledVector.isVector());
         assertEquals(-2, scaledVector.x());
-        assertEquals((float) 2, scaledVector.y());
-        assertEquals((float) 2, scaledVector.z());
+        assertEquals( 2, scaledVector.y());
+        assertEquals( 2, scaledVector.z());
     }
 
     @Test
@@ -678,14 +678,14 @@ class NaiveMatrixProviderTest {
     @Test
     void rotatePointX() {
         var point = Tuple.point(0, 1, 0);
-        var rotationHalfQuarter = provider.rotationX((float) Math.toRadians(45)); // same as Math.PI / 4
-        var rotationFUllQuarter = provider.rotationX((float) Math.toRadians(90)); // same as Math.PI / 2
+        var rotationHalfQuarter = provider.rotationX( Math.toRadians(45)); // same as Math.PI / 4
+        var rotationFUllQuarter = provider.rotationX( Math.toRadians(90)); // same as Math.PI / 2
 
         var pointHalfQuarter = rotationHalfQuarter.mulT(point);
         var pointFullQuarter = rotationFUllQuarter.mulT(point);
 
         assertTrue(pointHalfQuarter.isPoint());
-        assertEquals(Tuple.point(0, (float) (Math.sqrt(2) / 2), (float) (Math.sqrt(2) / 2)), pointHalfQuarter);
+        assertEquals(Tuple.point(0,  (Math.sqrt(2) / 2),  (Math.sqrt(2) / 2)), pointHalfQuarter);
 
         assertTrue(pointFullQuarter.isPoint());
         assertEquals(Tuple.point(0, 0, 1), pointFullQuarter);
@@ -694,26 +694,26 @@ class NaiveMatrixProviderTest {
     @Test
     void rotatePointXInverse() {
         var point = Tuple.point(0, 1, 0);
-        var rotationHalfQuarter = provider.rotationX((float) Math.toRadians(45)); // same as Math.PI / 4
+        var rotationHalfQuarter = provider.rotationX( Math.toRadians(45)); // same as Math.PI / 4
 
         var pointHalfQuarter = rotationHalfQuarter.inverse().mulT(point);
 
         assertTrue(pointHalfQuarter.isPoint());
-        assertEquals(Tuple.point(0, (float) (Math.sqrt(2) / 2), (float) -(Math.sqrt(2) / 2)), pointHalfQuarter);
+        assertEquals(Tuple.point(0,  (Math.sqrt(2) / 2),  -(Math.sqrt(2) / 2)), pointHalfQuarter);
 
     }
 
     @Test
     void rotatePointY() {
         var point = Tuple.point(0, 0, 1);
-        var rotationHalfQuarter = provider.rotationY((float) Math.toRadians(45)); // same as Math.PI / 4
-        var rotationFUllQuarter = provider.rotationY((float) Math.toRadians(90)); // same as Math.PI / 2
+        var rotationHalfQuarter = provider.rotationY( Math.toRadians(45)); // same as Math.PI / 4
+        var rotationFUllQuarter = provider.rotationY( Math.toRadians(90)); // same as Math.PI / 2
 
         var pointHalfQuarter = rotationHalfQuarter.mulT(point);
         var pointFullQuarter = rotationFUllQuarter.mulT(point);
 
         assertTrue(pointHalfQuarter.isPoint());
-        assertEquals(Tuple.point((float) (Math.sqrt(2) / 2), 0, (float) (Math.sqrt(2) / 2)), pointHalfQuarter);
+        assertEquals(Tuple.point( (Math.sqrt(2) / 2), 0,  (Math.sqrt(2) / 2)), pointHalfQuarter);
 
         assertTrue(pointFullQuarter.isPoint());
         assertEquals(Tuple.point(1, 0, 0), pointFullQuarter);
@@ -722,25 +722,25 @@ class NaiveMatrixProviderTest {
     @Test
     void rotatePointYInverse() {
         var point = Tuple.point(0, 0, 1);
-        var rotationHalfQuarter = provider.rotationY((float) Math.toRadians(45)); // same as Math.PI / 4
+        var rotationHalfQuarter = provider.rotationY( Math.toRadians(45)); // same as Math.PI / 4
 
         var pointHalfQuarter = rotationHalfQuarter.inverse().mulT(point);
 
         assertTrue(pointHalfQuarter.isPoint());
-        assertEquals(Tuple.point((float) (-(Math.sqrt(2)) / 2), 0, (float) ((Math.sqrt(2)) / 2)), pointHalfQuarter);
+        assertEquals(Tuple.point( (-(Math.sqrt(2)) / 2), 0,  ((Math.sqrt(2)) / 2)), pointHalfQuarter);
     }
 
     @Test
     void rotatePointZ() {
         var point = Tuple.point(0, 1, 0);
-        var rotationHalfQuarter = provider.rotationZ((float) Math.toRadians(45)); // same as Math.PI / 4
-        var rotationFUllQuarter = provider.rotationZ((float) Math.toRadians(90)); // same as Math.PI / 2
+        var rotationHalfQuarter = provider.rotationZ( Math.toRadians(45)); // same as Math.PI / 4
+        var rotationFUllQuarter = provider.rotationZ( Math.toRadians(90)); // same as Math.PI / 2
 
         var pointHalfQuarter = rotationHalfQuarter.mulT(point);
         var pointFullQuarter = rotationFUllQuarter.mulT(point);
 
         assertTrue(pointHalfQuarter.isPoint());
-        assertEquals(Tuple.point((float) -(Math.sqrt(2) / 2), (float) (Math.sqrt(2) / 2), 0), pointHalfQuarter);
+        assertEquals(Tuple.point( -(Math.sqrt(2) / 2),  (Math.sqrt(2) / 2), 0), pointHalfQuarter);
 
         assertTrue(pointFullQuarter.isPoint());
         assertEquals(Tuple.point(-1, 0, 0), pointFullQuarter);
@@ -749,12 +749,12 @@ class NaiveMatrixProviderTest {
     @Test
     void rotatePointZInverse() {
         var point = Tuple.point(0, 1, 0);
-        var rotationHalfQuarter = provider.rotationZ((float) Math.toRadians(45)); // same as Math.PI / 4
+        var rotationHalfQuarter = provider.rotationZ( Math.toRadians(45)); // same as Math.PI / 4
 
         var pointHalfQuarter = rotationHalfQuarter.inverse().mulT(point);
 
         assertTrue(pointHalfQuarter.isPoint());
-        assertEquals(Tuple.point((float) (Math.sqrt(2) / 2), (float) (Math.sqrt(2) / 2), 0), pointHalfQuarter);
+        assertEquals(Tuple.point( (Math.sqrt(2) / 2),  (Math.sqrt(2) / 2), 0), pointHalfQuarter);
     }
 
     @Test
@@ -780,7 +780,7 @@ class NaiveMatrixProviderTest {
     @Test
     void transformationSequenceAndChaining() {
         var point = Tuple.point(1, 0, 1);
-        var rotationX = provider.rotationX((float) (Math.PI / 2));
+        var rotationX = provider.rotationX( (Math.PI / 2));
         var scaling = provider.scaling(5, 5, 5);
         var translation = provider.translation(10, 5, 7);
 

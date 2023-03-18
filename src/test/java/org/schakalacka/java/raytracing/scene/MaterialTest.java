@@ -39,7 +39,7 @@ class MaterialTest {
 
     @Test
     void lightingEyeBetweenLightAndSurfaceEyeOffset45() {
-        var eyeVector = Tuple.vector(0, (float) (Math.sqrt(2) / 2), (float) (-Math.sqrt(2) / 2));
+        var eyeVector = Tuple.vector(0,  (Math.sqrt(2) / 2),  (-Math.sqrt(2) / 2));
         var normalVector = Tuple.vector(0, 0, -1);
         var light = new PointLight(Tuple.point(0, 0, -10), new Color(1, 1, 1));
 
@@ -61,7 +61,7 @@ class MaterialTest {
 
     @Test
     void lightingEyeBetweenLightAndSurfaceLightAndEyeOffset45() {
-        var eyeVector = Tuple.vector(0, (float) (-Math.sqrt(2) / 2), (float) (-Math.sqrt(2) / 2));
+        var eyeVector = Tuple.vector(0,  (-Math.sqrt(2) / 2),  (-Math.sqrt(2) / 2));
         var normalVector = Tuple.vector(0, 0, -1);
         var light = new PointLight(Tuple.point(0, 10, -10), new Color(1, 1, 1));
 

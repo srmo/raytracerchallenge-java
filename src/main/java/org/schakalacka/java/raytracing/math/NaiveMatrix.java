@@ -12,22 +12,22 @@ public class NaiveMatrix implements Matrix {
     /***
      * row-column. mapped 2d-array to 1d
      */
-    final float[] matrix;
+    final double[] matrix;
 
     NaiveMatrix(int size) {
         this.size = size;
-        this.matrix = new float[size * size];
+        this.matrix = new double[size * size];
     }
 
 
     @Override
-    public float get(int row, int col) {
+    public double get(int row, int col) {
         return matrix[row * size + col];
     }
 
     @Override
-    public void set(int row, int col, float val) {
-        this.matrix[row * size + col] = (float) val;
+    public void set(int row, int col, double val) {
+        this.matrix[row * size + col] =  val;
     }
 
     @Override
@@ -41,8 +41,8 @@ public class NaiveMatrix implements Matrix {
             return false;
 
         for (int i = 0; i < length; i++) {
-            float e1 = this.matrix[i];
-            float e2 = that.matrix[i];
+            double e1 = this.matrix[i];
+            double e2 = that.matrix[i];
 
             if (e1 == e2)
                 continue;
@@ -76,7 +76,7 @@ public class NaiveMatrix implements Matrix {
 
         for (int r = 0; r < this.size; r++) {
             for (int c = 0; c < this.size; c++) {
-                float newVal = 0;
+                double newVal = 0;
 
                 for (int i = 0; i < this.size; i++) {
                     newVal += this.get(r, i) * that.get(i, c);
@@ -91,21 +91,21 @@ public class NaiveMatrix implements Matrix {
     @Override
     public Tuple mulT(Tuple that) {
         Counter.mulT++;
-        float x = 0;
+        double x = 0;
         for (int i = 0; i < this.size; i++) {
             x += this.get(0, i) * that.get(i);
         }
-        float y = 0;
+        double y = 0;
         for (int i = 0; i < this.size; i++) {
             y += this.get(1, i) * that.get(i);
         }
-        float z = 0;
+        double z = 0;
         for (int i = 0; i < this.size; i++) {
             z += this.get(2, i) * that.get(i);
         }
-        float w = 0;
+        double w = 0;
         if (this.size <= 3) {
-            w = (float) that.w();
+            w =  that.w();
         } else {
             for (int i = 0; i < this.size; i++) {
                 w += this.get(3, i) * that.get(i);
@@ -130,9 +130,9 @@ public class NaiveMatrix implements Matrix {
     }
 
     @Override
-    public float determinant() {
+    public double determinant() {
         Counter.determinant++;
-        float determinant = 0;
+        double determinant = 0;
         if (this.size == 2) {
             determinant = this.get(0, 0) * this.get(1, 1) - this.get(0, 1) * this.get(1, 0);
         } else {
@@ -166,7 +166,7 @@ public class NaiveMatrix implements Matrix {
     }
 
     @Override
-    public float minor(int r, int c) {
+    public double minor(int r, int c) {
         Counter.minor++;
         return this.subM(r, c).determinant();
     }
@@ -175,7 +175,7 @@ public class NaiveMatrix implements Matrix {
      * A cofactor is a minor, potentially negated. If the target sums up to an odd number, negate the minor.
      */
     @Override
-    public float cofactor(int r, int c) {
+    public double cofactor(int r, int c) {
         Counter.cofactor++;
         int factor = (r + c) % 2 == 0 ? 1 : -1;
         return minor(r, c) * factor;
@@ -195,10 +195,10 @@ public class NaiveMatrix implements Matrix {
         }
 
         NaiveMatrix newMatrix = new NaiveMatrix(this.size);
-        float determinant = determinant();
+        double determinant = determinant();
         for (int row = 0; row < this.size; row++) {
             for (int col = 0; col < this.size; col++) {
-                float cofactor = cofactor(row, col);
+                double cofactor = cofactor(row, col);
                 newMatrix.set(col, row, cofactor / determinant);
             }
         }

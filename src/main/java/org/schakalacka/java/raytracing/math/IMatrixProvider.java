@@ -1,21 +1,21 @@
 package org.schakalacka.java.raytracing.math;
 
 public interface IMatrixProvider {
-    Matrix get(float[][] ref);
+    Matrix get(double[][] ref);
 
     Matrix get(int size);
 
     Matrix get(int size, boolean isIdentity);
 
-    Matrix translation(float x, float y, float z);
+    Matrix translation(double x, double y, double z);
 
-    Matrix scaling(float x, float y, float z);
+    Matrix scaling(double x, double y, double z);
 
-    Matrix rotationX(float radians);
+    Matrix rotationX(double radians);
 
-    Matrix rotationY(float radians);
+    Matrix rotationY(double radians);
 
-    Matrix rotationZ(float radians);
+    Matrix rotationZ(double radians);
 
-    Matrix shearing(float xy, float xz, float yx, float yz, float zx, float zy);
+    Matrix shearing(double xy, double xz, double yx, double yz, double zx, double zy);
 }

@@ -2,9 +2,9 @@ package org.schakalacka.java.raytracing.math;
 
 public interface Matrix {
 
-    float get(int row, int col);
+    double get(int row, int col);
 
-    void set(int i, int i1, float xy);
+    void set(int i, int i1, double xy);
 
     Matrix mulM(Matrix that);
 
@@ -12,13 +12,13 @@ public interface Matrix {
 
     Matrix transpose();
 
-    float determinant();
+    double determinant();
 
     Matrix subM(int r, int c);
 
-    float minor(int r, int c);
+    double minor(int r, int c);
 
-    float cofactor(int r, int c);
+    double cofactor(int r, int c);
 
     boolean isInvertible();
 

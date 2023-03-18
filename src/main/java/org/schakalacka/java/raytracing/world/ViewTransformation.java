@@ -14,7 +14,7 @@ public class ViewTransformation {
 
         var trueUpVector = leftVector.cross(forwardVector);
 
-        var orientationMatrix = MatrixProvider.get(new float[][]{
+        var orientationMatrix = MatrixProvider.get(new double[][]{
                 {leftVector.x(), leftVector.y(), leftVector.z(), 0},
                 {trueUpVector.x(), trueUpVector.y(), trueUpVector.z(), 0},
                 {-forwardVector.x(), -forwardVector.y(), -forwardVector.z(), 0},

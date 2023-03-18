@@ -14,40 +14,61 @@ public class CublasMatrix implements Matrix {
     /***
      * column-row. mapped 2d-array to 1d
      */
-    final float[] matrix;
+    final double[] matrix;
 
     private final int size;
 
-    public CublasMatrix(float[] matrix, int size) {
+    public CublasMatrix(double[] matrix, int size) {
         this.size = size;
         this.matrix = matrix;
     }
 
+    public CublasMatrix(float[] matrix, int size) {
+        this(convertToDoubleArray(matrix), size);
+    }
+
     public CublasMatrix(int size) {
         this.size = size;
-        this.matrix = new float[size * size];
+        this.matrix = new double[size * size];
     }
 
     @Override
-    public float get(int row, int col) {
+    public double get(int row, int col) {
         return matrix[col * size + row];
     }
 
     @Override
-    public void set(int row, int column, float val) {
-        this.matrix[column * size + row] = (float) val;
+    public void set(int row, int column, double val) {
+        this.matrix[column * size + row] =  val;
     }
 
     @Override
     public Matrix mulM(Matrix that) {
         Counter.mulM++;
-        return RayTracingCublas.mulM(this.matrix, ((CublasMatrix) that).matrix, size);
+
+        return RayTracingCublas.mulM(convertToFloatArray(this.matrix), convertToFloatArray(((CublasMatrix) that).matrix), size);
+    }
+
+    private static float[] convertToFloatArray(double[] array) {
+        float[] floatArray = new float[array.length];
+        for (int i = 0; i < array.length; i++) {
+            floatArray[i] = (float) array[i];
+        }
+        return floatArray;
+    }
+
+    private static double[] convertToDoubleArray(float[] array) {
+        double[] doubleArray = new double[array.length];
+        for (int i = 0; i < array.length; i++) {
+            doubleArray[i] =  array[i];
+        }
+        return doubleArray;
     }
 
     @Override
     public Tuple mulT(Tuple that) {
         Counter.mulT++;
-        return RayTracingCublas.mulT(this.matrix, that, size);
+        return RayTracingCublas.mulT(convertToFloatArray(this.matrix), that, size);
     }
 
     @Override
@@ -65,9 +86,9 @@ public class CublasMatrix implements Matrix {
     }
 
     @Override
-    public float determinant() {
+    public double determinant() {
         Counter.determinant++;
-        float determinant = 0;
+        double determinant = 0;
         if (this.size == 2) {
             determinant = this.get(0, 0) * this.get(1, 1) - this.get(0, 1) * this.get(1, 0);
         } else {
@@ -101,13 +122,13 @@ public class CublasMatrix implements Matrix {
     }
 
     @Override
-    public float minor(int r, int c) {
+    public double minor(int r, int c) {
         Counter.minor++;
         return this.subM(r, c).determinant();
     }
 
     @Override
-    public float cofactor(int r, int c) {
+    public double cofactor(int r, int c) {
         Counter.cofactor++;
         int factor = (r + c) % 2 == 0 ? 1 : -1;
         return minor(r, c) * factor;
@@ -130,7 +151,7 @@ public class CublasMatrix implements Matrix {
         for (int row = 0; row < this.size; row++) {
             for (int col = 0; col < this.size; col++) {
                 double cofactor = cofactor(row, col);
-                newMatrix.set(col, row, (float) (cofactor / determinant));
+                newMatrix.set(col, row,  (cofactor / determinant));
             }
         }
 
@@ -148,8 +169,8 @@ public class CublasMatrix implements Matrix {
             return false;
 
         for (int i = 0; i < length; i++) {
-            float e1 = this.matrix[i];
-            float e2 = that.matrix[i];
+            double e1 = this.matrix[i];
+            double e2 = that.matrix[i];
 
             if (e1 == e2)
                 continue;

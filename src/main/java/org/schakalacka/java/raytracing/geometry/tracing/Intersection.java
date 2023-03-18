@@ -6,9 +6,9 @@ import java.util.Objects;
 
 public class Intersection {
     private final Shape object;
-    private final float distance;
+    private final double distance;
 
-    public Intersection(Shape object, float ticks) {
+    public Intersection(Shape object, double ticks) {
         this.object = object;
         this.distance = ticks;
     }
@@ -17,7 +17,7 @@ public class Intersection {
         return this.object;
     }
 
-    public float getDistance() {
+    public double getDistance() {
         return this.distance;
     }
 

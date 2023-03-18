@@ -25,7 +25,7 @@ public class Sphere extends Shape {
         return position;
     }
 
-    public float radius() {
+    public double radius() {
         return 1;
     }
 
@@ -50,8 +50,8 @@ public class Sphere extends Shape {
         var discriminant = b * b - 4 * a * c;
 
         if (discriminant >= 0) {
-            result.add(new Intersection(this, (float) ((-b - Math.sqrt(discriminant)) / (2 * a))));
-            result.add(new Intersection(this, (float) ((-b + Math.sqrt(discriminant)) / (2 * a))));
+            result.add(new Intersection(this, (-b - Math.sqrt(discriminant)) / (2 * a)));
+            result.add(new Intersection(this, (-b + Math.sqrt(discriminant)) / (2 * a)));
             result.sort(Comparator.comparingDouble(Intersection::getDistance));
         }
 

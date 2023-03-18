@@ -20,7 +20,7 @@ public class Cube extends Shape {
         if (tmin > tmax) {
             return List.of();
         } else {
-            return List.of(new Intersection(this, (float) tmin), new Intersection(this, (float) tmax));
+            return List.of(new Intersection(this,  tmin), new Intersection(this,  tmax));
         }
     }
 

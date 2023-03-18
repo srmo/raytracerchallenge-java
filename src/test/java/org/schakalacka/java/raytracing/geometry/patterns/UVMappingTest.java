@@ -19,7 +19,7 @@ class UVMappingTest {
         Tuple point4 = Tuple.point(-1, 0, 0);
         Tuple point5 = Tuple.point(0, 1, 0);
         Tuple point6 = Tuple.point(0, -1, 0);
-        Tuple point7 = Tuple.point((float) (Math.sqrt(2) / 2), (float) (Math.sqrt(2) / 2), 0);
+        Tuple point7 = Tuple.point( (Math.sqrt(2) / 2),  (Math.sqrt(2) / 2), 0);
 
 
         Assertions.assertEquals(new UV(0.0f, 0.5f), (new UVMapping()).sphericalMap(point1));

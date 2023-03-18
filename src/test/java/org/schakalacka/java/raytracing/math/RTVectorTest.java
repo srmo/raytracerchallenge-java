@@ -10,7 +10,7 @@ class RTVectorTest {
 
     @Test
     void tupleIsVector() {
-        var tuple = Tuple.vector(4.3f, (float) -4.2, 3.1f);
+        var tuple = Tuple.vector(4.3f,  -4.2, 3.1f);
 
         assertEquals(4.3, tuple.x(), Constants.EQUALS_EPSILON);
         assertEquals(-4.2, tuple.y(), Constants.EQUALS_EPSILON);
@@ -158,7 +158,7 @@ class RTVectorTest {
         result = vector.normalize();
 
         // this is an approximation
-        var reference = Tuple.vector((float) (1 / Math.sqrt(14)), (float) (2 / Math.sqrt(14)), (float) (3 / Math.sqrt(14)));
+        var reference = Tuple.vector( (1 / Math.sqrt(14)),  (2 / Math.sqrt(14)),  (3 / Math.sqrt(14)));
 
         assertEquals(reference, result);
     }
@@ -208,7 +208,7 @@ class RTVectorTest {
     @Test
     void reflectAtSlantedSurface() {
         var vector = Tuple.vector(0, -1, 0);
-        var normal = Tuple.vector((float) (Math.sqrt(2) / 2), (float) (Math.sqrt(2) / 2), 0);
+        var normal = Tuple.vector( (Math.sqrt(2) / 2),  (Math.sqrt(2) / 2), 0);
 
         var reflectedVector = vector.reflect(normal);
 

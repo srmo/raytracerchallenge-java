@@ -5,7 +5,7 @@ import org.schakalacka.java.raytracing.Counter;
 class CublasMatrixProvider implements IMatrixProvider {
 
 
-    public CublasMatrix get(float[][] ref) {
+    public CublasMatrix get(double[][] ref) {
 
         CublasMatrix result = this.get(ref.length);
 
@@ -22,7 +22,7 @@ class CublasMatrixProvider implements IMatrixProvider {
     }
 
     public CublasMatrix get(int size, boolean isIdentity) {
-        CublasMatrix result = new CublasMatrix(new float[size * size], size);
+        CublasMatrix result = new CublasMatrix(new double[size * size], size);
 
         if (isIdentity) {
             for (int i = 0; i < size; i++) {
@@ -35,7 +35,7 @@ class CublasMatrixProvider implements IMatrixProvider {
     /***
      * create a translation matrix. It is a 4x4 identity matrix, where the last colum is populated with the 3 values.
      */
-    public CublasMatrix translation(float x, float y, float z) {
+    public CublasMatrix translation(double x, double y, double z) {
         Counter.translate++;
         CublasMatrix result = this.get(4, true);
         result.set(0, 3, x);
@@ -49,7 +49,7 @@ class CublasMatrixProvider implements IMatrixProvider {
 //                {0, 0, 0, 1},
     }
 
-    public CublasMatrix scaling(float x, float y, float z) {
+    public CublasMatrix scaling(double x, double y, double z) {
         Counter.scale++;
         CublasMatrix result = this.get(4, false);
         result.set(0, 0, x);
@@ -68,13 +68,13 @@ class CublasMatrixProvider implements IMatrixProvider {
      *
      * @return a left-handed rotation matrix along the X axis
      */
-    public CublasMatrix rotationX(float radians) {
+    public CublasMatrix rotationX(double radians) {
         Counter.rotX++;
         CublasMatrix result = this.get(4, true);
-        result.set(1, 1, (float) Math.cos(radians));
-        result.set(1, 2, (float) -Math.sin(radians));
-        result.set(2, 1, (float) Math.sin(radians));
-        result.set(2, 2, (float) Math.cos(radians));
+        result.set(1, 1,  Math.cos(radians));
+        result.set(1, 2,  -Math.sin(radians));
+        result.set(2, 1,  Math.sin(radians));
+        result.set(2, 2,  Math.cos(radians));
 
         return result;
 
@@ -88,20 +88,20 @@ class CublasMatrixProvider implements IMatrixProvider {
      *
      * @return a left-handed rotation matrix along the Y axis
      */
-    public CublasMatrix rotationY(float radians) {
+    public CublasMatrix rotationY(double radians) {
         Counter.rotY++;
         CublasMatrix result = this.get(4, true);
-        result.set(0, 0, (float) Math.cos(radians));
+        result.set(0, 0,  Math.cos(radians));
         result.set(0, 1, 0);
-        result.set(0, 2, (float) Math.sin(radians));
+        result.set(0, 2,  Math.sin(radians));
         result.set(0, 3, 0);
         result.set(1, 0, 0);
         result.set(1, 1, 1);
         result.set(1, 2, 0);
         result.set(1, 3, 0);
-        result.set(2, 0, (float) -Math.sin(radians));
+        result.set(2, 0,  -Math.sin(radians));
         result.set(2, 1, 0);
-        result.set(2, 2, (float) Math.cos(radians));
+        result.set(2, 2,  Math.cos(radians));
         result.set(2, 3, 0);
         result.set(3, 0, 0);
         result.set(3, 1, 0);
@@ -116,13 +116,13 @@ class CublasMatrixProvider implements IMatrixProvider {
 //                {0, 0, 0, 1},
     }
 
-    public CublasMatrix rotationZ(float radians) {
+    public CublasMatrix rotationZ(double radians) {
         Counter.rotZ++;
         CublasMatrix result = this.get(4, true);
-        result.set(0, 0, (float) Math.cos(radians));
-        result.set(0, 1, (float) -Math.sin(radians));
-        result.set(1, 0, (float) Math.sin(radians));
-        result.set(1, 1, (float) Math.cos(radians));
+        result.set(0, 0,  Math.cos(radians));
+        result.set(0, 1,  -Math.sin(radians));
+        result.set(1, 0,  Math.sin(radians));
+        result.set(1, 1,  Math.cos(radians));
 
         return result;
 
@@ -133,7 +133,7 @@ class CublasMatrixProvider implements IMatrixProvider {
 //                {0, 0, 0, 1},
     }
 
-    public CublasMatrix shearing(float xy, float xz, float yx, float yz, float zx, float zy) {
+    public CublasMatrix shearing(double xy, double xz, double yx, double yz, double zx, double zy) {
         Counter.shear++;
         CublasMatrix result = this.get(4, true);
         result.set(0, 1, xy);

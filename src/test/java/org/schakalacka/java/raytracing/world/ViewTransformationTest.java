@@ -16,7 +16,7 @@ class ViewTransformationTest {
 
         var transformMatrix = ViewTransformation.transform(from, to, up);
 
-        var refMatrix = MatrixProvider.get(new float[][]{
+        var refMatrix = MatrixProvider.get(new double[][]{
                 {1, 0, 0, 0},
                 {0, 1, 0, 0},
                 {0, 0, 1, 0},
@@ -64,10 +64,10 @@ class ViewTransformationTest {
 
         var transformMatrix = ViewTransformation.transform(from, to, up);
 
-        var refMatrix = MatrixProvider.get(new float[][]{
-                {(float) -0.50709, 0.50709f, 0.67612f, (float) -2.36643},
-                {0.76772f, 0.60609f, 0.12122f, (float) -2.82843},
-                {(float) -0.35857, 0.59761f, (float) -0.71714, 0.00000F},
+        var refMatrix = MatrixProvider.get(new double[][]{
+                { -0.50709, 0.50709f, 0.67612f,  -2.36643},
+                {0.76772f, 0.60609f, 0.12122f,  -2.82843},
+                { -0.35857, 0.59761f,  -0.71714, 0.00000F},
                 {0, 0, 0, 1},
         });
 

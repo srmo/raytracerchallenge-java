@@ -86,9 +86,9 @@ class ShapeTest {
     @Test
     void normalOnTransformedShape() {
         var shape = new TestShape();
-        shape.setTransformationMatrix(MatrixProvider.scaling(1,0.5f,1).mulM(MatrixProvider.rotationZ((float) (Math.PI/5))));
+        shape.setTransformationMatrix(MatrixProvider.scaling(1,0.5f,1).mulM(MatrixProvider.rotationZ( (Math.PI/5))));
 
-        var normal = shape.normalVectorAt(Tuple.point(0, (float) (Math.sqrt(2)/2), (float) (-Math.sqrt(2)/2)));
+        var normal = shape.normalVectorAt(Tuple.point(0,  (Math.sqrt(2)/2),  (-Math.sqrt(2)/2)));
 
         assertEquals(Tuple.vector(0,0.97014f,-0.24254f), normal);
     }

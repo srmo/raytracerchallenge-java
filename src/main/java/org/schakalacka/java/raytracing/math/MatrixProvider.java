@@ -6,7 +6,7 @@ public class MatrixProvider {
 
     public static MATRIX_TYPE MT = MATRIX_TYPE.EJML;
 
-    public static Matrix get(float[][] ref) {
+    public static Matrix get(double[][] ref) {
         return MT.provider.get(ref);
     }
 
@@ -21,12 +21,12 @@ public class MatrixProvider {
     /***
      * create a translation matrix. It is a 4x4 identity matrix, where the last colum is populated with the 3 values.
      */
-    public static Matrix translation(float x, float y, float z) {
+    public static Matrix translation(double x, double y, double z) {
         Counter.translate++;
         return MT.provider.translation(x, y, z);
     }
 
-    public static Matrix scaling(float x, float y, float z) {
+    public static Matrix scaling(double x, double y, double z) {
         Counter.scale++;
         return MT.provider.scaling(x, y, z);
     }
@@ -35,7 +35,7 @@ public class MatrixProvider {
      *
      * @return a left-handed rotation matrix along the X axis
      */
-    public static Matrix rotationX(float radians) {
+    public static Matrix rotationX(double radians) {
         Counter.rotX++;
         return MT.provider.rotationX(radians);
     }
@@ -44,17 +44,17 @@ public class MatrixProvider {
      *
      * @return a left-handed rotation matrix along the Y axis
      */
-    public static Matrix rotationY(float radians) {
+    public static Matrix rotationY(double radians) {
         Counter.rotY++;
         return MT.provider.rotationY(radians);
     }
 
-    public static Matrix rotationZ(float radians) {
+    public static Matrix rotationZ(double radians) {
         Counter.rotZ++;
         return MT.provider.rotationZ(radians);
     }
 
-    public static Matrix shearing(float xy, float xz, float yx, float yz, float zx, float zy) {
+    public static Matrix shearing(double xy, double xz, double yx, double yz, double zx, double zy) {
         Counter.shear++;
         return MT.provider.shearing(xy, xz, yx, yz, zx, zy);
     }

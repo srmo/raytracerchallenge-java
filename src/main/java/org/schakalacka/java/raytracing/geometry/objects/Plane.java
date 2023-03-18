@@ -19,7 +19,7 @@ public class Plane extends Shape {
             return Collections.emptyList();
         }
 
-        float distance = -ray.origin().y() / ray.direction().y();
+        double distance = -ray.origin().y() / ray.direction().y();
         return Collections.singletonList(new Intersection(this, distance));
     }
 

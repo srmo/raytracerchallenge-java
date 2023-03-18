@@ -17,16 +17,16 @@ class CubeTest {
 
         List<Tuple> origins = new ArrayList<>();
         List<Tuple> directions = new ArrayList<>();
-        List<Float> t1s = new ArrayList<>();
-        List<Float> t2s = new ArrayList<>();
+        List<Double> t1s = new ArrayList<>();
+        List<Double> t2s = new ArrayList<>();
 
-        origins.add(Tuple.point(5, .5f, 0));
-        origins.add(Tuple.point(-5, .5f, 0));
-        origins.add(Tuple.point(.5f, 5, 0));
-        origins.add(Tuple.point(.5f, -5, 0));
-        origins.add(Tuple.point(.5f, 0, 5));
-        origins.add(Tuple.point(.5f, 0, -5));
-        origins.add(Tuple.point(0, 0.5f, 0));
+        origins.add(Tuple.point(5, .5, 0));
+        origins.add(Tuple.point(-5, .5, 0));
+        origins.add(Tuple.point(.5, 5, 0));
+        origins.add(Tuple.point(.5, -5, 0));
+        origins.add(Tuple.point(.5, 0, 5));
+        origins.add(Tuple.point(.5, 0, -5));
+        origins.add(Tuple.point(0, 0.5, 0));
         directions.add(Tuple.vector(-1, 0, 0));
         directions.add(Tuple.vector(1, 0, 0));
         directions.add(Tuple.vector(0, -1, 0));
@@ -34,20 +34,20 @@ class CubeTest {
         directions.add(Tuple.vector(0, 0, -1));
         directions.add(Tuple.vector(0, 0, 1));
         directions.add(Tuple.vector(0, 0, 1));
-        t1s.add(4f);
-        t1s.add(4f);
-        t1s.add(4f);
-        t1s.add(4f);
-        t1s.add(4f);
-        t1s.add(4f);
-        t1s.add(-1f);
-        t2s.add(6f);
-        t2s.add(6f);
-        t2s.add(6f);
-        t2s.add(6f);
-        t2s.add(6f);
-        t2s.add(6f);
-        t2s.add(1f);
+        t1s.add(4.0);
+        t1s.add(4.0);
+        t1s.add(4.0);
+        t1s.add(4.0);
+        t1s.add(4.0);
+        t1s.add(4.0);
+        t1s.add(-1.0);
+        t2s.add(6.0);
+        t2s.add(6.0);
+        t2s.add(6.0);
+        t2s.add(6.0);
+        t2s.add(6.0);
+        t2s.add(6.0);
+        t2s.add(1.0);
 
         for (int i = 0; i < origins.size(); i++) {
             var origin = origins.get(i);
@@ -73,9 +73,9 @@ class CubeTest {
         origins.add(Tuple.point(2, 0, 2));
         origins.add(Tuple.point(0, 2, 2));
         origins.add(Tuple.point(2, 2, 0));
-        directions.add(Tuple.vector(0.2673f, 0.5345f, 0.8018f));
-        directions.add(Tuple.vector(0.8018f, 0.2673f, 0.5345f));
-        directions.add(Tuple.vector(0.5345f, 0.8018f, 0.2673f));
+        directions.add(Tuple.vector(0.2673, 0.5345, 0.8018));
+        directions.add(Tuple.vector(0.8018, 0.2673, 0.5345));
+        directions.add(Tuple.vector(0.5345, 0.8018, 0.2673));
         directions.add(Tuple.vector(0, 0, -1));
         directions.add(Tuple.vector(0, -1, 0));
         directions.add(Tuple.vector(-1, 0, 0));
@@ -93,22 +93,22 @@ class CubeTest {
     void normal() {
         var cube = new Cube();
 
-        var point = Tuple.point(1, 0.5f, -0.8f);
+        var point = Tuple.point(1, 0.5, -0.8);
         assertEquals(Tuple.vector(1, 0, 0), cube.localNormalVectorAt(point));
 
-        point = Tuple.point(-1, -0.2f, 0.9f);
+        point = Tuple.point(-1, -0.2, 0.9);
         assertEquals(Tuple.vector(-1, 0, 0), cube.localNormalVectorAt(point));
 
-        point = Tuple.point(-0.4f, 1, -0.1f);
+        point = Tuple.point(-0.4, 1, -0.1);
         assertEquals(Tuple.vector(0, 1, 0), cube.localNormalVectorAt(point));
 
-        point = Tuple.point(0.3f, -1, -0.7f);
+        point = Tuple.point(0.3, -1, -0.7);
         assertEquals(Tuple.vector(0, -1, 0), cube.localNormalVectorAt(point));
 
-        point = Tuple.point(-0.6f, 0.3f, 1);
+        point = Tuple.point(-0.6, 0.3, 1);
         assertEquals(Tuple.vector(0, 0, 1), cube.localNormalVectorAt(point));
 
-        point = Tuple.point(0.4f, 0.4f, -1);
+        point = Tuple.point(0.4, 0.4, -1);
         assertEquals(Tuple.vector(0, 0, -1), cube.localNormalVectorAt(point));
 
         point = Tuple.point(1, 1, 1);

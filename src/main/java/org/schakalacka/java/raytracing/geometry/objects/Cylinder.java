@@ -26,8 +26,8 @@ public class Cylinder extends Shape {
             return List.of();
         }
 
-        float t0 = (float) ((-b - Math.sqrt(discriminant)) / (2 * a));
-        float t1 = (float) ((-b + Math.sqrt(discriminant)) / (2 * a));
+        double t0 = (-b - Math.sqrt(discriminant)) / (2 * a);
+        double t1 = (-b + Math.sqrt(discriminant)) / (2 * a);
         return List.of(new Intersection(this, t0), new Intersection(this, t1));
     }
 

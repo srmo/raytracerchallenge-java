@@ -4,12 +4,8 @@ import org.schakalacka.java.raytracing.PPMExporter;
 import org.schakalacka.java.raytracing.geometry.objects.Cylinder;
 import org.schakalacka.java.raytracing.geometry.objects.Plane;
 import org.schakalacka.java.raytracing.geometry.patterns.CheckerPattern;
-import org.schakalacka.java.raytracing.geometry.patterns.Pattern;
-import org.schakalacka.java.raytracing.geometry.patterns.TextureMap;
-import org.schakalacka.java.raytracing.geometry.patterns.UVCheckerPattern;
 import org.schakalacka.java.raytracing.math.MatrixProvider;
 import org.schakalacka.java.raytracing.math.Tuple;
-import org.schakalacka.java.raytracing.math.UVMapping;
 import org.schakalacka.java.raytracing.scene.*;
 import org.schakalacka.java.raytracing.world.ViewTransformation;
 import org.schakalacka.java.raytracing.world.World;
@@ -64,6 +60,11 @@ public class Chapter13 {
         world.setLightSource(new PointLight(Tuple.point(-10, 20, -10), new Color(0.8, 0.8, 0.8)));
         world.addObjects(floor, backDrop1, backDrop2, xAxis, yAxis, zAxis);
 
+        // 4k width height
+//        var width = 3840;
+//        var height = 2160;
+
+        // full hd
         var width = 1920;
         var height = 1080;
 

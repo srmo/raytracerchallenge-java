@@ -2,10 +2,10 @@ package org.schakalacka.java.raytracing.math;
 
 public class RTVector extends Tuple {
 
-    public RTVector(final float x, final float y, final float z) {
+    public RTVector(final double x, final double y, final double z) {
         super(x, y, z, 0);
     }
-
+    @SuppressWarnings("UnusedReturnValue")
     public Tuple cross(RTPoint ignoredThat) {
         throw new ArithmeticException("Cross product only defined for Vectors");
     }

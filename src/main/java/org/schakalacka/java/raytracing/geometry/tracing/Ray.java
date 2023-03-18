@@ -5,7 +5,7 @@ import org.schakalacka.java.raytracing.math.Tuple;
 
 public record Ray(Tuple origin, Tuple direction) {
 
-    public Tuple position(float ticks) {
+    public Tuple position(double ticks) {
         return origin.add(direction.mul(ticks));
     }
 
