@@ -36,7 +36,7 @@ public class World {
         this.objects.addAll(Arrays.stream(objects).toList());
 
         if (showAxis) {
-            var axisScaling = MatrixProvider.scaling(0.02f, 0.02f, 0.02f);
+            var axisScaling = MatrixProvider.scaling(0.01f, 0.01f, 0.01f);
 
             var xAxis = new Cylinder();
             xAxis.setTransformationMatrix(axisScaling.mulM(MatrixProvider.rotationZ( Math.toRadians(90))));
