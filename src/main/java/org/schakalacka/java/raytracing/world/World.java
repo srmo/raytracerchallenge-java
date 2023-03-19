@@ -40,15 +40,15 @@ public class World {
 
             var xAxis = new Cylinder();
             xAxis.setTransformationMatrix(axisScaling.mulM(MatrixProvider.rotationZ( Math.toRadians(90))));
-            xAxis.setMaterial(Material.newMaterial().color(new Color(1, 0, 0)).ambient(0.5).diffuse(0.8).specular(0).create());
+            xAxis.setMaterial(Material.newMaterial().color(new Color(1, 0, 0)).ambient(0.5).diffuse(0.8).specular(0).createsShadow(false).create());
 
             var yAxis = new Cylinder();
             yAxis.setTransformationMatrix(axisScaling);
-            yAxis.setMaterial(Material.newMaterial().color(new Color(1, 0, 0)).ambient(0.5).diffuse(0.8).specular(0).create());
+            yAxis.setMaterial(Material.newMaterial().color(new Color(1, 0, 0)).ambient(0.5).diffuse(0.8).specular(0).createsShadow(false).create());
 
             var zAxis = new Cylinder();
             zAxis.setTransformationMatrix(axisScaling.mulM(MatrixProvider.rotationX( Math.toRadians(90))));
-            zAxis.setMaterial(Material.newMaterial().color(new Color(1, 0, 0)).ambient(0.5).diffuse(0.8).specular(0).create());
+            zAxis.setMaterial(Material.newMaterial().color(new Color(1, 0, 0)).ambient(0.5).diffuse(0.8).specular(0).createsShadow(false).create());
 
             this.objects.addAll(List.of(xAxis, yAxis, zAxis));
         }

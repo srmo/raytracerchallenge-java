@@ -63,4 +63,92 @@ class CylinderTest {
         assertEquals(Tuple.vector(-1,0,0), normal);
     }
 
+    @Test
+    void defaultMinimumAndMaximum() {
+        var c = new Cylinder();
+        assertEquals(Float.NEGATIVE_INFINITY, c.getMinimum());
+        assertEquals(Float.POSITIVE_INFINITY, c.getMaximum());
+    }
+
+    @Test
+    void intersectConstrainedCylinder() {
+        var c = new Cylinder(1,2);
+        var ray = new Ray(Tuple.point(0,1.5f,-5), Tuple.vector(0.1f,1,1).normalize());
+        var intersections = c.localIntersect(ray);
+        assertEquals(0, intersections.size());
+
+        ray = new Ray(Tuple.point(0,3,-5), Tuple.vector(0,0,1).normalize());
+        intersections = c.localIntersect(ray);
+        assertEquals(0, intersections.size());
+
+        ray = new Ray(Tuple.point(0,0,-5), Tuple.vector(0,0,1).normalize());
+        intersections = c.localIntersect(ray);
+        assertEquals(0, intersections.size());
+
+        ray = new Ray(Tuple.point(0,2,-5), Tuple.vector(0,0,1).normalize());
+        intersections = c.localIntersect(ray);
+        assertEquals(0, intersections.size());
+
+        ray = new Ray(Tuple.point(0,1,-5), Tuple.vector(0,0,1).normalize());
+        intersections = c.localIntersect(ray);
+        assertEquals(0, intersections.size());
+
+        ray = new Ray(Tuple.point(0,1.5f,-2), Tuple.vector(0,0,1).normalize());
+        intersections = c.localIntersect(ray);
+        assertEquals(2, intersections.size());
+    }
+
+    @Test
+    void cylinderDefaultNotClosed() {
+        var c = new Cylinder();
+        assertEquals(false, c.isClosed());
+    }
+
+    @Test
+    void intersectClosedCylinder() {
+        var c = new Cylinder(1,2);
+        c.setClosed(true);
+        var ray = new Ray(Tuple.point(0,3,0), Tuple.vector(0,-1,0).normalize());
+        var intersections = c.localIntersect(ray);
+        assertEquals(2, intersections.size());
+
+        ray = new Ray(Tuple.point(0,3,-2), Tuple.vector(0,-1,2).normalize());
+        intersections = c.localIntersect(ray);
+        assertEquals(2, intersections.size());
+
+        ray = new Ray(Tuple.point(0,4,-2), Tuple.vector(0,-1,1).normalize());
+        intersections = c.localIntersect(ray);
+        assertEquals(2, intersections.size());
+
+        ray = new Ray(Tuple.point(0,0,-2), Tuple.vector(0,1,2).normalize());
+        intersections = c.localIntersect(ray);
+        assertEquals(2, intersections.size());
+
+        ray = new Ray(Tuple.point(0,-1,-2), Tuple.vector(0,1,1).normalize());
+        intersections = c.localIntersect(ray);
+        assertEquals(2, intersections.size());
+    }
+
+    @Test
+    void normalAtCaps() {
+        var c = new Cylinder(1,2);
+        c.setClosed(true);
+        var normal = c.localNormalVectorAt(Tuple.point(0,1,0));
+        assertEquals(Tuple.vector(0,-1,0), normal);
+
+        normal = c.localNormalVectorAt(Tuple.point(0.5,1,0));
+        assertEquals(Tuple.vector(0,-1,0), normal);
+
+        normal = c.localNormalVectorAt(Tuple.point(0,1,0.5f));
+        assertEquals(Tuple.vector(0,-1,0), normal);
+
+        normal = c.localNormalVectorAt(Tuple.point(0,2,0));
+        assertEquals(Tuple.vector(0,1,0), normal);
+
+        normal = c.localNormalVectorAt(Tuple.point(0.5,2,0));
+        assertEquals(Tuple.vector(0,1,0), normal);
+
+        normal = c.localNormalVectorAt(Tuple.point(0,2,0.5));
+        assertEquals(Tuple.vector(0,1,0), normal);
+    }
 }
