@@ -23,7 +23,7 @@ public class Group extends Shape {
 
     @Override
     public Tuple localNormalVectorAt(Tuple point) {
-        return null;
+        throw new UnsupportedOperationException("Group does not have a normal vector");
     }
 
     public List<Shape> getChildren() {
