@@ -9,8 +9,7 @@ import org.schakalacka.java.raytracing.scene.Material;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ShapeTest {
 
@@ -112,5 +111,41 @@ class ShapeTest {
 
     }
 
+    @Test
+    void defaultParentIsNull() {
+        var s = new TestShape();
+        assertNull(s.getParent());
+    }
 
+    @Test
+    void convertPointFromWorldToObjectSpace() {
+        var g1 = new Group();
+        g1.setTransformationMatrix(MatrixProvider.rotationY(Math.PI/2));
+        var g2 = new Group();
+        g2.setTransformationMatrix(MatrixProvider.scaling(2,2,2));
+        g1.addChild(g2);
+        var s = new Sphere();
+        s.setTransformationMatrix(MatrixProvider.translation(5,0,0));
+        g2.addChild(s);
+
+        var p = s.worldToObject(Tuple.point(-2,0,-10));
+
+        assertEquals(Tuple.point(0,0,-1), p);
+    }
+
+    @Test
+    void convertNormalFromObjectToWorldSpace() {
+        var g1 = new Group();
+        g1.setTransformationMatrix(MatrixProvider.rotationY(Math.PI/2));
+        var g2 = new Group();
+        g2.setTransformationMatrix(MatrixProvider.scaling(1,2,3));
+        g1.addChild(g2);
+        var s = new Sphere();
+        s.setTransformationMatrix(MatrixProvider.translation(5,0,0));
+        g2.addChild(s);
+
+        var n = s.normalToWorld(Tuple.vector(Math.sqrt(3)/3, Math.sqrt(3)/3, Math.sqrt(3)/3));
+
+        assertEquals(Tuple.vector(0.2857f, 0.4286f, -0.8571f), n);
+    }
 }
