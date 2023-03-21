@@ -13,7 +13,7 @@ public abstract class Pattern {
     public abstract Color patternAt(Tuple point);
 
     public final Color patternAtShape(Shape shape, Tuple worldPoint) {
-        Tuple objectPoint = shape.getTransformationMatrix().inverse().mulT(worldPoint);
+        Tuple objectPoint = shape.worldToObject(worldPoint);
         Tuple patternPoint = this.getTransformationMatrix().inverse().mulT(objectPoint);
         return patternAt(patternPoint);
     }
