@@ -96,4 +96,27 @@ class TupleTest {
         assertEquals(-2, result.w());
     }
 
+    @Test
+    void tupleEqualsWithNegativeInfinities() {
+        var t1 = Tuple.tuple(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
+        var t2 = Tuple.tuple(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
+
+        assertEquals(t1, t2);
+    }
+
+    @Test
+    void tupleEqualsWithPositiveInfinities() {
+        var t1 = Tuple.tuple(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+        var t2 = Tuple.tuple(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+
+        assertEquals(t1, t2);
+    }
+
+    @Test
+    void tupleEqualsWithMixedInfinities() {
+        var t1 = Tuple.tuple(-1, Double.POSITIVE_INFINITY, Math.sqrt(2), Double.NEGATIVE_INFINITY);
+        var t2 = Tuple.tuple(-1, Double.POSITIVE_INFINITY, Math.sqrt(2), Double.NEGATIVE_INFINITY);
+
+        assertEquals(t1, t2);
+    }
 }

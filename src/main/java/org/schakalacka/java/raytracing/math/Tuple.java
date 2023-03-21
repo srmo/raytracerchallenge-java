@@ -79,7 +79,7 @@ public class Tuple {
     }
 
     public double magnitude() {
-        return  Math.sqrt(Math.pow(x(), 2) + Math.pow(y(), 2) + Math.pow(z(), 2) + Math.pow(w(), 2));
+        return Math.sqrt(Math.pow(x(), 2) + Math.pow(y(), 2) + Math.pow(z(), 2) + Math.pow(w(), 2));
     }
 
     public Tuple normalize() {
@@ -128,10 +128,10 @@ public class Tuple {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj instanceof Tuple that) {
-            return Math.abs(this.x() - that.x()) < EQUALS_EPSILON &&
-                    Math.abs(this.y() - that.y()) < EQUALS_EPSILON &&
-                    Math.abs(this.z() - that.z()) < EQUALS_EPSILON &&
-                    Math.abs(this.w() - that.w()) < EQUALS_EPSILON;
+            return (this.x() == that.x() || Math.abs(this.x() - that.x()) < EQUALS_EPSILON) &&
+                    (this.y() == that.y() || Math.abs(this.y() - that.y()) < EQUALS_EPSILON) &&
+                    (this.z() == that.z() || Math.abs(this.z() - that.z()) < EQUALS_EPSILON) &&
+                    (this.w() == that.w() || Math.abs(this.w() - that.w()) < EQUALS_EPSILON);
         }
 
         return false;
