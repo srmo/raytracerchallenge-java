@@ -66,4 +66,12 @@ class PlaneTest {
         assertEquals(1, intersections.get(0).getDistance());
         assertEquals(plane, intersections.get(0).getIntersectedObject());
     }
+
+    @Test
+    void bounds() {
+        var plane = new Plane();
+        var bounds = plane.getBounds();
+        assertEquals(Tuple.point(Double.NEGATIVE_INFINITY, 0, Double.NEGATIVE_INFINITY), bounds.getLower());
+        assertEquals(Tuple.point(Double.POSITIVE_INFINITY, 0, Double.POSITIVE_INFINITY), bounds.getUpper());
+    }
 }

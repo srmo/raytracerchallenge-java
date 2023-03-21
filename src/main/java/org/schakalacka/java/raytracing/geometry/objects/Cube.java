@@ -9,6 +9,11 @@ import java.util.List;
 
 public class Cube extends Shape {
     @Override
+    public Bounds getBounds() {
+        return new Bounds(Tuple.point(-1, -1, -1), Tuple.point(1, 1, 1));
+    }
+
+    @Override
     public List<Intersection> localIntersect(Ray ray) {
         double[] xminMax = checkAxis(ray.origin().x(), ray.direction().x());
         double[] yminMax = checkAxis(ray.origin().y(), ray.direction().y());

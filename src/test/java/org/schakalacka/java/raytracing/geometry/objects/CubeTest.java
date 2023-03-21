@@ -118,4 +118,13 @@ class CubeTest {
         assertEquals(Tuple.vector(-1, 0, 0), cube.localNormalVectorAt(point));
 
     }
+
+
+    @Test
+    void bounds() {
+        var cube = new Cube();
+        var bounds = cube.getBounds();
+        assertEquals(Tuple.point(-1, -1, -1), bounds.getLower());
+        assertEquals(Tuple.point(1, 1, 1), bounds.getUpper());
+    }
 }

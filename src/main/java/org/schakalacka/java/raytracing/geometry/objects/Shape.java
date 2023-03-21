@@ -16,6 +16,8 @@ public abstract class Shape {
     protected Material material = Material.newMaterial().create();
     private Group parent = null;
 
+    public abstract Bounds getBounds();
+
     public abstract List<Intersection> localIntersect(Ray ray);
 
     public List<Intersection> intersect(Ray ray) {

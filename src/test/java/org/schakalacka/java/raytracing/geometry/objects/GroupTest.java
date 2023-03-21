@@ -101,4 +101,12 @@ class GroupTest {
         assertEquals(Tuple.vector(0.2857f, 0.4286f, -0.8571f), n);
     }
 
+    @Test
+    void boundsForEmptyGroup() {
+        var g = new Group();
+        var bounds = g.getBounds();
+        assertEquals(Tuple.point(0,0,0), bounds.getLower());
+        assertEquals(Tuple.point(0,0,0), bounds.getLower());
+    }
+
 }

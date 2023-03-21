@@ -98,6 +98,12 @@ class ShapeTest {
     static class TestShape extends Shape {
         Ray transformedRayFromLocalIntersect;
 
+
+        @Override
+        public Bounds getBounds() {
+            return new Bounds(Tuple.point(-1,-1,-1), Tuple.point(1,1,1));
+        }
+
         @Override
         public List<Intersection> localIntersect(Ray ray) {
             this.transformedRayFromLocalIntersect = ray;
@@ -147,5 +153,14 @@ class ShapeTest {
         var n = s.normalToWorld(Tuple.vector(Math.sqrt(3)/3, Math.sqrt(3)/3, Math.sqrt(3)/3));
 
         assertEquals(Tuple.vector(0.2857f, 0.4286f, -0.8571f), n);
+    }
+
+    @Test
+    void shapeHasBounds() {
+        var s = new TestShape();
+        var expectedBounds = new Bounds(Tuple.point(-1,-1,-1), Tuple.point(1,1,1));
+        var bounds = s.getBounds();
+
+        assertEquals(expectedBounds, bounds);
     }
 }

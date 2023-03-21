@@ -12,6 +12,15 @@ public class Group extends Shape {
     private final List<Shape> children = new ArrayList<>();
 
     @Override
+    public Bounds getBounds() {
+        if (children.size() == 0) {
+            return new Bounds(Tuple.point(0, 0, 0), Tuple.point(0, 0, 0));
+        } else {
+            return null;
+        }
+    }
+
+    @Override
     public List<Intersection> localIntersect(Ray ray) {
         var intersections = new ArrayList<Intersection>();
         for (Shape child:children) {

@@ -1,8 +1,8 @@
 package org.schakalacka.java.raytracing.geometry.objects;
 
-import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.geometry.tracing.Intersection;
 import org.schakalacka.java.raytracing.geometry.tracing.Ray;
+import org.schakalacka.java.raytracing.math.Tuple;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,6 +13,12 @@ import static org.schakalacka.java.raytracing.Constants.SHAPE_POINT_OFFSET_EPSIL
  * A Plane is infinite in XZ direction and infinitely thin (y == 0)
  */
 public class Plane extends Shape {
+    @Override
+    public Bounds getBounds() {
+        return new Bounds(Tuple.point(Double.NEGATIVE_INFINITY, 0, Double.NEGATIVE_INFINITY),
+                Tuple.point(Double.POSITIVE_INFINITY, 0, Double.POSITIVE_INFINITY));
+    }
+
     @Override
     public List<Intersection> localIntersect(Ray ray) {
         if (Math.abs(ray.direction().y()) < SHAPE_POINT_OFFSET_EPSILON) {
@@ -25,6 +31,6 @@ public class Plane extends Shape {
 
     @Override
     public Tuple localNormalVectorAt(Tuple point) {
-        return Tuple.vector(0,1,0);
+        return Tuple.vector(0, 1, 0);
     }
 }

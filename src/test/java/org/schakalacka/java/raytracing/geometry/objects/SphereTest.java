@@ -130,4 +130,14 @@ public class SphereTest {
         assertNotSame(normal, normalized);
         assertEquals(normal, normalized);
     }
+
+    @Test
+    void bounds() {
+        var sphere = new Sphere();
+        var bounds = sphere.getBounds();
+
+        assertEquals(Tuple.point(-1, -1, -1), bounds.getLower());
+        assertEquals(Tuple.point(1, 1, 1), bounds.getUpper());
+    }
+
 }

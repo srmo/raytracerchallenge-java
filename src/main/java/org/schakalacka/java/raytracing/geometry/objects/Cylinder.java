@@ -10,7 +10,6 @@ import java.util.List;
 
 public class Cylinder extends Shape {
 
-
     final double minimum;
     final double maximum;
 
@@ -23,6 +22,11 @@ public class Cylinder extends Shape {
     public Cylinder(double minimum, double maximum) {
         this.minimum = minimum;
         this.maximum = maximum;
+    }
+
+    @Override
+    public Bounds getBounds() {
+        return new Bounds(Tuple.point(-1, minimum, -1), Tuple.point(1, maximum, 1));
     }
 
     @Override
