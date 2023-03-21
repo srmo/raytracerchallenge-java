@@ -16,7 +16,25 @@ public class Group extends Shape {
         if (children.size() == 0) {
             return new Bounds(Tuple.point(0, 0, 0), Tuple.point(0, 0, 0));
         } else {
-            return null;
+            var initBounds = new Bounds(Tuple.point(0, 0, 0), Tuple.point(0, 0, 0));
+            for (Shape child:children) {
+                var lowerBounds = child.getBounds().getLower();
+                var upperBounds = child.getBounds().getUpper();
+                var currentLower = initBounds.getLower();
+                var currentUpper = initBounds.getUpper();
+
+                var minLowerX = Math.min(lowerBounds.x(), currentLower.x());
+                var minLowerY = Math.min(lowerBounds.y(), currentLower.y());
+                var minLowerZ = Math.min(lowerBounds.z(), currentLower.z());
+                var maxUpperX = Math.max(upperBounds.x(), currentUpper.x());
+                var maxUpperY = Math.max(upperBounds.y(), currentUpper.y());
+                var maxUpperZ = Math.max(upperBounds.z(), currentUpper.z());
+
+                initBounds = new Bounds(Tuple.point(minLowerX, minLowerY, minLowerZ),
+                        Tuple.point(maxUpperX, maxUpperY, maxUpperZ));
+
+            }
+            return initBounds;
         }
     }
 

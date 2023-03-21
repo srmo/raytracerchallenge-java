@@ -109,4 +109,26 @@ class GroupTest {
         assertEquals(Tuple.point(0,0,0), bounds.getLower());
     }
 
+    @Test
+    void boundsForGroupWithOneUntransformedChild() {
+        var g = new Group();
+        var s = new Sphere();
+        g.addChild(s);
+
+        var bounds = g.getBounds();
+        assertEquals(Tuple.point(-1, -1, -1), bounds.getLower());
+        assertEquals(Tuple.point(1,1,1), bounds.getUpper());
+    }
+
+    @Test
+    void boundsForOneScaledChild() {
+        var g = new Group();
+        var s = new Sphere();
+        s.setTransformationMatrix(MatrixProvider.scaling(2, 2, 2));
+        g.addChild(s);
+
+        var bounds = g.getBounds();
+        assertEquals(Tuple.point(-2, -2, -2), bounds.getLower());
+        assertEquals(Tuple.point(2,2,2), bounds.getUpper());
+    }
 }
