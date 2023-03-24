@@ -113,5 +113,4 @@ class BoundsTest {
         assertEquals(new Bounds(Tuple.point(-(2*Math.sqrt(2)), -2, -(2*Math.sqrt(2))), Tuple.point(2*Math.sqrt(2), 2, 2*Math.sqrt(2))), transformedBounds);
     }
 
-
 }

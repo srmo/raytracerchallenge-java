@@ -89,7 +89,14 @@ public class Bounds {
             var transformedCorners = new ArrayList<Tuple>();
 
             for (Tuple corner : originalCornerList) {
-                transformedCorners.add(matrix.mulT(corner));
+                // this is a hack to avoid transforming the infinite values
+                // TODO find a better way to do this or validate that this is actually correct!
+                var storedX = corner.x();
+                var storedY = corner.y();
+                var storedZ = corner.z();
+                var intermediateCorner = Tuple.point(Double.isFinite(storedX) ? storedX : 0, Double.isFinite(storedY) ? storedY : 0, Double.isFinite(storedZ) ? storedZ : 0);
+                Tuple transformedCorner = matrix.mulT(intermediateCorner);
+                transformedCorners.add(new RTPoint(Double.isFinite(storedX) ? transformedCorner.x() : storedX, Double.isFinite(storedY) ? transformedCorner.y() : storedY, Double.isFinite(storedZ) ? transformedCorner.z() : storedZ));
             }
             return transformedCorners;
         });

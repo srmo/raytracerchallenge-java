@@ -134,6 +134,31 @@ class GroupTest {
     }
 
     @Test
+    void boundsForGroupWithUntransformedInfiniteCylinder() {
+        var g = new Group();
+        var c = new Cylinder();
+        g.addChild(c);
+
+
+        var bounds = g.getBounds();
+        assertEquals(Tuple.point(-1, Double.NEGATIVE_INFINITY, -1), bounds.lower());
+        assertEquals(Tuple.point(1,Double.POSITIVE_INFINITY,1), bounds.upper());
+    }
+
+    @Test
+    void boundsForGroupWithTransformedInfiniteCylinder() {
+        var g = new Group();
+        var c = new Cylinder();
+        c.setTransformationMatrix(MatrixProvider.scaling(2,2,2));
+        g.addChild(c);
+
+
+        var bounds = g.getBounds();
+        assertEquals(Tuple.point(-2, Double.NEGATIVE_INFINITY, -2), bounds.lower());
+        assertEquals(Tuple.point(2,Double.POSITIVE_INFINITY,2), bounds.upper());
+    }
+
+    @Test
     void boundsForOneScaledChild() {
         var g = new Group();
         var s = new Sphere();
@@ -156,4 +181,5 @@ class GroupTest {
         assertEquals(Tuple.point(-(Math.sqrt(2)), -1, -(Math.sqrt(2))), bounds.lower());
         assertEquals(Tuple.point(Math.sqrt(2), 1, Math.sqrt(2)), bounds.upper());
     }
+
 }
