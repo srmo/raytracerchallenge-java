@@ -10,31 +10,31 @@ import java.util.List;
 
 public class Group extends Shape {
     private final List<Shape> children = new ArrayList<>();
-
+    private Bounds bounds = new Bounds(Tuple.point(0, 0, 0), Tuple.point(0, 0, 0));
     @Override
     public Bounds getBounds() {
+        return bounds;
+    }
+
+    private void calculateBounds() {
         if (children.size() == 0) {
-            return new Bounds(Tuple.point(0, 0, 0), Tuple.point(0, 0, 0));
+            this.bounds =  new Bounds(Tuple.point(0, 0, 0), Tuple.point(0, 0, 0));
         } else {
-            var initBounds = new Bounds(Tuple.point(0, 0, 0), Tuple.point(0, 0, 0));
+            double minX, minY, minZ, maxX, maxY, maxZ;
+            minX = minY = minZ = maxX = maxY = maxZ = 0;
+
             for (Shape child:children) {
-                var lowerBounds = child.getBounds().getLower();
-                var upperBounds = child.getBounds().getUpper();
-                var currentLower = initBounds.getLower();
-                var currentUpper = initBounds.getUpper();
-
-                var minLowerX = Math.min(lowerBounds.x(), currentLower.x());
-                var minLowerY = Math.min(lowerBounds.y(), currentLower.y());
-                var minLowerZ = Math.min(lowerBounds.z(), currentLower.z());
-                var maxUpperX = Math.max(upperBounds.x(), currentUpper.x());
-                var maxUpperY = Math.max(upperBounds.y(), currentUpper.y());
-                var maxUpperZ = Math.max(upperBounds.z(), currentUpper.z());
-
-                initBounds = new Bounds(Tuple.point(minLowerX, minLowerY, minLowerZ),
-                        Tuple.point(maxUpperX, maxUpperY, maxUpperZ));
-
+                Bounds childBounds = child.getBounds().getTransformedBounds(child.getTransformationMatrix());
+                minX = Math.min(minX, childBounds.lower().x());
+                minY = Math.min(minY, childBounds.lower().y());
+                minZ = Math.min(minZ, childBounds.lower().z());
+                maxX = Math.max(maxX, childBounds.upper().x());
+                maxY = Math.max(maxY, childBounds.upper().y());
+                maxZ = Math.max(maxZ, childBounds.upper().z());
             }
-            return initBounds;
+
+            this.bounds = new Bounds(Tuple.point(minX, minY, minZ), Tuple.point(maxX, maxY, maxZ));
+
         }
     }
 
@@ -60,6 +60,7 @@ public class Group extends Shape {
     public Group addChild(Shape s) {
         children.add(s);
         s.setParent(this);
+        calculateBounds();
         return this;
     }
 }

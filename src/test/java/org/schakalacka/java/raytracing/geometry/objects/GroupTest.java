@@ -105,8 +105,8 @@ class GroupTest {
     void boundsForEmptyGroup() {
         var g = new Group();
         var bounds = g.getBounds();
-        assertEquals(Tuple.point(0,0,0), bounds.getLower());
-        assertEquals(Tuple.point(0,0,0), bounds.getLower());
+        assertEquals(Tuple.point(0,0,0), bounds.lower());
+        assertEquals(Tuple.point(0,0,0), bounds.lower());
     }
 
     @Test
@@ -116,8 +116,21 @@ class GroupTest {
         g.addChild(s);
 
         var bounds = g.getBounds();
-        assertEquals(Tuple.point(-1, -1, -1), bounds.getLower());
-        assertEquals(Tuple.point(1,1,1), bounds.getUpper());
+        assertEquals(Tuple.point(-1, -1, -1), bounds.lower());
+        assertEquals(Tuple.point(1,1,1), bounds.upper());
+    }
+
+    @Test
+    void boundsForGroupWithTwoUntransformedChild() {
+        var g = new Group();
+        var s = new Sphere();
+        var c = new Cylinder(-2,2);
+        g.addChild(s).addChild(c);
+
+
+        var bounds = g.getBounds();
+        assertEquals(Tuple.point(-1, -2, -1), bounds.lower());
+        assertEquals(Tuple.point(1,2,1), bounds.upper());
     }
 
     @Test
@@ -128,7 +141,19 @@ class GroupTest {
         g.addChild(s);
 
         var bounds = g.getBounds();
-        assertEquals(Tuple.point(-2, -2, -2), bounds.getLower());
-        assertEquals(Tuple.point(2,2,2), bounds.getUpper());
+        assertEquals(Tuple.point(-2, -2, -2), bounds.lower());
+        assertEquals(Tuple.point(2,2,2), bounds.upper());
+    }
+
+    @Test
+    void boundsForRotatedChild() {
+        var g = new Group();
+        var s = new Sphere();
+        s.setTransformationMatrix(MatrixProvider.rotationY(Math.toRadians(45)));
+        g.addChild(s);
+
+        var bounds = g.getBounds();
+        assertEquals(Tuple.point(-(Math.sqrt(2)), -1, -(Math.sqrt(2))), bounds.lower());
+        assertEquals(Tuple.point(Math.sqrt(2), 1, Math.sqrt(2)), bounds.upper());
     }
 }

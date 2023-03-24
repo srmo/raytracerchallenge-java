@@ -149,6 +149,7 @@ public class Tuple {
     public double[] getArray() {
         return this.values;
     }
+
 }
 
 

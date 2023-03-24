@@ -124,7 +124,7 @@ class CubeTest {
     void bounds() {
         var cube = new Cube();
         var bounds = cube.getBounds();
-        assertEquals(Tuple.point(-1, -1, -1), bounds.getLower());
-        assertEquals(Tuple.point(1, 1, 1), bounds.getUpper());
+        assertEquals(Tuple.point(-1, -1, -1), bounds.lower());
+        assertEquals(Tuple.point(1, 1, 1), bounds.upper());
     }
 }

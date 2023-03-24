@@ -163,4 +163,5 @@ class ShapeTest {
 
         assertEquals(expectedBounds, bounds);
     }
+
 }

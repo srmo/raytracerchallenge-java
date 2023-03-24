@@ -71,7 +71,7 @@ class PlaneTest {
     void bounds() {
         var plane = new Plane();
         var bounds = plane.getBounds();
-        assertEquals(Tuple.point(Double.NEGATIVE_INFINITY, 0, Double.NEGATIVE_INFINITY), bounds.getLower());
-        assertEquals(Tuple.point(Double.POSITIVE_INFINITY, 0, Double.POSITIVE_INFINITY), bounds.getUpper());
+        assertEquals(Tuple.point(Double.NEGATIVE_INFINITY, 0, Double.NEGATIVE_INFINITY), bounds.lower());
+        assertEquals(Tuple.point(Double.POSITIVE_INFINITY, 0, Double.POSITIVE_INFINITY), bounds.upper());
     }
 }
