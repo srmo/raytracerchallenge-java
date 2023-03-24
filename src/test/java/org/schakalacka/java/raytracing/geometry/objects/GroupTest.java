@@ -146,6 +146,19 @@ class GroupTest {
     }
 
     @Test
+    void boundsForGroupWithUntransformedPlane() {
+        // a plane also has infinite components!
+        var g = new Group();
+        var c = new Plane();
+        g.addChild(c);
+
+
+        var bounds = g.getBounds();
+        assertEquals(Tuple.point(Double.NEGATIVE_INFINITY, 0, Double.NEGATIVE_INFINITY), bounds.lower());
+        assertEquals(Tuple.point(Double.POSITIVE_INFINITY,0,Double.POSITIVE_INFINITY), bounds.upper());
+    }
+
+    @Test
     void boundsForGroupWithTransformedInfiniteCylinder() {
         var g = new Group();
         var c = new Cylinder();
