@@ -3,6 +3,7 @@ package org.schakalacka.java.raytracing.geometry.patterns;
 import org.schakalacka.java.raytracing.math.Tuple;
 import org.schakalacka.java.raytracing.scene.Color;
 
+// TODO cleanup this mess. No idea what all those static vars are doing here and unused methods too :/
 public class RingPattern extends Pattern {
 
     private final Color a;

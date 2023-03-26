@@ -1,8 +1,9 @@
 package org.schakalacka.java.raytracing.geometry.objects;
 
 import org.junit.jupiter.api.Test;
-import org.schakalacka.java.raytracing.math.Tuple;
+import org.schakalacka.java.raytracing.Constants;
 import org.schakalacka.java.raytracing.geometry.tracing.Ray;
+import org.schakalacka.java.raytracing.math.Tuple;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -71,7 +72,7 @@ class PlaneTest {
     void bounds() {
         var plane = new Plane();
         var bounds = plane.getBounds();
-        assertEquals(Tuple.point(Double.NEGATIVE_INFINITY, 0, Double.NEGATIVE_INFINITY), bounds.lower());
-        assertEquals(Tuple.point(Double.POSITIVE_INFINITY, 0, Double.POSITIVE_INFINITY), bounds.upper());
+        assertEquals(Tuple.point(Constants.NEGATIVE_INFINITY, 0, Constants.NEGATIVE_INFINITY), bounds.lower());
+        assertEquals(Tuple.point(Constants.POSITIVE_INFINITY, 0, Constants.POSITIVE_INFINITY), bounds.upper());
     }
 }

@@ -100,8 +100,8 @@ class ShapeTest {
 
 
         @Override
-        public Bounds getBounds() {
-            return new Bounds(Tuple.point(-1,-1,-1), Tuple.point(1,1,1));
+        public BoundingBox getBounds() {
+            return new BoundingBox(Tuple.point(-1,-1,-1), Tuple.point(1,1,1));
         }
 
         @Override
@@ -158,7 +158,7 @@ class ShapeTest {
     @Test
     void shapeHasBounds() {
         var s = new TestShape();
-        var expectedBounds = new Bounds(Tuple.point(-1,-1,-1), Tuple.point(1,1,1));
+        var expectedBounds = new BoundingBox(Tuple.point(-1,-1,-1), Tuple.point(1,1,1));
         var bounds = s.getBounds();
 
         assertEquals(expectedBounds, bounds);

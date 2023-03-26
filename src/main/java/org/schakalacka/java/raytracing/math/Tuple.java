@@ -1,5 +1,7 @@
 package org.schakalacka.java.raytracing.math;
 
+import org.schakalacka.java.raytracing.Constants;
+
 import java.util.Objects;
 
 import static org.schakalacka.java.raytracing.Constants.EQUALS_EPSILON;
@@ -128,10 +130,22 @@ public class Tuple {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj instanceof Tuple that) {
-            return (this.x() == that.x() || Math.abs(this.x() - that.x()) < EQUALS_EPSILON) &&
-                    (this.y() == that.y() || Math.abs(this.y() - that.y()) < EQUALS_EPSILON) &&
-                    (this.z() == that.z() || Math.abs(this.z() - that.z()) < EQUALS_EPSILON) &&
-                    (this.w() == that.w() || Math.abs(this.w() - that.w()) < EQUALS_EPSILON);
+            return (this.x() == that.x() || Math.abs(this.x() - that.x()) < EQUALS_EPSILON
+                        || (this.x() <= Constants.NEGATIVE_INFINITY && that.x() <= Constants.NEGATIVE_INFINITY)
+                        || (this.x() >= Constants.POSITIVE_INFINITY && that.x() >= Constants.POSITIVE_INFINITY))
+                    &&
+                    (this.y() == that.y() || Math.abs(this.y() - that.y()) < EQUALS_EPSILON
+                        || (this.y() <= Constants.NEGATIVE_INFINITY && that.y() <= Constants.NEGATIVE_INFINITY)
+                        || (this.y() >= Constants.POSITIVE_INFINITY && that.y() >= Constants.POSITIVE_INFINITY))
+                    &&
+                    (this.z() == that.z() || Math.abs(this.z() - that.z()) < EQUALS_EPSILON
+                        || (this.z() <= Constants.NEGATIVE_INFINITY && that.z() <= Constants.NEGATIVE_INFINITY)
+                        || (this.z() >= Constants.POSITIVE_INFINITY && that.z() >= Constants.POSITIVE_INFINITY))
+                    &&
+                    (this.w() == that.w() || Math.abs(this.w() - that.w()) < EQUALS_EPSILON
+                        || (this.w() <= Constants.NEGATIVE_INFINITY && that.w() <= Constants.NEGATIVE_INFINITY)
+                        || (this.w() >= Constants.POSITIVE_INFINITY && that.w() >= Constants.POSITIVE_INFINITY))
+                    ;
         }
 
         return false;

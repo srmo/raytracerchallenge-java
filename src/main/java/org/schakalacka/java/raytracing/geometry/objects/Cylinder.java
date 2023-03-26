@@ -16,7 +16,7 @@ public class Cylinder extends Shape {
     boolean isClosed = false;
 
     public Cylinder() {
-        this(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+        this(Constants.NEGATIVE_INFINITY, Constants.POSITIVE_INFINITY);
     }
 
     public Cylinder(double minimum, double maximum) {
@@ -25,8 +25,8 @@ public class Cylinder extends Shape {
     }
 
     @Override
-    public Bounds getBounds() {
-        return new Bounds(Tuple.point(-1, minimum, -1), Tuple.point(1, maximum, 1));
+    public BoundingBox getBounds() {
+        return new BoundingBox(Tuple.point(-1, minimum, -1), Tuple.point(1, maximum, 1));
     }
 
     @Override

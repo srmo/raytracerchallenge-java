@@ -1,5 +1,6 @@
 package org.schakalacka.java.raytracing.geometry.objects;
 
+import org.schakalacka.java.raytracing.Constants;
 import org.schakalacka.java.raytracing.geometry.tracing.Intersection;
 import org.schakalacka.java.raytracing.geometry.tracing.Ray;
 import org.schakalacka.java.raytracing.math.Tuple;
@@ -10,30 +11,35 @@ import java.util.List;
 
 public class Group extends Shape {
     private final List<Shape> children = new ArrayList<>();
-    private Bounds bounds = new Bounds(Tuple.point(0, 0, 0), Tuple.point(0, 0, 0));
+    private BoundingBox boundingBox = new BoundingBox(
+            Tuple.point(Constants.POSITIVE_INFINITY, Constants.POSITIVE_INFINITY, Constants.POSITIVE_INFINITY),
+            Tuple.point(Constants.NEGATIVE_INFINITY, Constants.NEGATIVE_INFINITY, Constants.NEGATIVE_INFINITY));
+
     @Override
-    public Bounds getBounds() {
-        return bounds;
+    public BoundingBox getBounds() {
+        return boundingBox;
     }
 
     private void calculateBounds() {
         if (children.size() == 0) {
-            this.bounds =  new Bounds(Tuple.point(0, 0, 0), Tuple.point(0, 0, 0));
+            this.boundingBox = new BoundingBox(
+                    Tuple.point(Constants.POSITIVE_INFINITY, Constants.POSITIVE_INFINITY, Constants.POSITIVE_INFINITY),
+                    Tuple.point(Constants.NEGATIVE_INFINITY, Constants.NEGATIVE_INFINITY, Constants.NEGATIVE_INFINITY));
         } else {
             double minX, minY, minZ, maxX, maxY, maxZ;
             minX = minY = minZ = maxX = maxY = maxZ = 0;
 
-            for (Shape child:children) {
-                Bounds childBounds = child.getBounds().getTransformedBounds(child.getTransformationMatrix());
-                minX = Math.min(minX, childBounds.lower().x());
-                minY = Math.min(minY, childBounds.lower().y());
-                minZ = Math.min(minZ, childBounds.lower().z());
-                maxX = Math.max(maxX, childBounds.upper().x());
-                maxY = Math.max(maxY, childBounds.upper().y());
-                maxZ = Math.max(maxZ, childBounds.upper().z());
+            for (Shape child : children) {
+                BoundingBox childBoundingBox = child.getBounds().getTransformedBounds(child.getTransformationMatrix());
+                minX = Math.min(minX, childBoundingBox.lower().x());
+                minY = Math.min(minY, childBoundingBox.lower().y());
+                minZ = Math.min(minZ, childBoundingBox.lower().z());
+                maxX = Math.max(maxX, childBoundingBox.upper().x());
+                maxY = Math.max(maxY, childBoundingBox.upper().y());
+                maxZ = Math.max(maxZ, childBoundingBox.upper().z());
             }
 
-            this.bounds = new Bounds(Tuple.point(minX, minY, minZ), Tuple.point(maxX, maxY, maxZ));
+            this.boundingBox = new BoundingBox(Tuple.point(minX, minY, minZ), Tuple.point(maxX, maxY, maxZ));
 
         }
     }
@@ -41,7 +47,7 @@ public class Group extends Shape {
     @Override
     public List<Intersection> localIntersect(Ray ray) {
         var intersections = new ArrayList<Intersection>();
-        for (Shape child:children) {
+        for (Shape child : children) {
             intersections.addAll(child.intersect(ray));
         }
         intersections.sort(Comparator.comparingDouble(Intersection::getDistance));

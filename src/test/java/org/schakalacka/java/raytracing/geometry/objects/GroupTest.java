@@ -1,6 +1,7 @@
 package org.schakalacka.java.raytracing.geometry.objects;
 
 import org.junit.jupiter.api.Test;
+import org.schakalacka.java.raytracing.Constants;
 import org.schakalacka.java.raytracing.geometry.tracing.Ray;
 import org.schakalacka.java.raytracing.math.MatrixProvider;
 import org.schakalacka.java.raytracing.math.Tuple;
@@ -14,6 +15,13 @@ class GroupTest {
         var g = new Group();
         assertEquals(MatrixProvider.get(4, true), g.getTransformationMatrix());
         assertEquals(0, g.getChildren().size());
+    }
+
+    @Test
+    void localNormalNotSupported() {
+        var g = new Group();
+
+        assertThrows(UnsupportedOperationException.class, () -> g.localNormalVectorAt(Tuple.point(0, 0, 0)));
     }
 
     @Test
@@ -105,8 +113,8 @@ class GroupTest {
     void boundsForEmptyGroup() {
         var g = new Group();
         var bounds = g.getBounds();
-        assertEquals(Tuple.point(0,0,0), bounds.lower());
-        assertEquals(Tuple.point(0,0,0), bounds.lower());
+        assertEquals(Tuple.point(Constants.POSITIVE_INFINITY,Constants.POSITIVE_INFINITY,Constants.POSITIVE_INFINITY), bounds.lower());
+        assertEquals(Tuple.point(Constants.NEGATIVE_INFINITY,Constants.NEGATIVE_INFINITY,Constants.NEGATIVE_INFINITY), bounds.upper());
     }
 
     @Test
@@ -141,8 +149,36 @@ class GroupTest {
 
 
         var bounds = g.getBounds();
-        assertEquals(Tuple.point(-1, Double.NEGATIVE_INFINITY, -1), bounds.lower());
-        assertEquals(Tuple.point(1,Double.POSITIVE_INFINITY,1), bounds.upper());
+        assertEquals(Tuple.point(-1, Constants.NEGATIVE_INFINITY, -1), bounds.lower());
+        assertEquals(Tuple.point(1,Constants.POSITIVE_INFINITY,1), bounds.upper());
+    }
+
+    @Test
+    void boundsForGroupWithTransformedInfiniteCylinder() {
+        var g = new Group();
+        var c = new Cylinder();
+        c.setTransformationMatrix(MatrixProvider.rotationX(Math.toRadians(90)).mulM(MatrixProvider.scaling(2,2,2)));
+        g.addChild(c);
+
+
+        var bounds = g.getBounds();
+        assertEquals(Tuple.point(-2, -2, Constants.NEGATIVE_INFINITY), bounds.lower());
+        assertEquals(Tuple.point(2,2,Constants.POSITIVE_INFINITY), bounds.upper());
+    }
+
+    @Test
+    void boundsForGroupWithTransformedPlane() {
+        // a plane also has infinite components!
+        var g = new Group();
+        var c = new Plane();
+        c.setTransformationMatrix(MatrixProvider.rotationX(Math.toRadians(90)));
+
+        g.addChild(c);
+
+
+        var bounds = g.getBounds();
+        assertEquals(Tuple.point(Constants.NEGATIVE_INFINITY, Constants.NEGATIVE_INFINITY, 0), bounds.lower());
+        assertEquals(Tuple.point(Constants.POSITIVE_INFINITY,Constants.POSITIVE_INFINITY,0), bounds.upper());
     }
 
     @Test
@@ -150,25 +186,13 @@ class GroupTest {
         // a plane also has infinite components!
         var g = new Group();
         var c = new Plane();
+
         g.addChild(c);
 
 
         var bounds = g.getBounds();
-        assertEquals(Tuple.point(Double.NEGATIVE_INFINITY, 0, Double.NEGATIVE_INFINITY), bounds.lower());
-        assertEquals(Tuple.point(Double.POSITIVE_INFINITY,0,Double.POSITIVE_INFINITY), bounds.upper());
-    }
-
-    @Test
-    void boundsForGroupWithTransformedInfiniteCylinder() {
-        var g = new Group();
-        var c = new Cylinder();
-        c.setTransformationMatrix(MatrixProvider.scaling(2,2,2));
-        g.addChild(c);
-
-
-        var bounds = g.getBounds();
-        assertEquals(Tuple.point(-2, Double.NEGATIVE_INFINITY, -2), bounds.lower());
-        assertEquals(Tuple.point(2,Double.POSITIVE_INFINITY,2), bounds.upper());
+        assertEquals(Tuple.point(Constants.NEGATIVE_INFINITY, 0, Constants.NEGATIVE_INFINITY), bounds.lower());
+        assertEquals(Tuple.point(Constants.POSITIVE_INFINITY,0,Constants.POSITIVE_INFINITY), bounds.upper());
     }
 
     @Test

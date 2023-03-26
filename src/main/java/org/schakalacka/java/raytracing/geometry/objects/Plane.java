@@ -1,5 +1,6 @@
 package org.schakalacka.java.raytracing.geometry.objects;
 
+import org.schakalacka.java.raytracing.Constants;
 import org.schakalacka.java.raytracing.geometry.tracing.Intersection;
 import org.schakalacka.java.raytracing.geometry.tracing.Ray;
 import org.schakalacka.java.raytracing.math.Tuple;
@@ -14,9 +15,9 @@ import static org.schakalacka.java.raytracing.Constants.SHAPE_POINT_OFFSET_EPSIL
  */
 public class Plane extends Shape {
     @Override
-    public Bounds getBounds() {
-        return new Bounds(Tuple.point(Double.NEGATIVE_INFINITY, 0, Double.NEGATIVE_INFINITY),
-                Tuple.point(Double.POSITIVE_INFINITY, 0, Double.POSITIVE_INFINITY));
+    public BoundingBox getBounds() {
+        return new BoundingBox(Tuple.point(Constants.NEGATIVE_INFINITY, 0, Constants.NEGATIVE_INFINITY),
+                Tuple.point(Constants.POSITIVE_INFINITY, 0, Constants.POSITIVE_INFINITY));
     }
 
     @Override

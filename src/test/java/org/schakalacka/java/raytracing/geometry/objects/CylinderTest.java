@@ -67,8 +67,8 @@ class CylinderTest {
     @Test
     void defaultMinimumAndMaximum() {
         var c = new Cylinder();
-        assertEquals(Float.NEGATIVE_INFINITY, c.getMinimum());
-        assertEquals(Float.POSITIVE_INFINITY, c.getMaximum());
+        assertEquals(Constants.NEGATIVE_INFINITY, c.getMinimum());
+        assertEquals(Constants.POSITIVE_INFINITY, c.getMaximum());
     }
 
     @Test
@@ -158,24 +158,24 @@ class CylinderTest {
         var c = new Cylinder();
         var bounds = c.getBounds();
 
-        assertEquals(Tuple.point(-1,Double.NEGATIVE_INFINITY, -1), bounds.lower());
-        assertEquals(Tuple.point(1,Double.POSITIVE_INFINITY, 1), bounds.upper());
+        assertEquals(Tuple.point(-1,Constants.NEGATIVE_INFINITY, -1), bounds.lower());
+        assertEquals(Tuple.point(1,Constants.POSITIVE_INFINITY, 1), bounds.upper());
     }
 
     @Test
     void boundsForUpperBoundCylinder() {
-        var c = new Cylinder(Double.NEGATIVE_INFINITY, 2);
+        var c = new Cylinder(Constants.NEGATIVE_INFINITY, 2);
 
-        assertEquals(Tuple.point(-1,Double.NEGATIVE_INFINITY, -1), c.getBounds().lower());
+        assertEquals(Tuple.point(-1,Constants.NEGATIVE_INFINITY, -1), c.getBounds().lower());
         assertEquals(Tuple.point(1,2, 1), c.getBounds().upper());
     }
 
     @Test
     void boundsForLowerBoundCylinder() {
-        var c = new Cylinder(-2, Double.POSITIVE_INFINITY);
+        var c = new Cylinder(-2, Constants.POSITIVE_INFINITY);
 
         assertEquals(Tuple.point(-1,-2, -1), c.getBounds().lower());
-        assertEquals(Tuple.point(1,Double.POSITIVE_INFINITY, 1), c.getBounds().upper());
+        assertEquals(Tuple.point(1,Constants.POSITIVE_INFINITY, 1), c.getBounds().upper());
     }
 
     @Test

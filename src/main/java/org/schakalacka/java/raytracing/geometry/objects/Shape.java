@@ -20,7 +20,7 @@ public abstract class Shape {
      * Returns the bounds of the shape in its local coordinate system.
      * @return the bounds of the shape in its local coordinate system. Never null.
      */
-    public abstract Bounds getBounds();
+    public abstract BoundingBox getBounds();
 
     public abstract List<Intersection> localIntersect(Ray ray);
 

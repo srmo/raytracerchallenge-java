@@ -9,8 +9,8 @@ import java.util.List;
 
 public class Cube extends Shape {
     @Override
-    public Bounds getBounds() {
-        return new Bounds(Tuple.point(-1, -1, -1), Tuple.point(1, 1, 1));
+    public BoundingBox getBounds() {
+        return new BoundingBox(Tuple.point(-1, -1, -1), Tuple.point(1, 1, 1));
     }
 
     @Override
@@ -40,8 +40,8 @@ public class Cube extends Shape {
             tmin = tminNumerator / direction;
             tmax = tmaxNumerator / direction;
         } else {
-            tmin = tminNumerator * Double.POSITIVE_INFINITY;
-            tmax = tmaxNumerator * Double.POSITIVE_INFINITY;
+            tmin = tminNumerator * Constants.POSITIVE_INFINITY;
+            tmax = tmaxNumerator * Constants.POSITIVE_INFINITY;
         }
 
         if (tmin > tmax) {

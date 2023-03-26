@@ -19,7 +19,6 @@ public class NaiveMatrix implements Matrix {
         this.matrix = new double[size * size];
     }
 
-
     @Override
     public double get(int row, int col) {
         return matrix[row * size + col];

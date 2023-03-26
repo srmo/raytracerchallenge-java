@@ -36,8 +36,8 @@ public class Sphere extends Shape {
     }
 
     @Override
-    public Bounds getBounds() {
-        return new Bounds(Tuple.point(-1, -1, -1), Tuple.point(1, 1, 1));
+    public BoundingBox getBounds() {
+        return new BoundingBox(Tuple.point(-1, -1, -1), Tuple.point(1, 1, 1));
     }
 
     @Override

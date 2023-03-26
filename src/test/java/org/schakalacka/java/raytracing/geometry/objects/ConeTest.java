@@ -95,5 +95,30 @@ class ConeTest {
 
     }
 
+    @Test
+    void normalForClosedCone() {
+        var c = new Cone(-1,1);
+        c.setClosed(true);
+        var n = c.localNormalVectorAt(Tuple.point(0,1,0));
+        assertEquals(Tuple.vector(0,1,0), n);
+
+        n = c.localNormalVectorAt(Tuple.point(0,-1,0));
+        assertEquals(Tuple.vector(0,-1,0), n);
+
+        n = c.localNormalVectorAt(Tuple.point(0.5f,1,-0.5f));
+        assertEquals(Tuple.vector(0,1,0), n);
+
+        n = c.localNormalVectorAt(Tuple.point(-0.5f,-1,0.5f));
+        assertEquals(Tuple.vector(0,-1,0), n);
+
+    }
+
+    @Test
+    void bounds() {
+        var c = new Cone();
+        var bounds = c.getBounds();
+        assertEquals(Tuple.point(-1,Constants.NEGATIVE_INFINITY,-1), bounds.lower());
+        assertEquals(Tuple.point(1,Constants.POSITIVE_INFINITY,1), bounds.upper());
+    }
 
 }
