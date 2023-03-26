@@ -1,5 +1,6 @@
 package org.schakalacka.java.raytracing.geometry.objects;
 
+import org.schakalacka.java.raytracing.Constants;
 import org.schakalacka.java.raytracing.math.Matrix;
 import org.schakalacka.java.raytracing.math.RTPoint;
 import org.schakalacka.java.raytracing.math.Tuple;
@@ -81,6 +82,24 @@ public class BoundingBox {
             return transformedCorners;
         });
 
+
+    }
+
+    public boolean contains(RTPoint point) {
+        // first, test for infinities
+        final boolean xInfinityLowerMatch = point.x() <= Constants.NEGATIVE_INFINITY && lower.x() <= Constants.NEGATIVE_INFINITY;
+        final boolean xInfinityUpperMatch = point.x() >= Constants.POSITIVE_INFINITY && upper.x() >= Constants.POSITIVE_INFINITY;
+        final boolean yInfinityLowerMatch = point.y() <= Constants.NEGATIVE_INFINITY && lower.y() <= Constants.NEGATIVE_INFINITY;
+        final boolean yInfinityUpperMatch = point.y() >= Constants.POSITIVE_INFINITY && upper.y() >= Constants.POSITIVE_INFINITY;
+        final boolean zInfinityLowerMatch = point.z() <= Constants.NEGATIVE_INFINITY && lower.z() <= Constants.NEGATIVE_INFINITY;
+        final boolean zInfinityUpperMatch = point.z() >= Constants.POSITIVE_INFINITY && upper.z() >= Constants.POSITIVE_INFINITY;
+
+        return (point.x() >= lower.x() || xInfinityLowerMatch)
+                && (point.x() <= upper.x() || xInfinityUpperMatch)
+                && (point.y() >= lower.y() ||   yInfinityLowerMatch)
+                && (point.y() <= upper.y()  ||  yInfinityUpperMatch)
+                && (point.z() >= lower.z() ||  zInfinityLowerMatch)
+                && (point.z() <= upper.z() ||  zInfinityUpperMatch);
 
     }
 }

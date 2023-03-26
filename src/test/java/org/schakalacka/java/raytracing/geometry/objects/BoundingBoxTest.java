@@ -6,7 +6,7 @@ import org.schakalacka.java.raytracing.math.Matrix;
 import org.schakalacka.java.raytracing.math.MatrixProvider;
 import org.schakalacka.java.raytracing.math.Tuple;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class BoundingBoxTest {
 
@@ -147,4 +147,51 @@ class BoundingBoxTest {
         assertEquals(new BoundingBox(Tuple.point(-1,-1,Constants.NEGATIVE_INFINITY), Tuple.point(1,1,Constants.POSITIVE_INFINITY)), transformedBounds);
     }
 
+    @Test
+    void finiteBoundingBoxContainsPoint() {
+        var box = new BoundingBox(Tuple.point(5,-2,0), Tuple.point(11,4,7));
+        assertTrue(box.contains(Tuple.point(5,-2,0)));
+        assertTrue(box.contains(Tuple.point(11,4,7)));
+        assertTrue(box.contains(Tuple.point(8,1,3)));
+        assertFalse(box.contains(Tuple.point(3,0,3)));
+        assertFalse(box.contains(Tuple.point(8,-4,3)));
+        assertFalse(box.contains(Tuple.point(8,1,-1)));
+        assertFalse(box.contains(Tuple.point(13,1,3)));
+        assertFalse(box.contains(Tuple.point(8,5,3)));
+        assertFalse(box.contains(Tuple.point(8,1,8)));
+    }
+
+    @Test
+    void infiniteBoundBoxContainsPoint() {
+        var box = new BoundingBox(Tuple.point(Constants.NEGATIVE_INFINITY, Constants.NEGATIVE_INFINITY, Constants.NEGATIVE_INFINITY), Tuple.point(Constants.POSITIVE_INFINITY, Constants.POSITIVE_INFINITY, Constants.POSITIVE_INFINITY));
+        assertTrue(box.contains(Tuple.point(5,-2,0)));
+        assertTrue(box.contains(Tuple.point(11,4,7)));
+        assertTrue(box.contains(Tuple.point(8,1,3)));
+        assertTrue(box.contains(Tuple.point(3,0,3)));
+        assertTrue(box.contains(Tuple.point(8,-4,3)));
+        assertTrue(box.contains(Tuple.point(8,1,-1)));
+        assertTrue(box.contains(Tuple.point(13,1,3)));
+        assertTrue(box.contains(Tuple.point(8,5,3)));
+        assertTrue(box.contains(Tuple.point(8,1,8)));
+
+        assertTrue(box.contains(Tuple.point(Constants.NEGATIVE_INFINITY, Constants.NEGATIVE_INFINITY, Constants.NEGATIVE_INFINITY)));
+        assertTrue(box.contains(Tuple.point(Constants.POSITIVE_INFINITY, Constants.POSITIVE_INFINITY, Constants.POSITIVE_INFINITY)));
+        assertTrue(box.contains(Tuple.point(0, Constants.NEGATIVE_INFINITY, 0)));
+        assertTrue(box.contains(Tuple.point(0, Constants.POSITIVE_INFINITY, 0)));
+    }
+
+    @Test
+    void boxWithSomeInfiniteComponentsContainsPoint() {
+        var box = new BoundingBox(Tuple.point(Constants.NEGATIVE_INFINITY, -2, Constants.NEGATIVE_INFINITY), Tuple.point(Constants.POSITIVE_INFINITY, 4, Constants.POSITIVE_INFINITY));
+        assertTrue(box.contains(Tuple.point(5,-2,0)));
+        assertTrue(box.contains(Tuple.point(11,4,7)));
+        assertTrue(box.contains(Tuple.point(3,0,3)));
+        assertFalse(box.contains(Tuple.point(8,-4,3)));
+        assertFalse(box.contains(Tuple.point(8,5,Constants.POSITIVE_INFINITY)));
+
+        assertTrue(box.contains(Tuple.point(Constants.NEGATIVE_INFINITY, -2, Constants.NEGATIVE_INFINITY)));
+        assertTrue(box.contains(Tuple.point(Constants.POSITIVE_INFINITY, 4, Constants.POSITIVE_INFINITY)));
+        assertTrue(box.contains(Tuple.point(0, -2, 0)));
+        assertTrue(box.contains(Tuple.point(0, 4, 0)));
+    }
 }
