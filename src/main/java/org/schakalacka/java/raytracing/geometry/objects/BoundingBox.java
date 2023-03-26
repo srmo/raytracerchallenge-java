@@ -1,6 +1,7 @@
 package org.schakalacka.java.raytracing.geometry.objects;
 
 import org.schakalacka.java.raytracing.Constants;
+import org.schakalacka.java.raytracing.geometry.tracing.Ray;
 import org.schakalacka.java.raytracing.math.Matrix;
 import org.schakalacka.java.raytracing.math.RTPoint;
 import org.schakalacka.java.raytracing.math.Tuple;
@@ -105,5 +106,41 @@ public class BoundingBox {
 
     public boolean contains(BoundingBox otherBox) {
         return contains(otherBox.lower()) && contains(otherBox.upper());
+    }
+
+    public boolean intersects(Ray ray) {
+        double[] xminMax = checkAxis(lower.x(), upper.x(),ray.origin().x(), ray.direction().x());
+        double[] yminMax = checkAxis(lower.y(), upper.y(),ray.origin().y(), ray.direction().y());
+        double[] zminMax = checkAxis(lower.z(), upper.z(), ray.origin().z(), ray.direction().z());
+
+        double tmin = Math.max(xminMax[0], Math.max(yminMax[0], zminMax[0]));
+        double tmax = Math.min(xminMax[1], Math.min(yminMax[1], zminMax[1]));
+
+        return !(tmin > tmax);
+
+    }
+
+    // TODO this and the intersect thing is a copy of the Cube implementation. Can we refactor/deduplicate?
+    // sadly, a bounding box isn't a cube, but a cube might be a AABB?
+    private double[] checkAxis(double min, double max, double origin, double direction) {
+        var tminNumerator = min - origin;
+        var tmaxNumerator = max - origin;
+
+        double tmin;
+        double tmax;
+
+        if (Math.abs(direction) >= Constants.SHAPE_POINT_OFFSET_EPSILON) {
+            tmin = tminNumerator / direction;
+            tmax = tmaxNumerator / direction;
+        } else {
+            tmin = tminNumerator * Constants.POSITIVE_INFINITY;
+            tmax = tmaxNumerator * Constants.POSITIVE_INFINITY;
+        }
+
+        if (tmin > tmax) {
+            return new double[]{tmax, tmin};
+        } else {
+            return new double[]{tmin, tmax};
+        }
     }
 }
