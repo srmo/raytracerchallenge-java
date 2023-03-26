@@ -102,4 +102,8 @@ public class BoundingBox {
                 && (point.z() <= upper.z() ||  zInfinityUpperMatch);
 
     }
+
+    public boolean contains(BoundingBox otherBox) {
+        return contains(otherBox.lower()) && contains(otherBox.upper());
+    }
 }

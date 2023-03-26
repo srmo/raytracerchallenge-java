@@ -219,4 +219,19 @@ class GroupTest {
         assertEquals(Tuple.point(Math.sqrt(2), 1, Math.sqrt(2)), bounds.upper());
     }
 
+    @Test
+    void officialTestBoundsForChildTransform() {
+        var g = new Group();
+        var s = new Sphere();
+        s.setTransformationMatrix(MatrixProvider.translation(2,5,-3).mulM(MatrixProvider.scaling(2, 2, 2)));
+
+        var c = new Cylinder(-2,2);
+        c.setTransformationMatrix(MatrixProvider.translation(-4,-1,4).mulM(MatrixProvider.scaling(0.5,1,0.5)));
+
+        g.addChild(s).addChild(c);
+
+        var bounds = g.getBounds();
+        assertEquals(Tuple.point(-4.5,-3,-5), bounds.lower());
+        assertEquals(Tuple.point(4,7,4.5), bounds.upper());
+    }
 }
