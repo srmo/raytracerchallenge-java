@@ -44,8 +44,17 @@ public class Group extends Shape {
         }
     }
 
+    public int groupMissCount = 0;
+    public int totalRaysSeen = 0;
+
+
     @Override
     public List<Intersection> localIntersect(Ray ray) {
+           totalRaysSeen++;
+        if (!boundingBox.intersects(ray)) {
+            groupMissCount++;
+            return new ArrayList<>();
+        }
         var intersections = new ArrayList<Intersection>();
         for (Shape child : children) {
             intersections.addAll(child.intersect(ray));

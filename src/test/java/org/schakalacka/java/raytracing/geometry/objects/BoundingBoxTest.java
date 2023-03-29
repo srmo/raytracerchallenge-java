@@ -311,7 +311,7 @@ class BoundingBoxTest {
      */
     @Test
     void intersectingRayWithNonCubicBox() {
-        var box = new BoundingBox(point(5,-2,0), point(11,4,7));
+        var box = new BoundingBox(point(5, -2, 0), point(11, 4, 7));
         var ray1 = new Ray(point(15, 1, 2), vector(-1, 0, 0).normalize());
         var ray2 = new Ray(point(-5, -1, 4), vector(1, 0, 0).normalize());
         var ray3 = new Ray(point(7, 6, 5), vector(0, -1, 0).normalize());
@@ -339,8 +339,28 @@ class BoundingBoxTest {
         assertFalse(box.intersects(ray11));
         assertFalse(box.intersects(ray12));
         assertFalse(box.intersects(ray13));
-
-
-
     }
+
+    @Test
+    void pointCanBeAdded() {
+        var box = new BoundingBox();
+
+        box.addPoint(point(-5, 2, 0));
+        box.addPoint(point(7, 0, -3));
+
+        assertEquals(point(-5, 0, -3), box.lower());
+        assertEquals(point(7, 2, 0), box.upper());
+    }
+
+    @Test
+    void boxCanBeAdded() {
+        var box1 = new BoundingBox(point(-5, -2, 0), point(7, 4, 4));
+        var box2 = new BoundingBox(point(8, -7, -2), point(14, 2, 8));
+
+        box1.addBox(box2);
+
+        assertEquals(point(-5, -7, -2), box1.lower());
+        assertEquals(point(14, 4, 8), box1.upper());
+    }
+
 }

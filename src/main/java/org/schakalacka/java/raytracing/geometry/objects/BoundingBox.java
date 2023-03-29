@@ -19,6 +19,12 @@ public class BoundingBox {
     private final RTPoint lower;
     private final RTPoint upper;
 
+    public BoundingBox() {
+        this.lower = RTPoint.point(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+        this.upper = RTPoint.point(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
+        corners = new ArrayList<>();
+    }
+
     public BoundingBox(RTPoint lower, RTPoint upper) {
         this.lower = lower;
         this.upper = upper;
@@ -32,6 +38,7 @@ public class BoundingBox {
     public RTPoint upper() {
         return upper;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -82,8 +89,6 @@ public class BoundingBox {
             }
             return transformedCorners;
         });
-
-
     }
 
     public boolean contains(RTPoint point) {
@@ -95,12 +100,7 @@ public class BoundingBox {
         final boolean zInfinityLowerMatch = point.z() <= Constants.NEGATIVE_INFINITY && lower.z() <= Constants.NEGATIVE_INFINITY;
         final boolean zInfinityUpperMatch = point.z() >= Constants.POSITIVE_INFINITY && upper.z() >= Constants.POSITIVE_INFINITY;
 
-        return (point.x() >= lower.x() || xInfinityLowerMatch)
-                && (point.x() <= upper.x() || xInfinityUpperMatch)
-                && (point.y() >= lower.y() ||   yInfinityLowerMatch)
-                && (point.y() <= upper.y()  ||  yInfinityUpperMatch)
-                && (point.z() >= lower.z() ||  zInfinityLowerMatch)
-                && (point.z() <= upper.z() ||  zInfinityUpperMatch);
+        return (point.x() >= lower.x() || xInfinityLowerMatch) && (point.x() <= upper.x() || xInfinityUpperMatch) && (point.y() >= lower.y() || yInfinityLowerMatch) && (point.y() <= upper.y() || yInfinityUpperMatch) && (point.z() >= lower.z() || zInfinityLowerMatch) && (point.z() <= upper.z() || zInfinityUpperMatch);
 
     }
 
@@ -109,8 +109,8 @@ public class BoundingBox {
     }
 
     public boolean intersects(Ray ray) {
-        double[] xminMax = checkAxis(lower.x(), upper.x(),ray.origin().x(), ray.direction().x());
-        double[] yminMax = checkAxis(lower.y(), upper.y(),ray.origin().y(), ray.direction().y());
+        double[] xminMax = checkAxis(lower.x(), upper.x(), ray.origin().x(), ray.direction().x());
+        double[] yminMax = checkAxis(lower.y(), upper.y(), ray.origin().y(), ray.direction().y());
         double[] zminMax = checkAxis(lower.z(), upper.z(), ray.origin().z(), ray.direction().z());
 
         double tmin = Math.max(xminMax[0], Math.max(yminMax[0], zminMax[0]));
@@ -142,5 +142,19 @@ public class BoundingBox {
         } else {
             return new double[]{tmin, tmax};
         }
+    }
+
+    public void addPoint(RTPoint point) {
+        this.lower.x(Math.min(point.x(), lower.x()));
+        this.lower.y(Math.min(point.y(), lower.y()));
+        this.lower.z(Math.min(point.z(), lower.z()));
+        this.upper.x(Math.max(point.x(), upper.x()));
+        this.upper.y(Math.max(point.y(), upper.y()));
+        this.upper.z(Math.max(point.z(), upper.z()));
+    }
+
+    public void addBox(BoundingBox box) {
+        addPoint(box.lower());
+        addPoint(box.upper());
     }
 }

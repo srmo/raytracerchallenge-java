@@ -164,6 +164,18 @@ public class Tuple {
         return this.values;
     }
 
+    public void x(double value) {
+        this.values[0] = value;
+    }
+
+    public void y(double value) {
+        this.values[1] = value;
+    }
+
+    public void z(double value) {
+        this.values[2] = value;
+    }
+
 }
 
 

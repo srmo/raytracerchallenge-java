@@ -3,6 +3,7 @@ package org.schakalacka.java.raytracing.world;
 
 import org.schakalacka.java.raytracing.Constants;
 import org.schakalacka.java.raytracing.geometry.objects.Cylinder;
+import org.schakalacka.java.raytracing.geometry.objects.Group;
 import org.schakalacka.java.raytracing.geometry.objects.Shape;
 import org.schakalacka.java.raytracing.geometry.objects.Sphere;
 import org.schakalacka.java.raytracing.geometry.tracing.*;
@@ -27,6 +28,7 @@ public class World {
     public World() {
         this(null, false);
     }
+
     public World(boolean showsAxis) {
         this(null, showsAxis);
     }
@@ -36,21 +38,28 @@ public class World {
         this.objects.addAll(Arrays.stream(objects).toList());
 
         if (showAxis) {
+            var xAxisGroup = new Group();
+            var yAxisGroup = new Group();
+            var zAxisGroup = new Group();
+
             var axisScaling = MatrixProvider.scaling(0.01f, 0.01f, 0.01f);
 
             var xAxis = new Cylinder();
-            xAxis.setTransformationMatrix(axisScaling.mulM(MatrixProvider.rotationZ( Math.toRadians(90))));
+            xAxis.setTransformationMatrix(axisScaling.mulM(MatrixProvider.rotationZ(Math.toRadians(90))));
             xAxis.setMaterial(Material.newMaterial().color(new Color(1, 0, 0)).ambient(0.5).diffuse(0.8).specular(0).createsShadow(false).create());
+            xAxisGroup.addChild(xAxis);
 
             var yAxis = new Cylinder();
             yAxis.setTransformationMatrix(axisScaling);
             yAxis.setMaterial(Material.newMaterial().color(new Color(1, 0, 0)).ambient(0.5).diffuse(0.8).specular(0).createsShadow(false).create());
+            yAxisGroup.addChild(yAxis);
 
             var zAxis = new Cylinder();
-            zAxis.setTransformationMatrix(axisScaling.mulM(MatrixProvider.rotationX( Math.toRadians(90))));
+            zAxis.setTransformationMatrix(axisScaling.mulM(MatrixProvider.rotationX(Math.toRadians(90))));
             zAxis.setMaterial(Material.newMaterial().color(new Color(1, 0, 0)).ambient(0.5).diffuse(0.8).specular(0).createsShadow(false).create());
+            zAxisGroup.addChild(zAxis);
 
-            this.objects.addAll(List.of(xAxis, yAxis, zAxis));
+            this.objects.addAll(List.of(xAxisGroup, yAxisGroup, zAxisGroup));
         }
     }
 
@@ -178,7 +187,7 @@ public class World {
             if (sin2T > 1) return Color.BLACK;
 
             var cosT = Math.sqrt(1.0 - sin2T);
-            var direction = precalc.getNormalVector().mul( (nRatio * cosI - cosT)).sub(precalc.getEyeVector().mul( nRatio));
+            var direction = precalc.getNormalVector().mul((nRatio * cosI - cosT)).sub(precalc.getEyeVector().mul(nRatio));
             var refractedRay = new Ray(precalc.getUnderPoint(), direction);
 
             return color_at(refractedRay, remainingBounces - 1).mulS(precalc.getObject().material().transparency());

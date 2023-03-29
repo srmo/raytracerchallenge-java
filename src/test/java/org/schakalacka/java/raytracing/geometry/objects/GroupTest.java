@@ -234,4 +234,28 @@ class GroupTest {
         assertEquals(Tuple.point(-4.5,-3,-5), bounds.lower());
         assertEquals(Tuple.point(4,7,4.5), bounds.upper());
     }
+
+    @Test
+    void intersectRayGroupWhenBoxIsMissed() {
+        var child = new ShapeTest.TestShape();
+        var g = new Group();
+        g.addChild(child);
+
+        var ray = new Ray(Tuple.point(0,0,-5), Tuple.vector(0,1,0));
+        g.intersect(ray);
+        assertNull(child.transformedRayFromLocalIntersect);
+    }
+
+    @Test
+    void intersectRayGroupWhenBoxIsHit() {
+        var child = new ShapeTest.TestShape();
+        var g = new Group();
+        g.addChild(child);
+
+        var ray = new Ray(Tuple.point(0,0,-5), Tuple.vector(0,0,1));
+        g.intersect(ray);
+        assertNotNull(child.transformedRayFromLocalIntersect);
+    }
+
+
 }

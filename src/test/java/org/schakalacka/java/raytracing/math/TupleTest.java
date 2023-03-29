@@ -119,4 +119,17 @@ class TupleTest {
 
         assertEquals(t1, t2);
     }
+
+    @Test
+    void valuesCanBeChanged() {
+        Tuple t = Tuple.tuple(1, 2, 3, 4);
+        t.x(5);
+        t.y(6);
+        t.z(7);
+
+        assertEquals(5, t.x());
+        assertEquals(6, t.y());
+        assertEquals(7, t.z());
+
+    }
 }

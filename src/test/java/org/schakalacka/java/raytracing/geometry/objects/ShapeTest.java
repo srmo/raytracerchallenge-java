@@ -107,7 +107,7 @@ class ShapeTest {
         @Override
         public List<Intersection> localIntersect(Ray ray) {
             this.transformedRayFromLocalIntersect = ray;
-            return null;
+            return List.of();
         }
 
         @Override
